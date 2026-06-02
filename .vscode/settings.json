@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "tiomking",
+        "projectKey": "TiomKing_tiomking.github.io"
+    }
+}
