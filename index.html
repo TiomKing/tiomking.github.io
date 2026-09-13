@@ -1,49 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoundioBook</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: "Times New Roman", Times, serif;
-            background-color: #FBF0D9;
-            text-align: center;
-			color: #444;
-        }
-        img {
-            max-width: 300px;
-            height: auto;
-            margin: 20px;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin: 20px 0;
-        }
-        p {
-            font-size: 1.3em;
-            margin: 20px 0;
-        }
-        a {
-            color: #333;
-            font-weight: bold;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gilad Tiomkin — Cyber Architect &amp; Consultant</title>
+<meta name="description" content="Gilad Tiomkin, Cyber Architect and Consultant.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #12151a;
+    --ink-soft: #1b1f26;
+    --line: #2a3038;
+    --paper: #eef0f1;
+    --paper-dim: #9aa3ab;
+    --amber: #e0a458;
+    --amber-dim: #8a6a3f;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Space Grotesk', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .mono{
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  a{ color: inherit; }
+
+  /* faint blueprint grid */
+  .grid-bg{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.35;
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 85%);
+  }
+
+  .wrap{
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- Hero ---------- */
+
+  header.hero{
+    padding: 96px 0 64px;
+  }
+
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .kicker{
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--amber);
+    margin: 0 0 20px;
+  }
+  .kicker::before{
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--amber);
+    margin-right: 10px;
+    border-radius: 1px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+  }
+
+  h1{
+    font-size: clamp(2.6rem, 5.6vw, 4.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    font-weight: 600;
+  }
+
+  .role{
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    color: var(--paper-dim);
+    margin: 0 0 32px;
+    font-weight: 400;
+  }
+
+  .bio{
+    max-width: 52ch;
+    color: #c7ccd1;
+    font-size: 1.02rem;
+    margin: 0;
+  }
+
+  .bio + .bio{ margin-top: 14px; }
+
+  /* photo, framed with corner brackets like a scan target */
+  .portrait{
+    position: relative;
+    justify-self: end;
+    width: min(100%, 340px);
+  }
+
+  .portrait-frame{
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  .portrait-frame img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.55) contrast(1.04) brightness(0.98);
+  }
+
+  .portrait-frame::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(18,21,26,0) 55%, rgba(18,21,26,0.35) 100%);
+  }
+
+  .corner{
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--amber);
+    z-index: 2;
+  }
+  .corner.tl{ top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .corner.tr{ top: -1px; right: -1px; border-left: none; border-bottom: none; }
+  .corner.bl{ bottom: -1px; left: -1px; border-right: none; border-top: none; }
+  .corner.br{ bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .scan{
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    top: -2px;
+    animation: sweep 1.8s ease-out 0.3s 1;
+    z-index: 2;
+    opacity: 0.9;
+  }
+
+  @keyframes sweep{
+    0%{ top: -2px; opacity: 0; }
+    12%{ opacity: 1; }
+    100%{ top: 100%; opacity: 0; }
+  }
+
+  .caption{
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: var(--paper-dim);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ---------- Focus strip ---------- */
+
+  section.focus{
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 40px 0;
+  }
+
+  .focus-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .focus-item .num{
+    font-size: 12.5px;
+    color: var(--amber-dim);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .focus-item h3{
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  .focus-item p{
+    margin: 0;
+    color: var(--paper-dim);
+    font-size: 0.92rem;
+    max-width: 32ch;
+  }
+
+  /* ---------- Contact ---------- */
+
+  section.contact{
+    padding: 64px 0 96px;
+  }
+
+  .contact-inner{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .contact h2{
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 600;
+    margin: 0 0 12px;
+    max-width: 14ch;
+  }
+
+  .contact .sub{
+    color: var(--paper-dim);
+    margin: 0;
+    max-width: 34ch;
+  }
+
+  .field-list{
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  .field{
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+
+  .field .label{
+    font-size: 12.5px;
+    color: var(--paper-dim);
+  }
+
+  .field .value{
+    font-size: 1rem;
+  }
+
+  .field a.value{
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .field a.value:hover,
+  .field a.value:focus-visible{
+    color: var(--amber);
+    border-bottom-color: var(--amber);
+  }
+
+  a:focus-visible, .field a.value:focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  footer{
+    padding: 28px 0 48px;
+    color: var(--paper-dim);
+    font-size: 12.5px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 760px){
+    header.hero{ padding: 64px 0 40px; }
+    .hero-grid{
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .portrait{
+      justify-self: start;
+      width: 220px;
+      order: -1;
+    }
+    .focus-grid{
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .contact-inner{
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .field{
+      grid-template-columns: 90px 1fr;
+    }
+    footer{
+      flex-direction: column;
+      gap: 6px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .scan{ animation: none; display: none; }
+    html{ scroll-behavior: auto; }
+  }
+</style>
 </head>
 <body>
-    <h2>Coming Soon</h2>
-    <img src="SoundioBookLogoBlackTransparent.png" alt="SoundioBook Logo">
-    <h1>STORIES WITH RHYTHM!</h1>
-    <p><a href="mailto:contact@soundiobook.com" target="_blank">Contact us for more info</a></p>
-    <script src="https://cdn.enable.co.il/licenses/enable-L31287zsapmrhf1i-0924-63945/init.js"></script>
+
+<div class="grid-bg" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker mono">Security architecture &amp; advisory</p>
+        <h1>Gilad Tiomkin</h1>
+        <p class="role mono">Cyber Architect &amp; Consultant</p>
+
+        <p class="bio">Gilad designs security architectures for organizations that can't afford to get it wrong — translating complex threat landscapes into clear, resilient systems. His work spans the full lifecycle of a security program: threat modeling, zero-trust architecture, risk assessment, and incident response readiness.</p>
+        <p class="bio">He partners with engineering and leadership teams to make security a foundation for confident growth, not a bottleneck — grounding deep technical rigor in decisions the business can actually act on.</p>
+      </div>
+
+      <div class="portrait">
+        <div class="portrait-frame">
+          <span class="corner tl"></span>
+          <span class="corner tr"></span>
+          <span class="corner bl"></span>
+          <span class="corner br"></span>
+          <span class="scan"></span>
+          <img src="photo.jpg" alt="Portrait of Gilad Tiomkin">
+        </div>
+        <div class="caption mono">
+          <span>Tel Aviv, IL</span>
+          <span>G.T.</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="focus">
+    <div class="focus-grid">
+      <div class="focus-item">
+        <span class="num mono">Architecture</span>
+        <h3>Security by design</h3>
+        <p>Zero-trust and defense-in-depth architectures built into systems from the ground up, not bolted on after.</p>
+      </div>
+      <div class="focus-item">
+        <span class="num mono">Assessment</span>
+        <h3>Risk &amp; threat modeling</h3>
+        <p>Identifying where systems are actually exposed, and prioritizing what matters most to fix first.</p>
+      </div>
+      <div class="focus-item">
+        <span class="num mono">Readiness</span>
+        <h3>Incident response</h3>
+        <p>Preparing teams and infrastructure to detect, contain, and recover — before an incident, not during one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="contact-inner">
+      <div>
+        <h2>Let's talk security.</h2>
+        <p class="sub">Open to advisory engagements, architecture reviews, and conversations about hard security problems.</p>
+      </div>
+
+      <div class="field-list">
+        <div class="field">
+          <span class="label mono">Email</span>
+          <a class="value" href="mailto:placeholder@example.com">placeholder@example.com</a>
+        </div>
+        <div class="field">
+          <span class="label mono">LinkedIn</span>
+          <a class="value" href="https://linkedin.com/in/placeholder" target="_blank" rel="noopener">linkedin.com/in/placeholder</a>
+        </div>
+        <div class="field">
+          <span class="label mono">Location</span>
+          <span class="value">Tel Aviv, Israel</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mono">
+    <span>© 2026 Gilad Tiomkin</span>
+    <span>Cyber Architect &amp; Consultant</span>
+  </footer>
+
+</div>
+
 </body>
 </html>
