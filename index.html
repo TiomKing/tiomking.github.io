@@ -1,639 +1,715 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gilad Tiomkin — Cyber Architect &amp; Consultant</title>
-<meta name="description" content="Gilad Tiomkin, Cyber Architect and Consultant.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink: #12151a;
-    --ink-soft: #1b1f26;
-    --line: #2a3038;
-    --paper: #eef0f1;
-    --paper-dim: #9aa3ab;
-    --amber: #e0a458;
-    --amber-dim: #8a6a3f;
-  }
-
-  *{ box-sizing: border-box; }
-
-  html{ scroll-behavior: smooth; }
-
-  body{
-    margin: 0;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'Space Grotesk', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    line-height: 1.5;
-  }
-
-  .mono{
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
-  a{ color: inherit; }
-
-  /* faint blueprint grid */
-  .grid-bg{
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 64px 64px;
-    opacity: 0.35;
-    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 85%);
-            mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 85%);
-  }
-
-  .wrap{
-    position: relative;
-    z-index: 1;
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  /* ---------- Hero ---------- */
-
-  header.hero{
-    padding: 96px 0 64px;
-  }
-
-  .hero-grid{
-    display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    gap: 56px;
-    align-items: center;
-  }
-
-  .kicker{
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    color: var(--amber);
-    margin: 0 0 20px;
-  }
-  .kicker::before{
-    content: "";
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    background: var(--amber);
-    margin-right: 10px;
-    border-radius: 1px;
-    vertical-align: middle;
-    transform: translateY(-1px);
-  }
-
-  h1{
-    font-size: clamp(2.6rem, 5.6vw, 4.4rem);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-    margin: 0 0 14px;
-    font-weight: 600;
-  }
-
-  .role{
-    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-    color: var(--paper-dim);
-    margin: 0 0 32px;
-    font-weight: 400;
-  }
-
-  .bio{
-    max-width: 52ch;
-    color: #c7ccd1;
-    font-size: 1.02rem;
-    margin: 0;
-  }
-
-  .bio + .bio{ margin-top: 14px; }
-
-  /* photo, framed with corner brackets like a scan target */
-  .portrait{
-    position: relative;
-    justify-self: end;
-    width: min(100%, 340px);
-  }
-
-  .portrait-frame{
-    position: relative;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-  }
-
-  .portrait-frame img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(0.55) contrast(1.04) brightness(0.98);
-  }
-
-  .portrait-frame::after{
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(18,21,26,0) 55%, rgba(18,21,26,0.35) 100%);
-  }
-
-  .corner{
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    border: 2px solid var(--amber);
-    z-index: 2;
-  }
-  .corner.tl{ top: -1px; left: -1px; border-right: none; border-bottom: none; }
-  .corner.tr{ top: -1px; right: -1px; border-left: none; border-bottom: none; }
-  .corner.bl{ bottom: -1px; left: -1px; border-right: none; border-top: none; }
-  .corner.br{ bottom: -1px; right: -1px; border-left: none; border-top: none; }
-
-  .scan{
-    position: absolute;
-    left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--amber), transparent);
-    top: -2px;
-    animation: sweep 1.8s ease-out 0.3s 1;
-    z-index: 2;
-    opacity: 0.9;
-  }
-
-  @keyframes sweep{
-    0%{ top: -2px; opacity: 0; }
-    12%{ opacity: 1; }
-    100%{ top: 100%; opacity: 0; }
-  }
-
-  .caption{
-    margin-top: 14px;
-    font-size: 12.5px;
-    color: var(--paper-dim);
-    display: flex;
-    justify-content: space-between;
-  }
-
-  /* ---------- Focus strip ---------- */
-
-  section.focus{
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: 40px 0;
-  }
-
-  .focus-grid{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-  }
-
-  .focus-item .num{
-    font-size: 12.5px;
-    color: var(--amber-dim);
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .focus-item h3{
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 0 0 8px;
-  }
-
-  .focus-item p{
-    margin: 0;
-    color: var(--paper-dim);
-    font-size: 0.92rem;
-    max-width: 32ch;
-  }
-
-  /* ---------- Contact ---------- */
-
-  section.contact{
-    padding: 64px 0 96px;
-  }
-
-  .contact-inner{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: start;
-  }
-
-  .contact h2{
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    font-weight: 600;
-    margin: 0 0 12px;
-    max-width: 14ch;
-  }
-
-  .contact .sub{
-    color: var(--paper-dim);
-    margin: 0;
-    max-width: 34ch;
-  }
-
-  .field-list{
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--line);
-  }
-
-  .field{
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--line);
-    align-items: baseline;
-  }
-
-  .field .label{
-    font-size: 12.5px;
-    color: var(--paper-dim);
-  }
-
-  .field .value{
-    font-size: 1rem;
-  }
-
-  .field a.value{
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.15s ease, color 0.15s ease;
-  }
-
-  .field a.value:hover,
-  .field a.value:focus-visible{
-    color: var(--amber);
-    border-bottom-color: var(--amber);
-  }
-
-  a:focus-visible, .field a.value:focus-visible{
-    outline: 2px solid var(--amber);
-    outline-offset: 3px;
-  }
-
-  /* ---------- Nav ---------- */
-
-  nav.topnav{
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: rgba(18,21,26,0.86);
-    backdrop-filter: blur(6px);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .topnav-inner{
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 18px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .topnav-inner .brand{
-    font-size: 14px;
-    letter-spacing: 0.02em;
-  }
-
-  .topnav-links{
-    display: flex;
-    gap: 28px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .topnav-links a{
-    font-size: 13px;
-    text-decoration: none;
-    color: var(--paper-dim);
-    transition: color 0.15s ease;
-  }
-
-  .topnav-links a:hover,
-  .topnav-links a:focus-visible{
-    color: var(--amber);
-  }
-
-  /* ---------- Services / Special / Stats ---------- */
-
-  section.services, section.special{
-    padding: 64px 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .section-head{
-    margin: 0 0 36px;
-  }
-
-  .section-head .kicker{ margin-bottom: 10px; }
-
-  .section-head h2{
-    font-size: clamp(1.5rem, 2.6vw, 2rem);
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .service-grid{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .special .service-grid{
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .service-card{
-    border: 1px solid var(--line);
-    padding: 26px 24px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .service-card h3{
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 0 0 10px;
-  }
-
-  .service-card p{
-    margin: 0 0 20px;
-    color: var(--paper-dim);
-    font-size: 0.92rem;
-    flex-grow: 1;
-  }
-
-  .service-card a.ask{
-    font-size: 13px;
-    text-decoration: none;
-    color: var(--amber);
-    border-bottom: 1px solid var(--amber-dim);
-    align-self: flex-start;
-    transition: opacity 0.15s ease;
-  }
-
-  .service-card a.ask:hover,
-  .service-card a.ask:focus-visible{
-    opacity: 0.75;
-  }
-
-  section.stats{
-    padding: 48px 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .stats-grid{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 24px;
-    text-align: center;
-  }
-
-  .stat .num{
-    display: block;
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    font-weight: 600;
-    color: var(--amber);
-  }
-
-  .stat .label{
-    display: block;
-    margin-top: 6px;
-    font-size: 12px;
-    color: var(--paper-dim);
-  }
-
-  footer{
-    padding: 28px 0 48px;
-    color: var(--paper-dim);
-    font-size: 12.5px;
-    display: flex;
-    justify-content: space-between;
-    border-top: 1px solid var(--line);
-  }
-
-  @media (max-width: 760px){
-    header.hero{ padding: 64px 0 40px; }
-    .hero-grid{
-      grid-template-columns: 1fr;
-      gap: 36px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gilad Tiomkin — Cyber Architect &amp; Consultant</title>
+  <meta name="description" content="Gilad Tiomkin, Cyber Architect and Consultant.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12151a;
+      --ink-soft: #1b1f26;
+      --line: #2a3038;
+      --paper: #eef0f1;
+      --paper-dim: #9aa3ab;
+      --amber: #e0a458;
+      --amber-dim: #8a6a3f;
     }
-    .portrait{
-      justify-self: start;
-      width: 220px;
-      order: -1;
+
+    * {
+      box-sizing: border-box;
     }
-    .focus-grid{
-      grid-template-columns: 1fr;
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: 'Space Grotesk', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* faint blueprint grid */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.35;
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 85%);
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 85%);
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Hero ---------- */
+
+    header.hero {
+      padding: 96px 0 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .kicker {
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      color: var(--amber);
+      margin: 0 0 20px;
+    }
+
+    .kicker::before {
+      content: "";
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--amber);
+      margin-right: 10px;
+      border-radius: 1px;
+      vertical-align: middle;
+      transform: translateY(-1px);
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 5.6vw, 4.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.01em;
+      margin: 0 0 14px;
+      font-weight: 600;
+    }
+
+    .role {
+      font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+      color: var(--paper-dim);
+      margin: 0 0 32px;
+      font-weight: 400;
+    }
+
+    .bio {
+      max-width: 52ch;
+      color: #c7ccd1;
+      font-size: 1.02rem;
+      margin: 0;
+    }
+
+    .bio+.bio {
+      margin-top: 14px;
+    }
+
+    /* photo, framed with corner brackets like a scan target */
+    .portrait {
+      position: relative;
+      justify-self: end;
+      width: min(100%, 340px);
+    }
+
+    .portrait-frame {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+    }
+
+    .portrait-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(0.55) contrast(1.04) brightness(0.98);
+    }
+
+    .portrait-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(18, 21, 26, 0) 55%, rgba(18, 21, 26, 0.35) 100%);
+    }
+
+    .corner {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--amber);
+      z-index: 2;
+    }
+
+    .corner.tl {
+      top: -1px;
+      left: -1px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .corner.tr {
+      top: -1px;
+      right: -1px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .corner.bl {
+      bottom: -1px;
+      left: -1px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .corner.br {
+      bottom: -1px;
+      right: -1px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .scan {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+      top: -2px;
+      animation: sweep 1.8s ease-out 0.3s 1;
+      z-index: 2;
+      opacity: 0.9;
+    }
+
+    @keyframes sweep {
+      0% {
+        top: -2px;
+        opacity: 0;
+      }
+
+      12% {
+        opacity: 1;
+      }
+
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
+    }
+
+    .caption {
+      margin-top: 14px;
+      font-size: 12.5px;
+      color: var(--paper-dim);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ---------- Focus strip ---------- */
+
+    section.focus {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 40px 0;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .focus-item .num {
+      font-size: 12.5px;
+      color: var(--amber-dim);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .focus-item h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+
+    .focus-item p {
+      margin: 0;
+      color: var(--paper-dim);
+      font-size: 0.92rem;
+      max-width: 32ch;
+    }
+
+    /* ---------- Contact ---------- */
+
+    section.contact {
+      padding: 64px 0 96px;
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .contact h2 {
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 600;
+      margin: 0 0 12px;
+      max-width: 14ch;
+    }
+
+    .contact .sub {
+      color: var(--paper-dim);
+      margin: 0;
+      max-width: 34ch;
+    }
+
+    .field-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+    }
+
+    .field {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+
+    .field .label {
+      font-size: 12.5px;
+      color: var(--paper-dim);
+    }
+
+    .field .value {
+      font-size: 1rem;
+    }
+
+    .field a.value {
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .field a.value:hover,
+    .field a.value:focus-visible {
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
+
+    a:focus-visible,
+    .field a.value:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+    }
+
+    /* ---------- Nav ---------- */
+
+    nav.topnav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(18, 21, 26, 0.86);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topnav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topnav-inner .brand {
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .topnav-links {
+      display: flex;
       gap: 28px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
-    .service-grid, .special .service-grid{
-      grid-template-columns: 1fr;
+
+    .topnav-links a {
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--paper-dim);
+      transition: color 0.15s ease;
     }
-    .stats-grid{
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
+
+    .topnav-links a:hover,
+    .topnav-links a:focus-visible {
+      color: var(--amber);
     }
-    .topnav-links{
-      display: none;
+
+    /* ---------- Services / Special / Stats ---------- */
+
+    section.services,
+    section.special {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--line);
     }
-    .contact-inner{
-      grid-template-columns: 1fr;
+
+    .section-head {
+      margin: 0 0 36px;
+    }
+
+    .section-head .kicker {
+      margin-bottom: 10px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.5rem, 2.6vw, 2rem);
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
-    .field{
-      grid-template-columns: 90px 1fr;
-    }
-    footer{
-      flex-direction: column;
-      gap: 6px;
-    }
-  }
 
-  @media (prefers-reduced-motion: reduce){
-    .scan{ animation: none; display: none; }
-    html{ scroll-behavior: auto; }
-  }
-</style>
+    .special .service-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-card {
+      border: 1px solid var(--line);
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .service-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    .service-card p {
+      margin: 0 0 20px;
+      color: var(--paper-dim);
+      font-size: 0.92rem;
+      flex-grow: 1;
+    }
+
+    .service-card a.ask {
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--amber);
+      border-bottom: 1px solid var(--amber-dim);
+      align-self: flex-start;
+      transition: opacity 0.15s ease;
+    }
+
+    .service-card a.ask:hover,
+    .service-card a.ask:focus-visible {
+      opacity: 0.75;
+    }
+
+    section.stats {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat .num {
+      display: block;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 600;
+      color: var(--amber);
+    }
+
+    .stat .label {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--paper-dim);
+    }
+
+    footer {
+      padding: 28px 0 48px;
+      color: var(--paper-dim);
+      font-size: 12.5px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 760px) {
+      header.hero {
+        padding: 64px 0 40px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .portrait {
+        justify-self: start;
+        width: 220px;
+        order: -1;
+      }
+
+      .focus-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .service-grid,
+      .special .service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+      }
+
+      .topnav-links {
+        display: none;
+      }
+
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .field {
+        grid-template-columns: 90px 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 6px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scan {
+        animation: none;
+        display: none;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="grid-bg" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
 
-<nav class="topnav">
-  <div class="topnav-inner">
-    <span class="brand mono">G. Tiomkin</span>
-    <ul class="topnav-links mono">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Consulting</a></li>
-      <li><a href="#special">Special services</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+  <nav class="topnav">
+    <div class="topnav-inner">
+      <span class="brand mono">G. Tiomkin</span>
+      <ul class="topnav-links mono">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Consulting</a></li>
+        <li><a href="#special">Special services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <header class="hero" id="about">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker mono">Security / Safety / Privacy</p>
+          <h1>Gilad Tiomkin</h1>
+          <p class="role mono">Cyber Security Architect, AI Safety Expert, Consultant &amp; Instructor</p>
+
+          <p class="bio">Over the past 20 years, I've designed and built secure systems and software, from enterprise
+            and cloud architecture to applications and AI.</p>
+          <p class="bio">Today, I bring that experience to individuals and small groups — helping you take back control
+            of your privacy and safety online, with practical tools you can actually use.</p>
+        </div>
+
+        <div class="portrait">
+          <div class="portrait-frame">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <span class="scan"></span>
+            <img src="photo.jpg" alt="Portrait of Gilad Tiomkin">
+          </div>
+          <div class="caption mono">
+            <span>Scan complete ✓</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="focus">
+      <div class="focus-grid">
+        <div class="focus-item">
+          <span class="num mono">Privacy</span>
+          <h3>Lock down what matters</h3>
+          <p>Practical steps to control your data, reduce what's exposed, and decide who can find you online.</p>
+        </div>
+        <div class="focus-item">
+          <span class="num mono">Safety</span>
+          <h3>Stay ahead of scams</h3>
+          <p>Real defenses against phishing, account takeovers, and social engineering — before they happen, not after.
+          </p>
+        </div>
+        <div class="focus-item">
+          <span class="num mono">Security</span>
+          <h3>Built on real experience</h3>
+          <p>20 years of enterprise-grade security know-how, applied to your everyday digital life.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="section-head">
+        <p class="kicker mono">Consulting</p>
+        <h2>Tailored guidance to protect yourself online</h2>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Private session</h3>
+          <p>A 1-on-1 practical tutoring session focused on imparting the skills and knowledge to navigate the digital
+            world securely.</p>
+          <a class="ask mono" href="#contact">Ask about this →</a>
+        </div>
+        <div class="service-card">
+          <h3>Group session</h3>
+          <p>A session for multiple participants to learn and practice how to protect their online presence and manage
+            their digital privacy.</p>
+          <a class="ask mono" href="#contact">Ask about this →</a>
+        </div>
+        <div class="service-card">
+          <h3>Cyber safety support</h3>
+          <p>Professional assistance and ongoing support with safety issues, password management, and handling scams.
+          </p>
+          <a class="ask mono" href="#contact">Ask about this →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="special" id="special">
+      <div class="section-head">
+        <p class="kicker mono">Special services</p>
+        <h2>Review your online presence</h2>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Social media check-up</h3>
+          <p>A review and evaluation of your online profiles and activity to ensure accuracy and consistency, and to
+            flag any sensitive material.</p>
+          <a class="ask mono" href="#contact">Ask about this →</a>
+        </div>
+        <div class="service-card">
+          <h3>Off the grid</h3>
+          <p>Minimizing your online presence and digital activity to ensure maximum privacy and safety, without an
+            unnecessary footprint on the web.</p>
+          <a class="ask mono" href="#contact">Ask about this →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="num">24/7</span>
+          <span class="label mono">Support</span>
+        </div>
+        <div class="stat">
+          <span class="num">A+</span>
+          <span class="label mono">Trusted tools</span>
+        </div>
+        <div class="stat">
+          <span class="num">100%</span>
+          <span class="label mono">Confidential</span>
+        </div>
+        <div class="stat">
+          <span class="num">Global</span>
+          <span class="label mono">Service, anywhere</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="contact-inner">
+        <div>
+          <h2>Let's keep you safe online.</h2>
+          <p class="sub">Whether it's a private session, a group workshop, or just a question about staying safe
+            online — leave a note and I'll get back to you.</p>
+        </div>
+
+        <div class="field-list">
+          <div class="field">
+            <span class="label mono">Email</span>
+            <a class="value" href="mailto:placeholder@example.com">placeholder@example.com</a>
+          </div>
+          <div class="field">
+            <span class="label mono">LinkedIn</span>
+            <a class="value" href="https://linkedin.com/in/placeholder" target="_blank"
+              rel="noopener">linkedin.com/in/placeholder</a>
+          </div>
+          <div class="field">
+            <span class="label mono">Location</span>
+            <span class="value">Remote service, Worldwide</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mono">
+      <span>© 2026 Gilad Tiomkin</span>
+      <span>Cyber Safety Consultant</span>
+    </footer>
+
   </div>
-</nav>
-
-<div class="wrap">
-
-  <header class="hero" id="about">
-    <div class="hero-grid">
-      <div>
-        <p class="kicker mono">Security architecture &amp; AI safety</p>
-        <h1>Gilad Tiomkin</h1>
-        <p class="role mono">Cyber Security Architect, AI Safety Expert, Consultant &amp; Instructor</p>
-
-        <p class="bio">I'm a security architect and software developer with 20 years of experience designing and building secure, private applications and systems — from enterprise architecture to AI systems, applications, and cloud infrastructure. I blend that technical depth with secure design principles to build systems that are scalable, resilient, and built to withstand threats that haven't been invented yet.</p>
-        <p class="bio">Alongside that, I consult and teach — guiding individuals and companies through safety and privacy issues, and giving them practical tools to keep their devices safe and their information private. I do my best work in places that value innovation, clear communication, and constantly getting a little better.</p>
-      </div>
-
-      <div class="portrait">
-        <div class="portrait-frame">
-          <span class="corner tl"></span>
-          <span class="corner tr"></span>
-          <span class="corner bl"></span>
-          <span class="corner br"></span>
-          <span class="scan"></span>
-          <img src="photo.jpg" alt="Portrait of Gilad Tiomkin">
-        </div>
-        <div class="caption mono">
-          <span>Tel Aviv, IL</span>
-          <span>G.T.</span>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <section class="focus">
-    <div class="focus-grid">
-      <div class="focus-item">
-        <span class="num mono">Architecture</span>
-        <h3>Security-first design</h3>
-        <p>Building scalable, resilient systems with security woven in from the start, not bolted on after.</p>
-      </div>
-      <div class="focus-item">
-        <span class="num mono">AI &amp; cloud</span>
-        <h3>Securing AI systems</h3>
-        <p>Applying secure design principles to AI systems, applications, and cloud infrastructure alike.</p>
-      </div>
-      <div class="focus-item">
-        <span class="num mono">Teaching</span>
-        <h3>Consulting &amp; instruction</h3>
-        <p>Helping teams build security into how they think, through hands-on advisory work and teaching.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="services" id="services">
-    <div class="section-head">
-      <p class="kicker mono">Consulting</p>
-      <h2>Tailored guidance to protect yourself online</h2>
-    </div>
-    <div class="service-grid">
-      <div class="service-card">
-        <h3>Private session</h3>
-        <p>A 1-on-1 practical tutoring session focused on imparting the skills and knowledge to navigate the digital world securely.</p>
-        <a class="ask mono" href="#contact">Ask about this →</a>
-      </div>
-      <div class="service-card">
-        <h3>Group session</h3>
-        <p>A session for multiple participants to learn and practice how to protect their online presence and manage their digital privacy.</p>
-        <a class="ask mono" href="#contact">Ask about this →</a>
-      </div>
-      <div class="service-card">
-        <h3>Cyber safety support</h3>
-        <p>Professional assistance and ongoing support with safety issues, password management, and handling scams.</p>
-        <a class="ask mono" href="#contact">Ask about this →</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="special" id="special">
-    <div class="section-head">
-      <p class="kicker mono">Special services</p>
-      <h2>Review your online presence</h2>
-    </div>
-    <div class="service-grid">
-      <div class="service-card">
-        <h3>Social media check-up</h3>
-        <p>A review and evaluation of your online profiles and activity to ensure accuracy and consistency, and to flag any sensitive material.</p>
-        <a class="ask mono" href="#contact">Ask about this →</a>
-      </div>
-      <div class="service-card">
-        <h3>Off the grid</h3>
-        <p>Minimizing your online presence and digital activity to ensure maximum privacy and safety, without an unnecessary footprint on the web.</p>
-        <a class="ask mono" href="#contact">Ask about this →</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="stats">
-    <div class="stats-grid">
-      <div class="stat">
-        <span class="num">100+</span>
-        <span class="label mono">Customers</span>
-      </div>
-      <div class="stat">
-        <span class="num">24/7</span>
-        <span class="label mono">Support</span>
-      </div>
-      <div class="stat">
-        <span class="num">A+</span>
-        <span class="label mono">Trusted tools</span>
-      </div>
-      <div class="stat">
-        <span class="num">100%</span>
-        <span class="label mono">Confidential</span>
-      </div>
-      <div class="stat">
-        <span class="num">Global</span>
-        <span class="label mono">Service, anywhere</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="contact" id="contact">
-    <div class="contact-inner">
-      <div>
-        <h2>Let's talk security.</h2>
-        <p class="sub">Open to advisory engagements and architecture reviews — and to helping individuals keep their own digital lives safe and private. Leave a note and I'll get back to you.</p>
-      </div>
-
-      <div class="field-list">
-        <div class="field">
-          <span class="label mono">Email</span>
-          <a class="value" href="mailto:placeholder@example.com">placeholder@example.com</a>
-        </div>
-        <div class="field">
-          <span class="label mono">LinkedIn</span>
-          <a class="value" href="https://linkedin.com/in/placeholder" target="_blank" rel="noopener">linkedin.com/in/placeholder</a>
-        </div>
-        <div class="field">
-          <span class="label mono">Location</span>
-          <span class="value">Tel Aviv, Israel</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="mono">
-    <span>© 2026 Gilad Tiomkin</span>
-    <span>Security Architect &amp; AI Safety Expert</span>
-  </footer>
-
-</div>
 
 </body>
+
 </html>
