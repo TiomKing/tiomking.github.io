@@ -282,6 +282,141 @@
     outline-offset: 3px;
   }
 
+  /* ---------- Nav ---------- */
+
+  nav.topnav{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(18,21,26,0.86);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .topnav-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .topnav-inner .brand{
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+
+  .topnav-links{
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topnav-links a{
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--paper-dim);
+    transition: color 0.15s ease;
+  }
+
+  .topnav-links a:hover,
+  .topnav-links a:focus-visible{
+    color: var(--amber);
+  }
+
+  /* ---------- Services / Special / Stats ---------- */
+
+  section.services, section.special{
+    padding: 64px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-head{
+    margin: 0 0 36px;
+  }
+
+  .section-head .kicker{ margin-bottom: 10px; }
+
+  .section-head h2{
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .service-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .special .service-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-card{
+    border: 1px solid var(--line);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .service-card h3{
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  .service-card p{
+    margin: 0 0 20px;
+    color: var(--paper-dim);
+    font-size: 0.92rem;
+    flex-grow: 1;
+  }
+
+  .service-card a.ask{
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--amber);
+    border-bottom: 1px solid var(--amber-dim);
+    align-self: flex-start;
+    transition: opacity 0.15s ease;
+  }
+
+  .service-card a.ask:hover,
+  .service-card a.ask:focus-visible{
+    opacity: 0.75;
+  }
+
+  section.stats{
+    padding: 48px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stats-grid{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+
+  .stat .num{
+    display: block;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    color: var(--amber);
+  }
+
+  .stat .label{
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--paper-dim);
+  }
+
   footer{
     padding: 28px 0 48px;
     color: var(--paper-dim);
@@ -306,6 +441,16 @@
       grid-template-columns: 1fr;
       gap: 28px;
     }
+    .service-grid, .special .service-grid{
+      grid-template-columns: 1fr;
+    }
+    .stats-grid{
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .topnav-links{
+      display: none;
+    }
     .contact-inner{
       grid-template-columns: 1fr;
       gap: 24px;
@@ -329,17 +474,29 @@
 
 <div class="grid-bg" aria-hidden="true"></div>
 
+<nav class="topnav">
+  <div class="topnav-inner">
+    <span class="brand mono">G. Tiomkin</span>
+    <ul class="topnav-links mono">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Consulting</a></li>
+      <li><a href="#special">Special services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
 <div class="wrap">
 
-  <header class="hero">
+  <header class="hero" id="about">
     <div class="hero-grid">
       <div>
         <p class="kicker mono">Security architecture &amp; AI safety</p>
         <h1>Gilad Tiomkin</h1>
         <p class="role mono">Cyber Security Architect, AI Safety Expert, Consultant &amp; Instructor</p>
 
-        <p class="bio">I'm a security architect with years of hands-on experience securing AI systems, applications, and cloud infrastructure. I blend technical depth with secure design principles to build systems that are scalable, resilient, and built to withstand threats that haven't been invented yet.</p>
-        <p class="bio">I'm driven by the challenge of designing security-first architectures and strengthening how organizations think about risk — and I bring that same instinct into the classroom, teaching and consulting so other teams can build that thinking in from the start. I do my best work in places that value innovation, clear communication, and constantly getting a little better.</p>
+        <p class="bio">I'm a security architect and software developer with 20 years of experience designing and building secure, private applications and systems — from enterprise architecture to AI systems, applications, and cloud infrastructure. I blend that technical depth with secure design principles to build systems that are scalable, resilient, and built to withstand threats that haven't been invented yet.</p>
+        <p class="bio">Alongside that, I consult and teach — guiding individuals and companies through safety and privacy issues, and giving them practical tools to keep their devices safe and their information private. I do my best work in places that value innovation, clear communication, and constantly getting a little better.</p>
       </div>
 
       <div class="portrait">
@@ -379,11 +536,79 @@
     </div>
   </section>
 
-  <section class="contact">
+  <section class="services" id="services">
+    <div class="section-head">
+      <p class="kicker mono">Consulting</p>
+      <h2>Tailored guidance to protect yourself online</h2>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <h3>Private session</h3>
+        <p>A 1-on-1 practical tutoring session focused on imparting the skills and knowledge to navigate the digital world securely.</p>
+        <a class="ask mono" href="#contact">Ask about this →</a>
+      </div>
+      <div class="service-card">
+        <h3>Group session</h3>
+        <p>A session for multiple participants to learn and practice how to protect their online presence and manage their digital privacy.</p>
+        <a class="ask mono" href="#contact">Ask about this →</a>
+      </div>
+      <div class="service-card">
+        <h3>Cyber safety support</h3>
+        <p>Professional assistance and ongoing support with safety issues, password management, and handling scams.</p>
+        <a class="ask mono" href="#contact">Ask about this →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="special" id="special">
+    <div class="section-head">
+      <p class="kicker mono">Special services</p>
+      <h2>Review your online presence</h2>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <h3>Social media check-up</h3>
+        <p>A review and evaluation of your online profiles and activity to ensure accuracy and consistency, and to flag any sensitive material.</p>
+        <a class="ask mono" href="#contact">Ask about this →</a>
+      </div>
+      <div class="service-card">
+        <h3>Off the grid</h3>
+        <p>Minimizing your online presence and digital activity to ensure maximum privacy and safety, without an unnecessary footprint on the web.</p>
+        <a class="ask mono" href="#contact">Ask about this →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="num">100+</span>
+        <span class="label mono">Customers</span>
+      </div>
+      <div class="stat">
+        <span class="num">24/7</span>
+        <span class="label mono">Support</span>
+      </div>
+      <div class="stat">
+        <span class="num">A+</span>
+        <span class="label mono">Trusted tools</span>
+      </div>
+      <div class="stat">
+        <span class="num">100%</span>
+        <span class="label mono">Confidential</span>
+      </div>
+      <div class="stat">
+        <span class="num">Global</span>
+        <span class="label mono">Service, anywhere</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
     <div class="contact-inner">
       <div>
         <h2>Let's talk security.</h2>
-        <p class="sub">Open to advisory engagements, architecture reviews, and conversations about hard security problems.</p>
+        <p class="sub">Open to advisory engagements and architecture reviews — and to helping individuals keep their own digital lives safe and private. Leave a note and I'll get back to you.</p>
       </div>
 
       <div class="field-list">
