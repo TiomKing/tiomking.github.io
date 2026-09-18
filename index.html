@@ -200,9 +200,17 @@
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--amber), transparent);
       top: -2px;
-      animation: sweep 1.8s ease-out 0.3s 1;
       z-index: 2;
-      opacity: 0.9;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .scan.scan-play {
+      animation: sweep 1.2s ease-out;
+    }
+
+    .portrait-frame {
+      cursor: pointer;
     }
 
     @keyframes sweep {
@@ -445,6 +453,15 @@
       opacity: 0.75;
     }
 
+    section.credentials {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .credentials .service-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
     section.stats {
       padding: 48px 0;
       border-bottom: 1px solid var(--line);
@@ -502,7 +519,8 @@
       }
 
       .service-grid,
-      .special .service-grid {
+      .special .service-grid,
+      .credentials .service-grid {
         grid-template-columns: 1fr;
       }
 
@@ -531,7 +549,9 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .scan {
+
+      .scan,
+      .scan.scan-play {
         animation: none;
         display: none;
       }
@@ -552,6 +572,7 @@
       <a href="#" class="brand mono">G. Tiomkin</a>
       <ul class="topnav-links mono">
         <li><a href="#about">About</a></li>
+        <li><a href="#credentials">Credentials</a></li>
         <li><a href="#services">Consulting</a></li>
         <li><a href="#special">Special services</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -607,6 +628,29 @@
           <span class="num mono">Security</span>
           <h3>Built on real experience</h3>
           <p>20 years of enterprise-grade security know-how, applied to your everyday digital life.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="credentials" id="credentials">
+      <div class="section-head">
+        <p class="kicker mono">Credentials &amp; work</p>
+        <h2>Backed by real expertise</h2>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>TAISE certified</h3>
+          <p>Trusted AI Safety Expert certification from the Cloud Security Alliance and Northeastern University,
+            covering AI risk, security, and governance.</p>
+          <a class="ask mono" href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile"
+            target="_blank" rel="noopener">View credential →</a>
+        </div>
+        <div class="service-card">
+          <h3>ReWord — WordPress plugin</h3>
+          <p>An open-source plugin, rated 4.8/5 with 30+ active installs, that lets readers flag and suggest fixes
+            directly on a WordPress site.</p>
+          <a class="ask mono" href="https://wordpress.org/plugins/reword/" target="_blank" rel="noopener">View plugin
+            →</a>
         </div>
       </div>
     </section>
@@ -712,6 +756,28 @@
     </footer>
 
   </div>
+
+  <script>
+    (function () {
+      var frame = document.querySelector('.portrait-frame');
+      var scan = document.querySelector('.scan');
+      if (!frame || !scan) return;
+
+      function playScan() {
+        scan.classList.remove('scan-play');
+        void scan.offsetWidth; // force reflow so the animation restarts
+        scan.classList.add('scan-play');
+      }
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduceMotion) {
+        setTimeout(playScan, 300); // sweep once on page load
+      }
+
+      frame.addEventListener('mouseenter', playScan);
+      frame.addEventListener('touchstart', playScan, { passive: true });
+    })();
+  </script>
 
 </body>
 
