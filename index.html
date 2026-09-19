@@ -352,11 +352,11 @@
       color: var(--amber);
     }
 
-    /* ---------- Services / Special / Stats ---------- */
+    /* ---------- Services / premium / Stats ---------- */
 
     section.services,
-    section.special,
-    section.consulting {
+    section.premium,
+    section.companies {
       padding: 64px 0;
       border-bottom: 1px solid var(--line);
     }
@@ -381,7 +381,7 @@
       gap: 24px;
     }
 
-    .special .service-grid {
+    .premium .service-grid {
       grid-template-columns: repeat(2, 1fr);
     }
 
@@ -481,7 +481,7 @@
       }
 
       .service-grid,
-      .special .service-grid,
+      .premium .service-grid,
       .credentials .service-grid {
         grid-template-columns: 1fr;
       }
@@ -534,10 +534,10 @@
       <a href="#" class="brand mono">G. Tiomkin</a>
       <ul class="topnav-links mono">
         <li><a href="#about">About</a></li>
+        <li><a href="#companies">Companies</a></li>
+        <li><a href="#individuals">Individuals</a></li>
+        <li><a href="#premium">Premium</a></li>
         <li><a href="#credentials">Credentials</a></li>
-        <li><a href="#consulting">Consulting</a></li>
-        <li><a href="#personal">Personal</a></li>
-        <li><a href="#special">Special</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -573,29 +573,7 @@
       </div>
     </header>
 
-    <section class="credentials" id="credentials">
-      <div class="section-head">
-        <p class="kicker mono">Credentials &amp; experience</p>
-        <h2>Backed by real expertise</h2>
-      </div>
-      <div class="service-grid">
-        <div class="service-card">
-          <h3>TAISE certified</h3>
-          <p>Trusted AI Safety Expert certification from the Cloud Security Alliance and Northeastern University,
-            covering AI risk, security, and governance.</p>
-          <a class="ask mono"
-            href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile" target="_blank"
-            rel="noopener">View credential →</a>
-        </div>
-        <div class="service-card">
-          <h3>Guest lecturer</h3>
-          <p>Teaching cyber security, Artificial Intelligence, and cloud architecture at Analiza Education Center.</p>
-          <a class="ask mono" href="https://analiza.org.il/" target="_blank" rel="noopener">View Analiza →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="consulting" id="consulting">
+    <section class="companies" id="companies">
       <div class="section-head">
         <p class="kicker mono">For companies</p>
         <h2>Safe AI and secure systems, keeping your networks protected</h2>
@@ -622,7 +600,7 @@
       </div>
     </section>
 
-    <section class="services" id="personal">
+    <section class="services" id="individuals">
       <div class="section-head">
         <p class="kicker mono">For individuals &amp; groups</p>
         <h2>Tailored guidance to protect yourself online</h2>
@@ -649,10 +627,10 @@
       </div>
     </section>
 
-    <section class="special" id="special">
+    <section class="premium" id="premium">
       <div class="section-head">
-        <p class="kicker mono">Premium — for high-profile individuals</p>
-        <h2>Elevated privacy &amp; protection for public figures</h2>
+        <p class="kicker mono">Premium services</p>
+        <h2>Elevated privacy for high-profile individuals</h2>
       </div>
       <div class="service-grid">
         <div class="service-card">
@@ -666,6 +644,28 @@
           <p>For those who need to step back from public view — minimizing your digital footprint to near
             invisibility, handled with full discretion.</p>
           <a class="ask mono" href="#contact">Ask about this →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="credentials" id="credentials">
+      <div class="section-head">
+        <p class="kicker mono">Credentials &amp; experience</p>
+        <h2>Backed by real expertise</h2>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>TAISE certified</h3>
+          <p>Trusted AI Safety Expert certification from the Cloud Security Alliance and Northeastern University,
+            covering AI risk, security, and governance.</p>
+          <a class="ask mono"
+            href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile" target="_blank"
+            rel="noopener">View credential →</a>
+        </div>
+        <div class="service-card">
+          <h3>Guest lecturer</h3>
+          <p>Teaching cyber security, Artificial Intelligence, and cloud architecture at Analiza Education Center.</p>
+          <a class="ask mono" href="https://analiza.org.il/" target="_blank" rel="noopener">View Analiza →</a>
         </div>
       </div>
     </section>
