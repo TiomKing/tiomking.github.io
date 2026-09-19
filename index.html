@@ -237,40 +237,6 @@
       justify-content: center;
     }
 
-    /* ---------- Focus strip ---------- */
-
-    section.focus {
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      padding: 40px 0;
-    }
-
-    .focus-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-    }
-
-    .focus-item .num {
-      font-size: 12.5px;
-      color: var(--amber-dim);
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .focus-item h3 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin: 0 0 8px;
-    }
-
-    .focus-item p {
-      margin: 0;
-      color: var(--paper-dim);
-      font-size: 0.92rem;
-      max-width: 32ch;
-    }
-
     /* ---------- Contact ---------- */
 
     section.contact {
@@ -389,7 +355,8 @@
     /* ---------- Services / Special / Stats ---------- */
 
     section.services,
-    section.special {
+    section.special,
+    section.consulting {
       padding: 64px 0;
       border-bottom: 1px solid var(--line);
     }
@@ -459,7 +426,7 @@
     }
 
     .credentials .service-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
 
     section.stats {
@@ -511,11 +478,6 @@
         justify-self: start;
         width: 220px;
         order: -1;
-      }
-
-      .focus-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
       }
 
       .service-grid,
@@ -572,9 +534,10 @@
       <a href="#" class="brand mono">G. Tiomkin</a>
       <ul class="topnav-links mono">
         <li><a href="#about">About</a></li>
-        <li><a href="#services">Consulting</a></li>
-        <li><a href="#special">Special services</a></li>
         <li><a href="#credentials">Credentials</a></li>
+        <li><a href="#consulting">Consulting</a></li>
+        <li><a href="#personal">Personal</a></li>
+        <li><a href="#special">Special</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -587,12 +550,11 @@
         <div>
           <p class="kicker mono">Security / Safety / Privacy</p>
           <h1>Gilad Tiomkin</h1>
-          <p class="role mono">Cyber Security Architect, AI Safety Expert, Consultant &amp; Instructor</p>
-
-          <p class="bio">Over the past 20 years, I've designed and built secure systems and software, from enterprise
-            and cloud architecture to applications and AI.</p>
-          <p class="bio">Today, I bring that experience to individuals and small groups — helping you take back control
-            of your privacy and safety online, with practical tools you can actually use.</p>
+          <p class="role mono">Cyber Architect, AI Security &amp; Safety Expert, Consultant and Instructor</p>
+          <p class="bio">Over the past 20 years, I've designed and built secure systems and applications, with deep,
+            hands-on experience securing networks, infrastructure, and AI.</p>
+          <p class="bio">I work as a consultant for companies on AI security and safety, and offer personal guidance for
+            individuals and groups who want to take back control of their own privacy and safety online.</p>
         </div>
 
         <div class="portrait">
@@ -611,30 +573,58 @@
       </div>
     </header>
 
-    <section class="focus">
-      <div class="focus-grid">
-        <div class="focus-item">
-          <span class="num mono">Privacy</span>
-          <h3>Lock down what matters</h3>
-          <p>Practical steps to control your data, reduce what's exposed, and decide who can find you online.</p>
+    <section class="credentials" id="credentials">
+      <div class="section-head">
+        <p class="kicker mono">Credentials &amp; experience</p>
+        <h2>Backed by real expertise</h2>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>TAISE certified</h3>
+          <p>Trusted AI Safety Expert certification from the Cloud Security Alliance and Northeastern University,
+            covering AI risk, security, and governance.</p>
+          <a class="ask mono"
+            href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile" target="_blank"
+            rel="noopener">View credential →</a>
         </div>
-        <div class="focus-item">
-          <span class="num mono">Safety</span>
-          <h3>Stay ahead of scams</h3>
-          <p>Real defenses against phishing, account takeovers, and social engineering — before they happen, not after.
-          </p>
-        </div>
-        <div class="focus-item">
-          <span class="num mono">Security</span>
-          <h3>Built on real experience</h3>
-          <p>20 years of enterprise-grade security know-how, applied to your everyday digital life.</p>
+        <div class="service-card">
+          <h3>Guest lecturer</h3>
+          <p>Teaching cyber security, Artificial Intelligence, and cloud architecture at Analiza Education Center.</p>
+          <a class="ask mono" href="https://analiza.org.il/" target="_blank" rel="noopener">View Analiza →</a>
         </div>
       </div>
     </section>
 
-    <section class="services" id="services">
+    <section class="consulting" id="consulting">
       <div class="section-head">
-        <p class="kicker mono">Consulting</p>
+        <p class="kicker mono">For companies</p>
+        <h2>Safe AI and secure systems, keeping your networks protected</h2>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>AI security &amp; safety</h3>
+          <p>Helping companies build, deploy, and use AI systems safely — addressing the risks unique to AI, from model
+            security and data exposure to governance.</p>
+          <a class="ask mono" href="#contact">Let's talk →</a>
+        </div>
+        <div class="service-card">
+          <h3>Secure system architecture</h3>
+          <p>Designing security-first architectures for cloud and enterprise systems, so protection is part of the
+            design — not bolted on after.</p>
+          <a class="ask mono" href="#contact">Let's talk →</a>
+        </div>
+        <div class="service-card">
+          <h3>Security advisory</h3>
+          <p>Ongoing consulting to strengthen your organization's security posture and keep pace with evolving
+            threats.</p>
+          <a class="ask mono" href="#contact">Let's talk →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="personal">
+      <div class="section-head">
+        <p class="kicker mono">For individuals &amp; groups</p>
         <h2>Tailored guidance to protect yourself online</h2>
       </div>
       <div class="service-grid">
@@ -661,51 +651,21 @@
 
     <section class="special" id="special">
       <div class="section-head">
-        <p class="kicker mono">Special services</p>
-        <h2>Review your online presence</h2>
+        <p class="kicker mono">Premium — for high-profile individuals</p>
+        <h2>Elevated privacy &amp; protection for public figures</h2>
       </div>
       <div class="service-grid">
         <div class="service-card">
           <h3>Social media check-up</h3>
-          <p>A review and evaluation of your online profiles and activity to ensure accuracy and consistency, and to
-            flag any sensitive material.</p>
+          <p>A discreet, in-depth review of your public profiles and digital footprint — surfacing anything that
+            could expose you, and cleaning it up before it becomes a problem.</p>
           <a class="ask mono" href="#contact">Ask about this →</a>
         </div>
         <div class="service-card">
           <h3>Off the grid</h3>
-          <p>Minimizing your online presence and digital activity to ensure maximum privacy and safety, without an
-            unnecessary footprint on the web.</p>
+          <p>For those who need to step back from public view — minimizing your digital footprint to near
+            invisibility, handled with full discretion.</p>
           <a class="ask mono" href="#contact">Ask about this →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="credentials" id="credentials">
-      <div class="section-head">
-        <p class="kicker mono">Credentials &amp; work</p>
-        <h2>Backed by real expertise</h2>
-      </div>
-      <div class="service-grid">
-        <div class="service-card">
-          <h3>TAISE certified</h3>
-          <p>Trusted AI Safety Expert certification from the Cloud Security Alliance and Northeastern University,
-            covering AI risk, security, and governance.</p>
-          <a class="ask mono"
-            href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile" target="_blank"
-            rel="noopener">View credential →</a>
-        </div>
-        <div class="service-card">
-          <h3>ReWord — WordPress plugin</h3>
-          <p>An open-source plugin, rated 4.8/5 with 30+ active installs, that lets readers flag and suggest fixes
-            directly on a WordPress site.</p>
-          <a class="ask mono" href="https://wordpress.org/plugins/reword/" target="_blank" rel="noopener">View plugin
-            →</a>
-        </div>
-        <div class="service-card">
-          <h3>Instructor</h3>
-          <p>Lecturer at Analiza Education Center, teaching cyber security, Artificial Intelligence, cloud architecture,
-            DevOps, Kubernetes and full-stack development.</p>
-          <a class="ask mono" href="https://analiza.org.il/" target="_blank" rel="noopener">View Analiza →</a>
         </div>
       </div>
     </section>
@@ -735,8 +695,8 @@
       <div class="contact-inner">
         <div>
           <h2>Let's keep you safe online.</h2>
-          <p class="sub">Whether it's a private session, a group workshop, or just a question about staying safe online
-            — leave a note and I'll get back to you.</p>
+          <p class="sub">Whether you're a company looking to strengthen your security posture, or an individual who
+            wants peace of mind online — leave a note and I'll get back to you.</p>
         </div>
 
         <div class="field-list">
@@ -759,7 +719,7 @@
 
     <footer class="mono">
       <span>© 2026 Gilad Tiomkin</span>
-      <span>Cyber Safety Consultant</span>
+      <span>Security / Safety / Privacy</span>
     </footer>
 
   </div>
