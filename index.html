@@ -353,6 +353,37 @@
       color: var(--amber);
     }
 
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      padding: 6px;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--paper);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
     /* ---------- individuals / premium / Stats ---------- */
 
     section.individuals,
@@ -492,8 +523,42 @@
         gap: 28px;
       }
 
+      .topnav-inner {
+        position: relative;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
       .topnav-links {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--ink-soft);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .topnav-links.open {
+        display: flex;
+      }
+
+      .topnav-links li {
+        border-top: 1px solid var(--line);
+      }
+
+      .topnav-links li:first-child {
+        border-top: none;
+      }
+
+      .topnav-links a {
+        display: block;
+        padding: 16px 32px;
+        font-size: 14px;
       }
 
       .contact-inner {
@@ -533,7 +598,7 @@
   <nav class="topnav">
     <div class="topnav-inner">
       <a href="#" class="brand mono">G. Tiomkin</a>
-      <ul class="topnav-links mono">
+      <ul class="topnav-links mono" id="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#companies">Companies</a></li>
         <li><a href="#individuals">Individuals</a></li>
@@ -541,6 +606,12 @@
         <li><a href="#credentials">Credentials</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"
+        aria-controls="nav-links">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </nav>
 
@@ -744,6 +815,45 @@
 
       frame.addEventListener('mouseenter', playScan);
       frame.addEventListener('touchstart', playScan, { passive: true });
+    })();
+
+    (function () {
+      var toggle = document.getElementById('nav-toggle');
+      var links = document.getElementById('nav-links');
+      if (!toggle || !links) return;
+
+      function closeMenu() {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      function toggleMenu() {
+        var isOpen = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      // Close after picking a link, so the menu doesn't stay open over the section
+      links.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Close on outside tap/click
+      document.addEventListener('click', function (e) {
+        if (!links.classList.contains('open')) return;
+        if (!links.contains(e.target) && e.target !== toggle) {
+          closeMenu();
+        }
+      });
+
+      // Close if the window is resized back to desktop width
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 760) closeMenu();
+      });
     })();
   </script>
 
