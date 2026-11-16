@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070d1a">
   <script>
     // Decide language before first paint: ?lang= → saved choice → browser (English) → Hebrew
     (function () {
@@ -47,31 +48,82 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Heebo:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Heebo:wght@400;500;600;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="grid-bg" aria-hidden="true"></div>
+  <svg class="icons" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="i-shield" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.700-8-6-8-11V5z" />
+        <path d="M8.500 12l2.500 2.500 4.500-5" />
+      </g>
+      <g id="i-phone" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="7" y="2" width="10" height="20" rx="2" />
+        <path d="M11 18h2" />
+      </g>
+      <g id="i-user" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c0-4 3.600-6 8-6s8 2 8 6" />
+      </g>
+      <g id="i-key" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="15" r="4" />
+        <path d="M11 12l9-9M17 6l3 3M14 9l2 2" />
+      </g>
+      <g id="i-wifi" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 9a15 15 0 0 1 20 0M5.500 12.500a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0" />
+        <circle cx="12" cy="19.500" r="0.800" />
+      </g>
+      <g id="i-mail" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 7l9 6 9-6" />
+      </g>
+      <g id="i-users" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.500" />
+        <path d="M2 20c0-3.500 3-5.500 7-5.500s7 2 7 5.500" />
+        <circle cx="17.500" cy="9" r="2.500" />
+        <path d="M17.500 14.600c2.800 0.300 4.500 2 4.500 4.900" />
+      </g>
+      <g id="i-chat" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12a8.500 8.500 0 0 1-12.600 7.400L3 21l1.600-5.400A8.500 8.500 0 1 1 21 12z" />
+      </g>
+      <g id="i-link" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1" />
+        <path d="M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1" />
+      </g>
+      <g id="i-pin" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s7-6.200 7-12a7 7 0 0 0-14 0c0 5.800 7 12 7 12z" />
+        <circle cx="12" cy="10" r="2.500" />
+      </g>
+    </defs>
+  </svg>
 
   <nav class="topnav">
     <div class="topnav-inner">
-      <a href="#" class="brand mono" data-i18n="brand">ג. טיומקין</a>
+      <a href="#top" class="brand">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <use href="#i-shield" />
+        </svg>
+        <span data-i18n="brand">גלעד טיומקין</span>
+      </a>
       <div class="topnav-actions">
-        <ul class="topnav-links mono" id="nav-links">
+        <ul class="topnav-links" id="nav-links">
           <li><a href="#problem" data-i18n="navProblem">הבעיה</a></li>
           <li><a href="#session" data-i18n="navSession">הפגישה</a></li>
+          <li><a href="#process" data-i18n="navProcess">התהליך</a></li>
           <li><a href="#support" data-i18n="navSupport">ליווי שוטף</a></li>
           <li><a href="#organizations" data-i18n="navOrgs">לארגונים</a></li>
           <li><a href="#about" data-i18n="navAbout">אודות</a></li>
-          <li><a href="#contact" data-i18n="navContact">צור קשר</a></li>
+          <li><a href="#faq" data-i18n="navFaq">שאלות נפוצות</a></li>
         </ul>
-        <button class="lang-toggle mono" id="lang-toggle" type="button" lang="en"
-          aria-label="Switch to English">EN</button>
-        <button class="nav-toggle" id="nav-toggle" aria-label="תפריט" aria-expanded="false"
-          aria-controls="nav-links" data-i18n-attr="aria-label:navToggle">
+        <a class="btn btn-sm" href="#contact" data-cta="book" data-i18n="navCta">דברו איתי</a>
+        <button class="lang-toggle" id="lang-toggle" type="button" lang="en" aria-label="Switch to English">EN</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="תפריט" aria-expanded="false" aria-controls="nav-links"
+          data-i18n-attr="aria-label:navToggle">
           <span></span>
           <span></span>
           <span></span>
@@ -80,279 +132,556 @@
     </div>
   </nav>
 
-  <div class="wrap">
+  <main>
 
-    <header class="hero" id="top">
-      <div class="hero-grid">
-        <div>
-          <p class="kicker mono" data-i18n="heroKicker">סייבר אישי לבכירים</p>
-          <h1>
-            <span data-i18n="heroTitle1">האבטחה של הארגון נעצרת בדלת המשרד.</span>
-            <span class="accent" data-i18n="heroTitle2">התוקפים לא.</span>
-          </h1>
-          <p class="lede" data-i18n="heroLede">פגישה אישית, אחד על אחד, שמאבטחת את המכשירים הפרטיים, החשבונות
-            והרשת הביתית של מנהלים בכירים — המקום שבו ההגנה הארגונית נגמרת.</p>
-          <div class="cta-row">
-            <a class="btn" href="#contact" data-i18n="ctaBook">לתיאום פגישה אישית</a>
-            <a class="btn btn-ghost" href="#organizations" data-i18n="ctaOrgs">לארגונים</a>
+    <section class="hero" id="top">
+      <div class="wrap">
+        <p class="eyebrow" data-i18n="heroKicker">סייבר אישי לבכירים</p>
+        <h1>
+          <span data-i18n="heroTitle1">האבטחה של הארגון נעצרת בדלת המשרד.</span>
+          <span class="grad" data-i18n="heroTitle2">התוקפים לא.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="heroSub">פגישה אישית אחד על אחד · מכשירים פרטיים · חשבונות אישיים · רשת ביתית</p>
+        <p class="lede" data-i18n="heroLede">פגישה אישית, אחד על אחד, שמאבטחת את המכשירים הפרטיים, החשבונות
+          והרשת הביתית של מנהלים בכירים — המקום שבו ההגנה הארגונית נגמרת.</p>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="num" dir="ltr">1:1</span>
+            <span class="label" data-i18n="pr1">פגישה אישית</span>
           </div>
-          <p class="byline mono" data-i18n="heroByline">גלעד טיומקין · ארכיטקט סייבר · 20 שנות ניסיון</p>
+          <div class="hero-stat">
+            <span class="num" data-i18n="pr2Num">פנים אל פנים</span>
+            <span class="label" data-i18n="pr2">בבית או במשרד</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num" data-i18n="pr3Num">דיסקרטי</span>
+            <span class="label" data-i18n="pr3">סודיות מלאה</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num" dir="ltr">20</span>
+            <span class="label" data-i18n="pr4">שנות ניסיון</span>
+          </div>
         </div>
 
+        <div class="cta-row">
+          <a class="btn" href="#contact" data-cta="book" data-i18n="ctaBook">לתיאום פגישה אישית</a>
+          <a class="btn btn-ghost" href="#process" data-i18n="ctaHow">איך זה עובד</a>
+        </div>
+        <p class="byline" data-i18n="heroByline">גלעד טיומקין · ארכיטקט סייבר · 20 שנות ניסיון</p>
+      </div>
+    </section>
+
+    <section class="sec" id="problem">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="pbKicker">הבעיה</p>
+          <h2 data-i18n="pbTitle">החוליה החלשה נמצאת בבית</h2>
+          <p class="lead" data-i18n="pbLead">ארגונים משקיעים הרבה באבטחת המחשבים, הרשתות והמערכות שלהם. אבל הטלפון
+            הפרטי של המנכ"ל, תיבת המייל האישית, קבוצת הוואטסאפ המשפחתית והראוטר בסלון נמצאים מחוץ לכל זה — ואף אחד
+            לא אחראי עליהם.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card fact">
+            <p class="figure" data-i18n="pb1Fig">מחוץ ל-IT</p>
+            <h3 data-i18n="pb1Title">מכשירים פרטיים</h3>
+            <p data-i18n="pb1Text">טלפון, טאבלט ומחשב ביתי שמחלקת ה-IT לא מנהלת, לעיתים בלי עדכונים, גיבוי או נעילה
+              ראויה — ועליהם גם מיילים ומסמכים של העבודה.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb2Fig">סיסמה אחת</p>
+            <h3 data-i18n="pb2Title">חשבונות אישיים ורשתות חברתיות</h3>
+            <p data-i18n="pb2Text">מייל פרטי, חשבון Apple או Google, וואטסאפ, לינקדאין ופייסבוק. סיסמה שחוזרת על
+              עצמה או מנגנון שחזור חלש מספיקים כדי להשתלט על החשבון ולהתחזות אליכם.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb3Fig">ברירת מחדל</p>
+            <h3 data-i18n="pb3Title">הרשת הביתית</h3>
+            <p data-i18n="pb3Text">ראוטר עם הגדרות ברירת מחדל, Wi-Fi שכל אורח מכיר, מצלמות ומכשירים חכמים. זו הרשת
+              שממנה אתם מתחברים לעבודה.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb4Fig">יעד משתלם</p>
+            <h3 data-i18n="pb4Title">למה דווקא בכירים</h3>
+            <p data-i18n="pb4Text">תוקפים יודעים שקל יותר לפרוץ לחיים הפרטיים של מנהל בכיר מאשר למערכות הארגון
+              שהוא מוביל.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb5Fig">הדרך פנימה</p>
+            <h3 data-i18n="pb5Title">מהבית אל הארגון</h3>
+            <p data-i18n="pb5Text">מחשבון פרטי שנפרץ הדרך פנימה קצרה: התחזות מול עובדים, גישה למייל ולמסמכים, או
+              סחיטה.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb6Fig">אין אחראי</p>
+            <h3 data-i18n="pb6Title">הפער שאף אחד לא מכסה</h3>
+            <p data-i18n="pb6Text">אבטחה אישית חלשה הופכת לחוליה החלשה במערך האבטחה של הארגון כולו — ואף גורם
+              בארגון לא אחראי עליה.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec alt" id="session">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="ssKicker">הפגישה</p>
+          <h2 data-i18n="ssTitle">פגישה אישית, אחד על אחד</h2>
+          <p class="lead" data-i18n="ssLead">פגישה מעשית, פנים אל פנים, בבית או במשרד. עוברים יחד על המכשירים,
+            החשבונות והרשת שלכם, ומתקנים במקום את מה שצריך תיקון.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-phone" />
+              </svg></span>
+            <h3 data-i18n="cv1Title">מכשירים פרטיים</h3>
+            <p data-i18n="ss1">טלפונים, טאבלטים ומחשבים פרטיים</p>
+            <ul class="chips">
+              <li data-i18n="cv1a">עדכונים</li>
+              <li data-i18n="cv1b">נעילה</li>
+              <li data-i18n="cv1c">גיבוי</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-user" />
+              </svg></span>
+            <h3 data-i18n="cv2Title">חשבונות אישיים</h3>
+            <p data-i18n="ss2">מייל אישי, חשבונות Apple ו-Google ורשתות חברתיות</p>
+            <ul class="chips">
+              <li dir="ltr">Apple</li>
+              <li dir="ltr">Google</li>
+              <li dir="ltr">WhatsApp</li>
+              <li dir="ltr">LinkedIn</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-key" />
+              </svg></span>
+            <h3 data-i18n="cv3Title">סיסמאות ואימות</h3>
+            <p data-i18n="ss3">סיסמאות, מנהל סיסמאות ואימות דו-שלבי</p>
+            <ul class="chips">
+              <li data-i18n="cv3a">מנהל סיסמאות</li>
+              <li data-i18n="cv3b">אימות דו-שלבי</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-wifi" />
+              </svg></span>
+            <h3 data-i18n="cv4Title">הרשת הביתית</h3>
+            <p data-i18n="ss4">ראוטר, Wi-Fi ומכשירים חכמים בבית</p>
+            <ul class="chips">
+              <li data-i18n="cv4a">ראוטר</li>
+              <li dir="ltr">Wi-Fi</li>
+              <li data-i18n="cv4c">מכשירים חכמים</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-mail" />
+              </svg></span>
+            <h3 data-i18n="cv5Title">פישינג והתחזות</h3>
+            <p data-i18n="ss5">זיהוי פישינג ממוקד וניסיונות התחזות</p>
+            <ul class="chips">
+              <li data-i18n="cv5a">פישינג ממוקד</li>
+              <li data-i18n="cv5b">התחזות</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-users" />
+              </svg></span>
+            <h3 data-i18n="cv6Title">המשפחה</h3>
+            <p data-i18n="ss6">המכשירים והחשבונות של בני המשפחה</p>
+            <ul class="chips">
+              <li data-i18n="cv6a">בני זוג</li>
+              <li data-i18n="cv6b">ילדים</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sec-cta">
+          <a class="btn" href="#contact" data-cta="book" data-i18n="ctaBook">לתיאום פגישה אישית</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="process">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="prKicker">התהליך</p>
+          <h2 data-i18n="prTitle">איך זה עובד</h2>
+          <p class="lead" data-i18n="prLead">תהליך קצר וברור, משיחה ראשונה ועד תוכנית פעולה כתובה.</p>
+        </div>
+        <ol class="steps grid cols-4">
+          <li class="card step">
+            <span class="step-num" dir="ltr">01</span>
+            <h3 data-i18n="st1Title">שיחת היכרות</h3>
+            <p data-i18n="st1Text">שיחה קצרה כדי להבין את הצרכים, המכשירים והחששות שלכם.</p>
+          </li>
+          <li class="card step">
+            <span class="step-num" dir="ltr">02</span>
+            <h3 data-i18n="st2Title">פגישה פנים אל פנים</h3>
+            <p data-i18n="st2Text">יושבים יחד, בבית או במשרד, ועוברים על הכול בצורה מסודרת. בלי מצגות — עבודה
+              על המכשירים עצמם.</p>
+          </li>
+          <li class="card step">
+            <span class="step-num" dir="ltr">03</span>
+            <h3 data-i18n="st3Title">סיכום ותוכנית פעולה</h3>
+            <p data-i18n="st3Text">מסמך קצר וברור: מה תוקן, מה נשאר לעשות, ואיך שומרים על זה לאורך זמן.</p>
+          </li>
+          <li class="card step">
+            <span class="step-num" dir="ltr">04</span>
+            <h3 data-i18n="st4Title">ליווי שוטף</h3>
+            <p data-i18n="st4Text">אחרי הפגישה אפשר להמשיך בליווי שוטף, כדי שמה שסגרנו יישאר סגור.</p>
+            <span class="optional" data-i18n="st4Tag">לפי בחירה</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec alt" id="threats">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="thKicker">האיומים</p>
+          <h2 data-i18n="thTitle">מה עלול לקרות כשהבית לא מוגן</h2>
+          <p class="lead" data-i18n="thLead">אלה התרחישים שהפגישה נועדה לצמצם.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card threat critical">
+            <span class="badge" data-i18n="sevCritical">קריטי</span>
+            <h3 data-i18n="th1Title">השתלטות על חשבון</h3>
+            <p data-i18n="th1Text">סיסמה שחוזרת על עצמה או מנגנון שחזור חלש מספיקים כדי להשתלט על המייל הפרטי,
+              הוואטסאפ או חשבון ה-Apple וה-Google.</p>
+          </div>
+          <div class="card threat critical">
+            <span class="badge" data-i18n="sevCritical">קריטי</span>
+            <h3 data-i18n="th2Title">התחזות למנהל</h3>
+            <p data-i18n="th2Text">מי שהשתלט על חשבון שלכם יכול לפנות בשמכם לעובדים ולבקש מהם מידע, גישה או
+              פעולה.</p>
+          </div>
+          <div class="card threat critical">
+            <span class="badge" data-i18n="sevCritical">קריטי</span>
+            <h3 data-i18n="th3Title">גישה למידע של הארגון</h3>
+            <p data-i18n="th3Text">על המכשירים הפרטיים יש גם מיילים ומסמכים של העבודה. מי שנכנס אליהם מגיע גם
+              אליהם.</p>
+          </div>
+          <div class="card threat high">
+            <span class="badge" data-i18n="sevHigh">גבוה</span>
+            <h3 data-i18n="th4Title">פישינג ממוקד</h3>
+            <p data-i18n="th4Text">הודעות וניסיונות התחזות שמכוונים אליכם אישית, ונראים אמינים מספיק כדי ללחוץ.</p>
+          </div>
+          <div class="card threat high">
+            <span class="badge" data-i18n="sevHigh">גבוה</span>
+            <h3 data-i18n="th5Title">סחיטה</h3>
+            <p data-i18n="th5Text">מידע פרטי שהגיע לידיים הלא נכונות הופך לאמצעי לחץ עליכם ועל הארגון.</p>
+          </div>
+          <div class="card threat medium">
+            <span class="badge" data-i18n="sevMedium">בינוני</span>
+            <h3 data-i18n="th6Title">מכשיר שאבד או רשת חשופה</h3>
+            <p data-i18n="th6Text">טלפון בלי נעילה ראויה או ראוטר עם הגדרות ברירת מחדל הם דלת פתוחה שאפשר
+              לסגור.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="support">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="spKicker">ליווי שוטף</p>
+          <h2 data-i18n="spTitle">אבטחה היא לא אירוע חד-פעמי</h2>
+          <p class="lead" data-i18n="spLead">האיומים משתנים, מכשירים מתחלפים וחשבונות חדשים נפתחים. אחרי הפגישה
+            אפשר להמשיך בליווי שוטף, כדי שמה שסגרנו יישאר סגור.</p>
+        </div>
+        <div class="grid cols-4">
+          <div class="card">
+            <h3 data-i18n="sp1Title">בדיקות תקופתיות</h3>
+            <p data-i18n="sp1Text">מעבר מחזורי על המכשירים, החשבונות והרשת הביתית, כדי לוודא שהכול עדיין מוגן
+              ומעודכן.</p>
+          </div>
+          <div class="card">
+            <h3 data-i18n="sp2Title">קו ישיר להתייעצות</h3>
+            <p data-i18n="sp2Text">קיבלתם הודעה חשודה, בקשה מוזרה או התראה לא ברורה? שואלים אותי לפני שלוחצים.</p>
+          </div>
+          <div class="card">
+            <h3 data-i18n="sp3Title">מכשירים וחשבונות חדשים</h3>
+            <p data-i18n="sp3Text">הגדרה מאובטחת של טלפון חדש, מחשב חדש או שירות חדש — כבר מהיום הראשון.</p>
+          </div>
+          <div class="card">
+            <h3 data-i18n="sp4Title">כשמשהו משתבש</h3>
+            <p data-i18n="sp4Text">עזרה מקצועית כשחשבון נפרץ, מכשיר אבד או מופיעה פעילות חשודה.</p>
+          </div>
+        </div>
+        <div class="sec-cta">
+          <a class="btn btn-ghost" href="#contact" data-i18n="ctaSupport">לשאול על ליווי שוטף</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec alt" id="organizations">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="orKicker">למי זה מתאים</p>
+          <h2 data-i18n="orTitle">למנהלים עצמם, ולארגונים שרוצים להגן עליהם</h2>
+        </div>
+        <div class="grid cols-2">
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-user" />
+              </svg></span>
+            <h3 data-i18n="or1Title">למנהלים ולבכירים</h3>
+            <p data-i18n="or1Text">מנכ"לים, חברי הנהלה ודירקטוריון, מייסדים ובעלי תפקידים רגישים. פונים אליי ישירות,
+              והכול נשאר בינינו.</p>
+            <ul class="chips">
+              <li data-i18n="or1a">מנכ"לים</li>
+              <li data-i18n="or1b">הנהלה ודירקטוריון</li>
+              <li data-i18n="or1c">מייסדים</li>
+            </ul>
+            <a class="ask" href="#contact" data-cta="book" data-i18n="or1Cta">לתיאום פגישה ←</a>
+          </div>
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-users" />
+              </svg></span>
+            <h3 data-i18n="or2Title">לארגונים</h3>
+            <p data-i18n="or2Text">מנהלי אבטחת מידע, הנהלות ומשאבי אנוש שרוצים לסגור את הפער שמעבר לגבולות הארגון.
+              פגישה אישית לכל בכיר וליווי שוטף לפי הצורך. מה שעולה בפגישה על החיים הפרטיים של המנהל נשאר בינו
+              לביני.</p>
+            <ul class="chips">
+              <li data-i18n="or2a">מנהלי אבטחת מידע</li>
+              <li data-i18n="or2b">הנהלות</li>
+              <li data-i18n="or2c">משאבי אנוש</li>
+            </ul>
+            <a class="ask" href="#contact" data-i18n="or2Cta">לדבר על תוכנית לארגון ←</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="about">
+      <div class="wrap about-grid">
         <div class="portrait">
-          <div class="portrait-frame">
-            <span class="corner tl"></span>
-            <span class="corner tr"></span>
-            <span class="corner bl"></span>
-            <span class="corner br"></span>
-            <span class="scan"></span>
-            <img src="photo.jpg" alt="דיוקן של גלעד טיומקין" data-i18n-attr="alt:photoAlt">
+          <img src="photo.jpg" alt="דיוקן של גלעד טיומקין" data-i18n-attr="alt:photoAlt">
+        </div>
+        <div class="about-text">
+          <p class="kicker" data-i18n="abKicker">אודות</p>
+          <h2 data-i18n="name">גלעד טיומקין</h2>
+          <p class="role" data-i18n="role">ארכיטקט סייבר, מומחה אבטחה ובטיחות AI, יועץ ומרצה</p>
+          <p class="lead" data-i18n="bio1">במהלך 20 השנים האחרונות תכננתי ובניתי מערכות ואפליקציות מאובטחות, עם
+            ניסיון מעשי ועמוק באבטחת רשתות, תשתיות ו-AI.</p>
+          <p class="lead" data-i18n="bio2">היום אני מביא את הניסיון הזה אל המקום שבו ההגנה הארגונית נגמרת: החיים
+            הדיגיטליים הפרטיים של האנשים שמובילים את הארגון.</p>
+          <div class="grid cols-2">
+            <div class="card">
+              <h3 data-i18n="cr1Title">הסמכת TAISE</h3>
+              <p data-i18n="cr1Text">הסמכת Trusted AI Safety Expert מטעם Cloud Security Alliance ואוניברסיטת
+                נורת'איסטרן, העוסקת בסיכוני AI, אבטחה וממשל.</p>
+              <a class="ask" href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile"
+                target="_blank" rel="noopener" data-i18n="cr1Cta">לצפייה בהסמכה ←</a>
+            </div>
+            <div class="card">
+              <h3 data-i18n="cr2Title">מרצה מן החוץ</h3>
+              <p data-i18n="cr2Text">מלמד אבטחת סייבר, פיתוח AI וארכיטקטורת ענן במרכז ההכשרות אנאליזה.</p>
+              <a class="ask" href="https://analiza.org.il/" target="_blank" rel="noopener" data-i18n="cr2Cta">לאתר
+                אנאליזה ←</a>
+            </div>
           </div>
-          <div class="caption mono">
-            <span data-i18n="caption">הסריקה הושלמה ✓</span>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <section class="block" id="problem">
-      <div class="section-head">
-        <p class="kicker mono" data-i18n="pbKicker">הבעיה</p>
-        <h2 data-i18n="pbTitle">החוליה החלשה נמצאת בבית</h2>
-        <p class="lead" data-i18n="pbLead">ארגונים משקיעים הרבה באבטחת המחשבים, הרשתות והמערכות שלהם. אבל הטלפון
-          הפרטי של המנכ"ל, תיבת המייל האישית, קבוצת הוואטסאפ המשפחתית והראוטר בסלון נמצאים מחוץ לכל זה — ואף אחד
-          לא אחראי עליהם.</p>
-      </div>
-      <div class="service-grid">
-        <div class="service-card">
-          <h3 data-i18n="pb1Title">מכשירים פרטיים</h3>
-          <p data-i18n="pb1Text">טלפון, טאבלט ומחשב ביתי שמחלקת ה-IT לא מנהלת, לעיתים בלי עדכונים, גיבוי או נעילה
-            ראויה — ועליהם גם מיילים ומסמכים של העבודה.</p>
-        </div>
-        <div class="service-card">
-          <h3 data-i18n="pb2Title">חשבונות אישיים ורשתות חברתיות</h3>
-          <p data-i18n="pb2Text">מייל פרטי, חשבון Apple או Google, וואטסאפ, לינקדאין ופייסבוק. סיסמה שחוזרת על
-            עצמה או מנגנון שחזור חלש מספיקים כדי להשתלט על החשבון ולהתחזות אליכם.</p>
-        </div>
-        <div class="service-card">
-          <h3 data-i18n="pb3Title">הרשת הביתית</h3>
-          <p data-i18n="pb3Text">ראוטר עם הגדרות ברירת מחדל, Wi-Fi שכל אורח מכיר, מצלמות ומכשירים חכמים. זו הרשת
-            שממנה אתם מתחברים לעבודה.</p>
-        </div>
-      </div>
-      <p class="callout" data-i18n="pbCallout">תוקפים יודעים את זה. קל יותר לפרוץ לחיים הפרטיים של מנהל בכיר מאשר
-        למערכות הארגון, ומשם הדרך פנימה קצרה: התחזות מול עובדים, גישה למייל ולמסמכים, או סחיטה. אבטחה אישית חלשה
-        הופכת לחוליה החלשה במערך האבטחה של הארגון כולו.</p>
-    </section>
-
-    <section class="block" id="session">
-      <div class="section-head">
-        <p class="kicker mono" data-i18n="ssKicker">הפגישה</p>
-        <h2 data-i18n="ssTitle">פגישה אישית, אחד על אחד</h2>
-        <p class="lead" data-i18n="ssLead">פגישה מעשית, פנים אל פנים, בבית או במשרד. עוברים יחד על המכשירים,
-          החשבונות והרשת שלכם, ומתקנים במקום את מה שצריך תיקון.</p>
-      </div>
-      <ul class="checklist">
-        <li data-i18n="ss1">טלפונים, טאבלטים ומחשבים פרטיים</li>
-        <li data-i18n="ss2">מייל אישי, חשבונות Apple ו-Google ורשתות חברתיות</li>
-        <li data-i18n="ss3">סיסמאות, מנהל סיסמאות ואימות דו-שלבי</li>
-        <li data-i18n="ss4">ראוטר, Wi-Fi ומכשירים חכמים בבית</li>
-        <li data-i18n="ss5">זיהוי פישינג ממוקד וניסיונות התחזות</li>
-        <li data-i18n="ss6">המכשירים והחשבונות של בני המשפחה</li>
-      </ul>
-      <ol class="steps">
-        <li>
-          <span class="step-num mono">01</span>
-          <h3 data-i18n="st1Title">שיחת היכרות</h3>
-          <p data-i18n="st1Text">שיחה קצרה כדי להבין את הצרכים, המכשירים והחששות שלכם.</p>
-        </li>
-        <li>
-          <span class="step-num mono">02</span>
-          <h3 data-i18n="st2Title">פגישה פנים אל פנים</h3>
-          <p data-i18n="st2Text">יושבים יחד, בבית או במשרד, ועוברים על הכול בצורה מסודרת. בלי מצגות — עבודה
-            על המכשירים עצמם.</p>
-        </li>
-        <li>
-          <span class="step-num mono">03</span>
-          <h3 data-i18n="st3Title">סיכום ותוכנית פעולה</h3>
-          <p data-i18n="st3Text">מסמך קצר וברור: מה תוקן, מה נשאר לעשות, ואיך שומרים על זה לאורך זמן.</p>
-        </li>
-      </ol>
-      <a class="btn" href="#contact" data-i18n="ctaBook">לתיאום פגישה אישית</a>
-    </section>
-
-    <section class="block" id="support">
-      <div class="section-head">
-        <p class="kicker mono" data-i18n="spKicker">ליווי שוטף</p>
-        <h2 data-i18n="spTitle">אבטחה היא לא אירוע חד-פעמי</h2>
-        <p class="lead" data-i18n="spLead">האיומים משתנים, מכשירים מתחלפים וחשבונות חדשים נפתחים. אחרי הפגישה
-          אפשר להמשיך בליווי שוטף, כדי שמה שסגרנו יישאר סגור.</p>
-      </div>
-      <div class="service-grid cols-2">
-        <div class="service-card">
-          <h3 data-i18n="sp1Title">בדיקות תקופתיות</h3>
-          <p data-i18n="sp1Text">מעבר מחזורי על המכשירים, החשבונות והרשת הביתית, כדי לוודא שהכול עדיין מוגן
-            ומעודכן.</p>
-        </div>
-        <div class="service-card">
-          <h3 data-i18n="sp2Title">קו ישיר להתייעצות</h3>
-          <p data-i18n="sp2Text">קיבלתם הודעה חשודה, בקשה מוזרה או התראה לא ברורה? שואלים אותי לפני שלוחצים.</p>
-        </div>
-        <div class="service-card">
-          <h3 data-i18n="sp3Title">מכשירים וחשבונות חדשים</h3>
-          <p data-i18n="sp3Text">הגדרה מאובטחת של טלפון חדש, מחשב חדש או שירות חדש — כבר מהיום הראשון.</p>
-        </div>
-        <div class="service-card">
-          <h3 data-i18n="sp4Title">כשמשהו משתבש</h3>
-          <p data-i18n="sp4Text">עזרה מקצועית כשחשבון נפרץ, מכשיר אבד או מופיעה פעילות חשודה.</p>
-        </div>
-      </div>
-      <a class="btn btn-ghost" href="#contact" data-i18n="ctaSupport">לשאול על ליווי שוטף</a>
-    </section>
-
-    <section class="block" id="organizations">
-      <div class="section-head">
-        <p class="kicker mono" data-i18n="orKicker">למי זה מתאים</p>
-        <h2 data-i18n="orTitle">למנהלים עצמם, ולארגונים שרוצים להגן עליהם</h2>
-      </div>
-      <div class="service-grid cols-2">
-        <div class="service-card">
-          <h3 data-i18n="or1Title">למנהלים ולבכירים</h3>
-          <p data-i18n="or1Text">מנכ"לים, חברי הנהלה ודירקטוריון, מייסדים ובעלי תפקידים רגישים. פונים אליי ישירות,
-            והכול נשאר בינינו.</p>
-          <a class="ask mono" href="#contact" data-i18n="or1Cta">לתיאום פגישה ←</a>
-        </div>
-        <div class="service-card">
-          <h3 data-i18n="or2Title">לארגונים</h3>
-          <p data-i18n="or2Text">מנהלי אבטחת מידע, הנהלות ומשאבי אנוש שרוצים לסגור את הפער שמעבר לגבולות הארגון.
-            פגישה אישית לכל בכיר וליווי שוטף לפי הצורך. מה שעולה בפגישה על החיים הפרטיים של המנהל נשאר בינו
-            לביני.</p>
-          <a class="ask mono" href="#contact" data-i18n="or2Cta">לדבר על תוכנית לארגון ←</a>
+          <p class="also">
+            <span data-i18n="alsoText">בנוסף, אני מייעץ לחברות בתחומי בטיחות AI וארכיטקטורת מערכות מאובטחת.</span>
+            <a class="ask" href="#contact" data-i18n="alsoCta">לפרטים ←</a>
+          </p>
         </div>
       </div>
     </section>
 
-    <section class="block" id="about">
-      <div class="section-head">
-        <p class="kicker mono" data-i18n="abKicker">אודות</p>
-        <h2 data-i18n="name">גלעד טיומקין</h2>
-        <p class="role mono" data-i18n="role">ארכיטקט סייבר, מומחה אבטחה ובטיחות AI, יועץ ומרצה</p>
-        <p class="lead" data-i18n="bio1">במהלך 20 השנים האחרונות תכננתי ובניתי מערכות ואפליקציות מאובטחות, עם
-          ניסיון מעשי ועמוק באבטחת רשתות, תשתיות ו-AI.</p>
-        <p class="lead" data-i18n="bio2">היום אני מביא את הניסיון הזה אל המקום שבו ההגנה הארגונית נגמרת: החיים
-          הדיגיטליים הפרטיים של האנשים שמובילים את הארגון.</p>
-      </div>
-      <div class="service-grid cols-2">
-        <div class="service-card">
-          <h3 data-i18n="cr1Title">הסמכת TAISE</h3>
-          <p data-i18n="cr1Text">הסמכת Trusted AI Safety Expert מטעם Cloud Security Alliance ואוניברסיטת
-            נורת'איסטרן, העוסקת בסיכוני AI, אבטחה וממשל.</p>
-          <a class="ask mono"
-            href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile" target="_blank"
-            rel="noopener" data-i18n="cr1Cta">לצפייה בהסמכה ←</a>
+    <section class="sec alt" id="faq">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="fqKicker">שאלות נפוצות</p>
+          <h2 data-i18n="fqTitle">שאלות נפוצות על הפגישה</h2>
         </div>
-        <div class="service-card">
-          <h3 data-i18n="cr2Title">מרצה מן החוץ</h3>
-          <p data-i18n="cr2Text">מלמד אבטחת סייבר, פיתוח AI וארכיטקטורת ענן במרכז ההכשרות אנאליזה.</p>
-          <a class="ask mono" href="https://analiza.org.il/" target="_blank" rel="noopener"
-            data-i18n="cr2Cta">לאתר אנאליזה ←</a>
-        </div>
-      </div>
-      <p class="also">
-        <span data-i18n="alsoText">בנוסף, אני מייעץ לחברות בתחומי בטיחות AI וארכיטקטורת מערכות מאובטחת.</span>
-        <a class="ask mono" href="#contact" data-i18n="alsoCta">לפרטים ←</a>
-      </p>
-    </section>
-
-    <section class="principles">
-      <div class="stats-grid">
-        <div class="stat">
-          <span class="num" dir="ltr">1:1</span>
-          <span class="label mono" data-i18n="pr1">פגישה אישית</span>
-        </div>
-        <div class="stat">
-          <span class="num" data-i18n="pr2Num">פנים אל פנים</span>
-          <span class="label mono" data-i18n="pr2">בבית או במשרד</span>
-        </div>
-        <div class="stat">
-          <span class="num" data-i18n="pr3Num">דיסקרטי</span>
-          <span class="label mono" data-i18n="pr3">סודיות מלאה</span>
-        </div>
-        <div class="stat">
-          <span class="num" dir="ltr">20</span>
-          <span class="label mono" data-i18n="pr4">שנות ניסיון</span>
+        <div class="faq">
+          <details>
+            <summary><span data-i18n="fq1Q">איפה מתקיימת הפגישה?</span></summary>
+            <p data-i18n="fq1A">פנים אל פנים, בבית או במשרד שלכם, בישראל. בלי מצגות — עובדים יחד על המכשירים
+              עצמם.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq2Q">על מה עוברים בפגישה?</span></summary>
+            <p data-i18n="fq2A">על הטלפונים, הטאבלטים והמחשבים הפרטיים, המייל האישי, חשבונות Apple ו-Google, הרשתות
+              החברתיות, הסיסמאות והאימות הדו-שלבי, והראוטר, ה-Wi-Fi והמכשירים החכמים בבית. מה שצריך תיקון מתקנים
+              במקום.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq3Q">האם מה שעולה בפגישה נשאר חסוי?</span></summary>
+            <p data-i18n="fq3A">כן. הכול נשאר בינינו. גם כשהארגון הוא שמזמין את הפגישה, מה שעולה על החיים הפרטיים
+              של המנהל נשאר בינו לביני.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq4Q">מה מקבלים בסוף הפגישה?</span></summary>
+            <p data-i18n="fq4A">מסמך קצר וברור: מה תוקן, מה נשאר לעשות, ואיך שומרים על זה לאורך זמן.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq5Q">הארגון שלנו כבר משקיע באבטחת מידע. למה צריך גם את זה?</span></summary>
+            <p data-i18n="fq5A">האבטחה הארגונית מגינה על המחשבים, הרשתות והמערכות של הארגון. הטלפון הפרטי, המייל
+              האישי והרשת הביתית של המנהלים נמצאים מחוץ לה, ואף אחד לא אחראי עליהם. הפגישה סוגרת את הפער הזה.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq6Q">אפשר לכלול גם את בני המשפחה?</span></summary>
+            <p data-i18n="fq6A">כן. המכשירים והחשבונות של בני המשפחה הם חלק ממה שעוברים עליו בפגישה.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq7Q">מה קורה אחרי הפגישה?</span></summary>
+            <p data-i18n="fq7A">מי שרוצה ממשיך בליווי שוטף: בדיקות תקופתיות, קו ישיר להתייעצות, הגדרה מאובטחת של
+              מכשירים וחשבונות חדשים, ועזרה כשמשהו משתבש.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq8Q">איך מתחילים?</span></summary>
+            <p data-i18n="fq8A">משאירים פרטים, ואני חוזר אליכם לשיחת היכרות קצרה כדי להבין את הצרכים, המכשירים
+              והחששות שלכם. משם מתאמים פגישה.</p>
+          </details>
         </div>
       </div>
     </section>
 
-    <section class="contact" id="contact">
-      <div class="contact-inner">
+    <section class="cta-band">
+      <div class="wrap">
+        <h2 data-i18n="cbTitle">סגרו את הפער שבין המשרד לבית</h2>
+        <p data-i18n="cbText">פגישה אישית אחת, פנים אל פנים, שמאבטחת את המכשירים, החשבונות והרשת הביתית שלכם —
+          בדיסקרטיות מלאה.</p>
+        <div class="cta-row">
+          <a class="btn" href="#contact" data-cta="book" data-i18n="ctaBook">לתיאום פגישה אישית</a>
+          <a class="btn btn-ghost" href="#contact" data-i18n="cbLeave">השאירו פרטים</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec contact" id="contact">
+      <div class="wrap contact-inner">
         <div>
+          <p class="kicker" data-i18n="ctKicker">צור קשר</p>
           <h2 data-i18n="ctTitle">בואו נתאם פגישה.</h2>
           <p class="sub" data-i18n="ctSub">בין אם אתם מנהלים בכירים שרוצים שקט בבית, ובין אם אתם ארגון שרוצה להגן
             על ההנהלה שלו — השאירו פרטים ואחזור אליכם.</p>
 
           <div class="field-list">
             <div class="field">
-              <span class="label mono" data-i18n="ctEmail">אימייל</span>
-              <a class="value" href="mailto:hello@tiomking.com"><bdi>hello@tiomking.com</bdi></a>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-mail" />
+                </svg></span>
+              <div>
+                <span class="label" data-i18n="ctEmail">אימייל</span>
+                <a class="value" href="mailto:hello@tiomking.com"><bdi>hello@tiomking.com</bdi></a>
+              </div>
             </div>
             <div class="field" id="wa-field" hidden>
-              <span class="label mono" data-i18n="ctWhatsApp">וואטסאפ</span>
-              <a class="value" id="wa-link" href="#" target="_blank" rel="noopener"
-                data-i18n="ctWhatsAppValue">שליחת הודעה</a>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-chat" />
+                </svg></span>
+              <div>
+                <span class="label" data-i18n="ctWhatsApp">וואטסאפ</span>
+                <a class="value" id="wa-link" href="#" target="_blank" rel="noopener" data-i18n="ctWhatsAppValue">שליחת
+                  הודעה</a>
+              </div>
             </div>
             <div class="field">
-              <span class="label mono" data-i18n="ctLinkedIn">לינקדאין</span>
-              <a class="value" href="https://www.linkedin.com/in/gilad-tiomkin" target="_blank"
-                rel="noopener"><bdi>linkedin.com/in/gilad-tiomkin</bdi></a>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-link" />
+                </svg></span>
+              <div>
+                <span class="label" data-i18n="ctLinkedIn">לינקדאין</span>
+                <a class="value" href="https://www.linkedin.com/in/gilad-tiomkin" target="_blank"
+                  rel="noopener"><bdi>linkedin.com/in/gilad-tiomkin</bdi></a>
+              </div>
             </div>
             <div class="field">
-              <span class="label mono" data-i18n="ctLocation">מיקום</span>
-              <span class="value" data-i18n="ctLocationValue">פגישות פנים אל פנים, בישראל</span>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-pin" />
+                </svg></span>
+              <div>
+                <span class="label" data-i18n="ctLocation">מיקום</span>
+                <span class="value" data-i18n="ctLocationValue">פגישות פנים אל פנים, בישראל</span>
+              </div>
             </div>
           </div>
         </div>
 
         <form class="contact-form" id="contact-form" novalidate>
+          <h3 data-i18n="fmTitle">השאירו פרטים</h3>
           <label class="form-row">
-            <span class="label mono" data-i18n="fmName">שם מלא</span>
+            <span class="label" data-i18n="fmName">שם מלא</span>
             <input type="text" name="name" autocomplete="name" required>
           </label>
           <label class="form-row">
-            <span class="label mono" data-i18n="fmRole">תפקיד וארגון</span>
+            <span class="label" data-i18n="fmRole">תפקיד וארגון</span>
             <input type="text" name="role" autocomplete="organization-title">
           </label>
           <label class="form-row">
-            <span class="label mono" data-i18n="fmContact">אימייל או טלפון</span>
+            <span class="label" data-i18n="fmContact">אימייל או טלפון</span>
             <input type="text" name="contact" required>
           </label>
           <label class="form-row">
-            <span class="label mono" data-i18n="fmType">אני פונה בתור</span>
+            <span class="label" data-i18n="fmType">אני פונה בתור</span>
             <select name="type">
               <option value="executive" data-i18n="fmTypeExec">מנהל/ת בכיר/ה</option>
               <option value="organization" data-i18n="fmTypeOrg">נציג/ת ארגון</option>
             </select>
           </label>
           <label class="form-row">
-            <span class="label mono" data-i18n="fmMessage">הודעה</span>
+            <span class="label" data-i18n="fmMessage">הודעה</span>
             <textarea name="message" rows="4"></textarea>
           </label>
           <!-- Honeypot: hidden from people, filled by bots -->
           <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button class="btn" type="submit" data-i18n="fmSubmit">שליחה</button>
+          <button class="btn" type="submit" data-i18n="fmSubmit">שליחת פרטים</button>
           <p class="form-note" data-i18n="fmNote">אין צורך לפרט כאן מידע רגיש — מספיק שם ודרך ליצור קשר.</p>
-          <p class="form-status mono" id="form-status" role="status" aria-live="polite"></p>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
 
-    <footer class="mono">
-      <span data-i18n="copyright">© 2026 גלעד טיומקין</span>
-      <span data-i18n="tagline">מכשירים / חשבונות / רשת ביתית</span>
-    </footer>
+  </main>
 
-  </div>
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a href="#top" class="brand">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <use href="#i-shield" />
+            </svg>
+            <span data-i18n="brand">גלעד טיומקין</span>
+          </a>
+          <p data-i18n="ftAbout">אבטחת סייבר אישית למנהלים בכירים: מכשירים פרטיים, חשבונות אישיים ורשת ביתית.</p>
+        </div>
+        <div>
+          <h3 data-i18n="ftService">השירות</h3>
+          <ul>
+            <li><a href="#problem" data-i18n="navProblem">הבעיה</a></li>
+            <li><a href="#session" data-i18n="navSession">הפגישה</a></li>
+            <li><a href="#process" data-i18n="navProcess">התהליך</a></li>
+            <li><a href="#support" data-i18n="navSupport">ליווי שוטף</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 data-i18n="ftInfo">מידע</h3>
+          <ul>
+            <li><a href="#organizations" data-i18n="navOrgs">לארגונים</a></li>
+            <li><a href="#about" data-i18n="navAbout">אודות</a></li>
+            <li><a href="#faq" data-i18n="navFaq">שאלות נפוצות</a></li>
+            <li><a href="#contact" data-i18n="navContact">צור קשר</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="copyright">© 2026 גלעד טיומקין</span>
+        <span data-i18n="tagline">מכשירים / חשבונות / רשת ביתית</span>
+      </div>
+    </div>
+  </footer>
 
   <script>
     (function () {
@@ -360,49 +689,110 @@
       var en = {
         title: 'Gilad Tiomkin — Personal Cybersecurity for Senior Executives',
         metaDesc: 'A private 1-on-1 session that secures the personal devices, accounts and home network of senior executives — the gap corporate security does not cover.',
-        brand: 'G. Tiomkin',
+        brand: 'Gilad Tiomkin',
         navProblem: 'The problem',
         navSession: 'The session',
+        navProcess: 'How it works',
         navSupport: 'Ongoing support',
         navOrgs: 'For organizations',
         navAbout: 'About',
+        navFaq: 'FAQ',
         navContact: 'Contact',
+        navCta: 'Talk to me',
         navToggle: 'Toggle menu',
         heroKicker: 'Personal cybersecurity for executives',
         heroTitle1: "Your organization's security stops at the office door.",
         heroTitle2: "Attackers don't.",
+        heroSub: 'Private 1-on-1 session · Personal devices · Personal accounts · Home network',
         heroLede: 'A private, 1-on-1 session that secures the personal devices, accounts and home network of senior executives — the place where corporate protection ends.',
         ctaBook: 'Book a private session',
-        ctaOrgs: 'For organizations',
+        ctaHow: 'How it works',
         ctaSupport: 'Ask about ongoing support',
         heroByline: 'Gilad Tiomkin · Cyber architect · 20 years of experience',
         photoAlt: 'Portrait of Gilad Tiomkin',
-        caption: 'Scan complete ✓',
+        pr1: 'Private session',
+        pr2Num: 'Face to face',
+        pr2: 'At home or the office',
+        pr3Num: 'Discreet',
+        pr3: 'Fully confidential',
+        pr4: 'Years of experience',
         pbKicker: 'The problem',
         pbTitle: 'The weakest link is at home',
         pbLead: "Organizations invest heavily in securing their own computers, networks and systems. But the CEO's private phone, personal inbox, family WhatsApp group and living-room router sit outside all of it — and nobody is responsible for them.",
+        pb1Fig: 'Outside IT',
         pb1Title: 'Private devices',
         pb1Text: 'A phone, tablet and home computer that IT does not manage, sometimes without updates, backups or a proper lock — and with work email and documents on them.',
+        pb2Fig: 'One password',
         pb2Title: 'Personal and social accounts',
         pb2Text: 'Private email, an Apple or Google account, WhatsApp, LinkedIn and Facebook. A reused password or a weak recovery option is enough to take over the account and impersonate you.',
+        pb3Fig: 'Default settings',
         pb3Title: 'The home network',
         pb3Text: 'A router on default settings, Wi-Fi every guest knows, cameras and smart devices. This is the network you connect to work from.',
-        pbCallout: "Attackers know this. Breaking into a senior executive's private life is easier than breaking into the organization's systems, and from there the way in is short: impersonating you to employees, reaching work email and documents, or extortion. Poor personal security becomes the weakest link in the whole organization's security posture.",
+        pb4Fig: 'A worthwhile target',
+        pb4Title: 'Why executives',
+        pb4Text: "Attackers know that breaking into a senior executive's private life is easier than breaking into the systems of the organization they lead.",
+        pb5Fig: 'The way in',
+        pb5Title: 'From home to the organization',
+        pb5Text: 'From a compromised private account the way in is short: impersonating you to employees, reaching work email and documents, or extortion.',
+        pb6Fig: 'No owner',
+        pb6Title: 'The gap nobody covers',
+        pb6Text: "Poor personal security becomes the weakest link in the whole organization's security posture — and no one in the organization is responsible for it.",
         ssKicker: 'The session',
         ssTitle: 'A private session, 1-on-1',
         ssLead: 'A practical, face-to-face session at your home or office. We go through your devices, accounts and network together, and fix what needs fixing on the spot.',
+        cv1Title: 'Private devices',
         ss1: 'Personal phones, tablets and computers',
+        cv1a: 'Updates',
+        cv1b: 'Screen lock',
+        cv1c: 'Backup',
+        cv2Title: 'Personal accounts',
         ss2: 'Personal email, Apple and Google accounts, social media',
+        cv3Title: 'Passwords and sign-in',
         ss3: 'Passwords, a password manager and two-factor authentication',
+        cv3a: 'Password manager',
+        cv3b: 'Two-factor authentication',
+        cv4Title: 'The home network',
         ss4: 'Home router, Wi-Fi and smart devices',
+        cv4a: 'Router',
+        cv4c: 'Smart devices',
+        cv5Title: 'Phishing and impersonation',
         ss5: 'Spotting targeted phishing and impersonation attempts',
+        cv5a: 'Targeted phishing',
+        cv5b: 'Impersonation',
+        cv6Title: 'The family',
         ss6: "Family members' devices and accounts",
+        cv6a: 'Partners',
+        cv6b: 'Children',
+        prKicker: 'The process',
+        prTitle: 'How it works',
+        prLead: 'A short, clear process, from a first call to a written action plan.',
         st1Title: 'Intro call',
         st1Text: 'A short call to understand your needs, your devices and your concerns.',
         st2Title: 'Face-to-face session',
         st2Text: 'We sit together, at home or at the office, and go through everything in order. No slides — hands-on work on the devices themselves.',
         st3Title: 'Summary and action plan',
         st3Text: 'A short, clear document: what was fixed, what is left to do, and how to keep it that way.',
+        st4Title: 'Ongoing support',
+        st4Text: 'After the session you can continue with ongoing support, so what we closed stays closed.',
+        st4Tag: 'Optional',
+        thKicker: 'The threats',
+        thTitle: 'What can happen when home is unprotected',
+        thLead: 'These are the scenarios the session is designed to reduce.',
+        sevCritical: 'Critical',
+        sevHigh: 'High',
+        sevMedium: 'Medium',
+        th1Title: 'Account takeover',
+        th1Text: 'A reused password or a weak recovery option is enough to take over your private email, WhatsApp, or Apple and Google account.',
+        th2Title: 'Executive impersonation',
+        th2Text: 'Whoever takes over one of your accounts can approach employees in your name and ask for information, access or action.',
+        th3Title: "Access to the organization's information",
+        th3Text: 'Your private devices also hold work email and documents. Whoever gets into the devices gets to those too.',
+        th4Title: 'Targeted phishing',
+        th4Text: 'Messages and impersonation attempts aimed at you personally, convincing enough to click.',
+        th5Title: 'Extortion',
+        th5Text: 'Private information in the wrong hands becomes leverage against you and the organization.',
+        th6Title: 'A lost device or an exposed network',
+        th6Text: 'A phone without a proper lock or a router on default settings is an open door that can be closed.',
         spKicker: 'Ongoing support',
         spTitle: 'Security is not a one-time event',
         spLead: 'Threats change, devices get replaced and new accounts get opened. After the session you can continue with ongoing support, so what we closed stays closed.',
@@ -418,9 +808,15 @@
         orTitle: 'For executives themselves, and for organizations that want to protect them',
         or1Title: 'For executives',
         or1Text: 'CEOs, executive team and board members, founders and people in sensitive roles. You contact me directly, and everything stays between us.',
+        or1a: 'CEOs',
+        or1b: 'Executive team and board',
+        or1c: 'Founders',
         or1Cta: 'Book a session →',
         or2Title: 'For organizations',
         or2Text: "CISOs, leadership teams and HR who want to close the gap beyond the organization's perimeter. A private session for each executive, with ongoing support as needed. Whatever comes up about an executive's private life stays between them and me.",
+        or2a: 'CISOs',
+        or2b: 'Leadership teams',
+        or2c: 'HR',
         or2Cta: 'Talk about a program →',
         abKicker: 'About',
         name: 'Gilad Tiomkin',
@@ -435,12 +831,28 @@
         cr2Cta: 'View Analiza →',
         alsoText: 'I also consult for companies on AI safety and secure system architecture.',
         alsoCta: 'Ask about this →',
-        pr1: 'Private session',
-        pr2Num: 'Face to face',
-        pr2: 'At home or the office',
-        pr3Num: 'Discreet',
-        pr3: 'Fully confidential',
-        pr4: 'Years of experience',
+        fqKicker: 'FAQ',
+        fqTitle: 'Common questions about the session',
+        fq1Q: 'Where does the session take place?',
+        fq1A: 'Face to face, at your home or office, in Israel. No slides — we work together on the devices themselves.',
+        fq2Q: 'What do we go through in the session?',
+        fq2A: 'Your personal phones, tablets and computers, personal email, Apple and Google accounts, social media, passwords and two-factor authentication, and the router, Wi-Fi and smart devices at home. Whatever needs fixing gets fixed on the spot.',
+        fq3Q: 'Does what comes up in the session stay confidential?',
+        fq3A: "Yes. Everything stays between us. Even when the organization books the session, whatever comes up about an executive's private life stays between them and me.",
+        fq4Q: 'What do I get at the end of the session?',
+        fq4A: 'A short, clear document: what was fixed, what is left to do, and how to keep it that way.',
+        fq5Q: 'Our organization already invests in security. Why do we need this too?',
+        fq5A: "Corporate security protects the organization's computers, networks and systems. The executives' private phone, personal email and home network sit outside it, and nobody is responsible for them. The session closes that gap.",
+        fq6Q: 'Can family members be included?',
+        fq6A: "Yes. Family members' devices and accounts are part of what we go through in the session.",
+        fq7Q: 'What happens after the session?',
+        fq7A: 'If you want, you continue with ongoing support: periodic check-ups, a direct line for advice, secure setup of new devices and accounts, and help when something goes wrong.',
+        fq8Q: 'How do we get started?',
+        fq8A: 'Leave your details and I will get back to you for a short intro call to understand your needs, your devices and your concerns. From there we set up a session.',
+        cbTitle: 'Close the gap between the office and home',
+        cbText: 'One private, face-to-face session that secures your devices, accounts and home network — in full discretion.',
+        cbLeave: 'Leave your details',
+        ctKicker: 'Contact',
         ctTitle: "Let's set up a session.",
         ctSub: "Whether you're a senior executive who wants peace of mind at home, or an organization that wants to protect its leadership — leave your details and I'll get back to you.",
         ctEmail: 'Email',
@@ -449,6 +861,7 @@
         ctLinkedIn: 'LinkedIn',
         ctLocation: 'Location',
         ctLocationValue: 'Face-to-face sessions, in Israel',
+        fmTitle: 'Leave your details',
         fmName: 'Full name',
         fmRole: 'Role and organization',
         fmContact: 'Email or phone',
@@ -456,8 +869,11 @@
         fmTypeExec: 'A senior executive',
         fmTypeOrg: 'An organization representative',
         fmMessage: 'Message',
-        fmSubmit: 'Send',
+        fmSubmit: 'Send details',
         fmNote: 'No need to share anything sensitive here — a name and a way to reach you is enough.',
+        ftAbout: 'Personal cybersecurity for senior executives: private devices, personal accounts and the home network.',
+        ftService: 'The service',
+        ftInfo: 'Information',
         copyright: '© 2026 Gilad Tiomkin',
         tagline: 'Devices / Accounts / Home network'
       };
@@ -493,6 +909,7 @@
           toggle.setAttribute('lang', isEn ? 'he' : 'en');
           toggle.setAttribute('aria-label', isEn ? 'מעבר לעברית' : 'Switch to English');
         }
+        document.dispatchEvent(new Event('langchange'));
       }
 
       applyLang(root.lang === 'en' ? 'en' : 'he');
@@ -509,19 +926,8 @@
     (function () {
       // ---- Contact settings: fill these in ----
       var FORMSPREE_ID = '';     // e.g. 'xyzabcde' from formspree.io; empty = form opens a prefilled email
-      var WHATSAPP_NUMBER = '';  // international format, digits only, e.g. '972501234567'; empty = hidden
+      var WHATSAPP_NUMBER = '+972556655737';  // international format, digits only, e.g. '972501234567'; empty = buttons scroll to the form
       var EMAIL = 'hello@tiomking.com';
-
-      var waField = document.getElementById('wa-field');
-      var waLink = document.getElementById('wa-link');
-      if (WHATSAPP_NUMBER && waField && waLink) {
-        waLink.href = 'https://wa.me/' + WHATSAPP_NUMBER;
-        waField.hidden = false;
-      }
-
-      var form = document.getElementById('contact-form');
-      var status = document.getElementById('form-status');
-      if (!form || !status) return;
 
       var msgs = {
         he: {
@@ -531,6 +937,7 @@
           failed: 'השליחה נכשלה. אפשר לכתוב לי ישירות ל-' + EMAIL,
           mail: 'נפתחת הודעת אימייל עם הפרטים — נשאר רק לשלוח.',
           subject: 'פנייה מהאתר: פגישה אישית',
+          wa: 'שלום גלעד, אשמח לתאם פגישה אישית לאבטחת סייבר.',
           labels: { name: 'שם', role: 'תפקיד וארגון', contact: 'פרטי קשר', type: 'פונה בתור', message: 'הודעה' }
         },
         en: {
@@ -540,6 +947,7 @@
           failed: 'Sending failed. You can write to me directly at ' + EMAIL,
           mail: 'An email with your details is opening — just press send.',
           subject: 'Website inquiry: private session',
+          wa: "Hi Gilad, I'd like to set up a private cybersecurity session.",
           labels: { name: 'Name', role: 'Role and organization', contact: 'Contact', type: 'Reaching out as', message: 'Message' }
         }
       };
@@ -547,6 +955,33 @@
       function m() {
         return document.documentElement.lang === 'en' ? msgs.en : msgs.he;
       }
+
+      // With a WhatsApp number set, every "book a session" button opens a prefilled chat;
+      // without one, the same buttons scroll to the contact form.
+      var waField = document.getElementById('wa-field');
+      var waLink = document.getElementById('wa-link');
+      var bookLinks = document.querySelectorAll('[data-cta="book"]');
+
+      function updateWhatsApp() {
+        if (!WHATSAPP_NUMBER) return;
+        var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(m().wa);
+        Array.prototype.forEach.call(bookLinks, function (a) {
+          a.href = url;
+          a.target = '_blank';
+          a.rel = 'noopener';
+        });
+        if (waField && waLink) {
+          waLink.href = url;
+          waField.hidden = false;
+        }
+      }
+
+      updateWhatsApp();
+      document.addEventListener('langchange', updateWhatsApp);
+
+      var form = document.getElementById('contact-form');
+      var status = document.getElementById('form-status');
+      if (!form || !status) return;
 
       function setStatus(text, isError) {
         status.textContent = text;
@@ -607,26 +1042,6 @@
     })();
 
     (function () {
-      var frame = document.querySelector('.portrait-frame');
-      var scan = document.querySelector('.scan');
-      if (!frame || !scan) return;
-
-      function playScan() {
-        scan.classList.remove('scan-play');
-        void scan.offsetWidth; // force reflow so the animation restarts
-        scan.classList.add('scan-play');
-      }
-
-      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reduceMotion) {
-        setTimeout(playScan, 300); // sweep once on page load
-      }
-
-      frame.addEventListener('mouseenter', playScan);
-      frame.addEventListener('touchstart', playScan, { passive: true });
-    })();
-
-    (function () {
       var toggle = document.getElementById('nav-toggle');
       var links = document.getElementById('nav-links');
       if (!toggle || !links) return;
@@ -654,18 +1069,18 @@
       // Close on outside tap/click
       document.addEventListener('click', function (e) {
         if (!links.classList.contains('open')) return;
-        if (!links.contains(e.target) && e.target !== toggle) {
+        if (!links.contains(e.target) && !toggle.contains(e.target)) {
           closeMenu();
         }
       });
 
       // Close if the window is resized back to desktop width
       window.addEventListener('resize', function () {
-        if (window.innerWidth > 760) closeMenu();
+        if (window.innerWidth > 1040) closeMenu();
       });
     })();
   </script>
-<script src="https://cdn.enable.co.il/licenses/enable-L31287zsapmrhf1i-0924-84151/init.js"></script>
+  <script src="https://cdn.enable.co.il/licenses/enable-L31287zsapmrhf1i-0924-84151/init.js"></script>
 </body>
 
 </html>
