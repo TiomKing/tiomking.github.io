@@ -45,11 +45,8 @@
     content="פגישה אישית, אחד על אחד, לאבטחת המכשירים הפרטיים, החשבונות והרשת הביתית של מנהלים בכירים.">
   <meta name="twitter:image" content="https://tiomking.com/photo.jpg">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Heebo:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -568,15 +565,6 @@
             על ההנהלה שלו — השאירו פרטים ואחזור אליכם.</p>
 
           <div class="field-list">
-            <div class="field">
-              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
-                  <use href="#i-mail" />
-                </svg></span>
-              <div>
-                <span class="label" data-i18n="ctEmail">אימייל</span>
-                <a class="value" href="mailto:hello@tiomking.com"><bdi>hello@tiomking.com</bdi></a>
-              </div>
-            </div>
             <div class="field" id="wa-field" hidden>
               <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
                   <use href="#i-chat" />
@@ -637,7 +625,7 @@
           <!-- Honeypot: hidden from people, filled by bots -->
           <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
           <!-- Cloudflare Turnstile check, rendered by script once a site key is set -->
-          <div class="turnstile" id="turnstile" hidden></div>
+          <div class="turnstile" id="turnstile-box" hidden></div>
           <button class="btn" type="submit" data-i18n="fmSubmit">שליחת פרטים</button>
           <p class="form-note" data-i18n="fmNote">אין צורך לפרט כאן מידע רגיש — מספיק שם ודרך ליצור קשר.</p>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
@@ -857,7 +845,6 @@
         ctKicker: 'Contact',
         ctTitle: "Let's set up a session.",
         ctSub: "Whether you're a senior executive who wants peace of mind at home, or an organization that wants to protect its leadership — leave your details and I'll get back to you.",
-        ctEmail: 'Email',
         ctWhatsApp: 'WhatsApp',
         ctWhatsAppValue: 'Send a message',
         ctLinkedIn: 'LinkedIn',
@@ -932,7 +919,9 @@
       var FORM_ENDPOINT = 'https://forms.tiomking.com';
       var TURNSTILE_SITE_KEY = '0x4AAAAAAGFqky99b52fDBq1';  // public site key of the Turnstile widget
       var WHATSAPP_NUMBER = '+972556655737';  // international format; empty = buttons scroll to the form
-      var EMAIL = 'hello@tiomking.com';
+      // Assembled at runtime so scrapers reading the page source don't pick up the address;
+      // it only appears if sending fails.
+      var EMAIL = ['hello', 'tiomking.com'].join('@');
 
       var useWorker = !!(FORM_ENDPOINT && TURNSTILE_SITE_KEY);
 
@@ -997,9 +986,21 @@
         status.classList.toggle('error', !!isError);
       }
 
-      // Load Cloudflare Turnstile only when the form actually submits to the Worker
-      var tsBox = document.getElementById('turnstile');
+      // Load Cloudflare Turnstile only when a visitor gets near the contact form (or starts
+      // typing in it), so people who just read the page never contact Cloudflare.
+      var tsBox = document.getElementById('turnstile-box');
       var tsWidget = null;
+      var tsRequested = false;
+
+      function loadTurnstile() {
+        if (tsRequested) return;
+        tsRequested = true;
+        var ts = document.createElement('script');
+        ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
+        ts.async = true;
+        document.head.appendChild(ts);
+      }
+
       if (useWorker && tsBox) {
         window.onTurnstileLoad = function () {
           tsBox.hidden = false;
@@ -1009,10 +1010,19 @@
             language: document.documentElement.lang === 'en' ? 'en' : 'he'
           });
         };
-        var ts = document.createElement('script');
-        ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
-        ts.async = true;
-        document.head.appendChild(ts);
+        var contactSection = document.getElementById('contact');
+        if ('IntersectionObserver' in window && contactSection) {
+          var tsObserver = new IntersectionObserver(function (entries) {
+            if (entries.some(function (en) { return en.isIntersecting; })) {
+              tsObserver.disconnect();
+              loadTurnstile();
+            }
+          }, { rootMargin: '400px 0px' });
+          tsObserver.observe(contactSection);
+        } else {
+          loadTurnstile();
+        }
+        form.addEventListener('focusin', loadTurnstile);
       }
 
       function turnstileToken() {
