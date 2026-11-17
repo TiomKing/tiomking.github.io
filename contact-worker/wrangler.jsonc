@@ -3,6 +3,7 @@
 // Secrets (set once, never committed):
 //   npx wrangler secret put TURNSTILE_SECRET   <- Turnstile widget's secret key
 //   npx wrangler secret put TO_ADDRESS         <- a verified Email Routing destination (your real inbox)
+//   npx wrangler secret put WHATSAPP_NUMBER    <- WhatsApp number, international format, e.g. 972501234567
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "tiomking-contact",

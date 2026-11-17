@@ -571,7 +571,7 @@
                 </svg></span>
               <div>
                 <span class="label" data-i18n="ctWhatsApp">וואטסאפ</span>
-                <a class="value" id="wa-link" href="#" target="_blank" rel="noopener" data-i18n="ctWhatsAppValue">שליחת
+                <a class="value" id="wa-link" href="#contact" data-cta="book" data-i18n="ctWhatsAppValue">שליחת
                   הודעה</a>
               </div>
             </div>
@@ -634,6 +634,22 @@
     </section>
 
   </main>
+
+  <!-- WhatsApp: a Turnstile check runs here, then the Worker returns the chat link.
+       The phone number itself is never in the page. -->
+  <dialog class="wa-dialog" id="wa-dialog" aria-labelledby="wa-title">
+    <button class="wa-close" type="button" id="wa-close" aria-label="סגירה"
+      data-i18n-attr="aria-label:waClose">×</button>
+    <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+        <use href="#i-chat" />
+      </svg></span>
+    <h3 id="wa-title" data-i18n="waTitle">מעבר לוואטסאפ</h3>
+    <p class="wa-text" data-i18n="waText">בדיקת אבטחה קצרה שמגינה על המספר מפני בוטים, ומיד נפתח את השיחה.</p>
+    <div class="turnstile" id="wa-turnstile"></div>
+    <p class="wa-status" id="wa-status" role="status" aria-live="polite"></p>
+    <a class="btn" id="wa-open" target="_blank" rel="noopener" hidden data-i18n="waOpen">פתיחת וואטסאפ</a>
+    <a class="ask" id="wa-form" href="#contact" data-i18n="waForm">או השאירו פרטים בטופס ←</a>
+  </dialog>
 
   <footer>
     <div class="wrap">
@@ -847,6 +863,11 @@
         ctSub: "Whether you're a senior executive who wants peace of mind at home, or an organization that wants to protect its leadership — leave your details and I'll get back to you.",
         ctWhatsApp: 'WhatsApp',
         ctWhatsAppValue: 'Send a message',
+        waClose: 'Close',
+        waTitle: 'Opening WhatsApp',
+        waText: 'A quick security check that keeps the number away from bots, and the chat opens right after.',
+        waOpen: 'Open WhatsApp',
+        waForm: 'Or leave your details in the form →',
         ctLinkedIn: 'LinkedIn',
         ctLocation: 'Location',
         ctLocationValue: 'Face-to-face sessions, in Israel',
@@ -918,7 +939,9 @@
       // Empty, or no Turnstile site key = the form opens a prefilled email instead.
       var FORM_ENDPOINT = 'https://forms.tiomking.com';
       var TURNSTILE_SITE_KEY = '0x4AAAAAAGFqky99b52fDBq1';  // public site key of the Turnstile widget
-      var WHATSAPP_NUMBER = '+972556655737';  // international format; empty = buttons scroll to the form
+      // WhatsApp buttons get the chat link from the Worker after a Turnstile check; the number
+      // is the Worker secret WHATSAPP_NUMBER. false = the buttons just scroll to the form.
+      var WHATSAPP_ENABLED = true;
       // Assembled at runtime so scrapers reading the page source don't pick up the address;
       // it only appears if sending fails.
       var EMAIL = ['hello', 'tiomking.com'].join('@');
@@ -934,7 +957,10 @@
           failed: 'השליחה נכשלה. אפשר לכתוב לי ישירות ל-' + EMAIL,
           mail: 'נפתחת הודעת אימייל עם הפרטים — נשאר רק לשלוח.',
           subject: 'פנייה מהאתר: פגישה אישית',
-          wa: 'שלום גלעד, אשמח לתאם פגישה אישית לאבטחת סייבר.',
+          waChecking: 'מבצעים בדיקת אבטחה…',
+          waOpening: 'פותחים את וואטסאפ…',
+          waReady: 'הכול מוכן — לחצו כדי לפתוח את וואטסאפ.',
+          waFailed: 'לא הצלחנו לפתוח את וואטסאפ כרגע. אפשר להשאיר פרטים בטופס.',
           labels: { name: 'שם', role: 'תפקיד וארגון', contact: 'פרטי קשר', type: 'פונה בתור', message: 'הודעה' }
         },
         en: {
@@ -945,7 +971,10 @@
           failed: 'Sending failed. You can write to me directly at ' + EMAIL,
           mail: 'An email with your details is opening — just press send.',
           subject: 'Website inquiry: private session',
-          wa: "Hi Gilad, I'd like to set up a private cybersecurity session.",
+          waChecking: 'Running a quick security check…',
+          waOpening: 'Opening WhatsApp…',
+          waReady: 'All set — tap to open WhatsApp.',
+          waFailed: "Couldn't open WhatsApp right now. You can leave your details in the form.",
           labels: { name: 'Name', role: 'Role and organization', contact: 'Contact', type: 'Reaching out as', message: 'Message' }
         }
       };
@@ -954,29 +983,128 @@
         return document.documentElement.lang === 'en' ? msgs.en : msgs.he;
       }
 
-      // With a WhatsApp number set, every "book a session" button opens a prefilled chat;
-      // without one, the same buttons scroll to the contact form.
-      var waField = document.getElementById('wa-field');
-      var waLink = document.getElementById('wa-link');
-      var bookLinks = document.querySelectorAll('[data-cta="book"]');
+      // ---- Cloudflare Turnstile ----
+      // The script loads only when something needs it (the contact form comes into view, or a
+      // WhatsApp button is clicked), so people who just read the page never contact Cloudflare.
+      var tsRequested = false;
+      var tsReady = false;
+      var tsQueue = [];
 
-      function updateWhatsApp() {
-        if (!WHATSAPP_NUMBER) return;
-        var url = 'https://wa.me/' + WHATSAPP_NUMBER.replace(/\D/g, '') + '?text=' + encodeURIComponent(m().wa);
-        Array.prototype.forEach.call(bookLinks, function (a) {
-          a.href = url;
-          a.target = '_blank';
-          a.rel = 'noopener';
-        });
-        if (waField && waLink) {
-          waLink.href = url;
-          waField.hidden = false;
-        }
+      function withTurnstile(fn) {
+        if (tsReady) { fn(); return; }
+        tsQueue.push(fn);
+        if (tsRequested) return;
+        tsRequested = true;
+        window.onTurnstileLoad = function () {
+          tsReady = true;
+          tsQueue.splice(0).forEach(function (f) { f(); });
+        };
+        var ts = document.createElement('script');
+        ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
+        ts.async = true;
+        ts.onerror = function () {
+          tsRequested = false; // allow a later retry
+          tsQueue = [];
+          document.dispatchEvent(new Event('turnstileerror'));
+        };
+        document.head.appendChild(ts);
       }
 
-      updateWhatsApp();
-      document.addEventListener('langchange', updateWhatsApp);
+      function widgetLang() {
+        return document.documentElement.lang === 'en' ? 'en' : 'he';
+      }
 
+      // ---- WhatsApp ----
+      // Every "book a session" button opens a dialog that runs a Turnstile check; the Worker then
+      // returns the wa.me link. Without it (no Worker, no <dialog> support, JS off) the same
+      // buttons simply scroll to the contact form.
+      var waDialog = document.getElementById('wa-dialog');
+      var useWhatsApp = useWorker && WHATSAPP_ENABLED && !!waDialog && typeof waDialog.showModal === 'function';
+
+      if (useWhatsApp) {
+        var waBox = document.getElementById('wa-turnstile');
+        var waStatus = document.getElementById('wa-status');
+        var waOpen = document.getElementById('wa-open');
+        var waWidget = null;
+        var waTimer = null;
+
+        var waSetStatus = function (text, isError) {
+          waStatus.textContent = text;
+          waStatus.classList.toggle('error', !!isError);
+        };
+
+        var waFail = function () {
+          clearTimeout(waTimer);
+          if (waDialog.open && waOpen.hidden) waSetStatus(m().waFailed, true);
+        };
+
+        var waGotToken = function (token) {
+          waSetStatus(m().waOpening, false);
+          fetch(FORM_ENDPOINT + '/whatsapp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ turnstileToken: token, lang: document.documentElement.lang })
+          }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          }).then(function (d) {
+            if (!d || !d.ok || typeof d.url !== 'string' || d.url.indexOf('https://wa.me/') !== 0) {
+              throw new Error('bad response');
+            }
+            clearTimeout(waTimer);
+            waOpen.href = d.url;
+            waOpen.hidden = false;
+            // Browsers may block a new tab opened this long after the click; the button stays as backup.
+            var w = window.open(d.url, '_blank');
+            if (w) {
+              try { w.opener = null; } catch (err) { }
+              waDialog.close();
+            } else {
+              waSetStatus(m().waReady, false);
+            }
+          }).catch(waFail);
+        };
+
+        var openWhatsApp = function (e) {
+          e.preventDefault();
+          waOpen.hidden = true;
+          waOpen.removeAttribute('href');
+          waSetStatus(m().waChecking, false);
+          if (!waDialog.open) waDialog.showModal();
+          clearTimeout(waTimer);
+          waTimer = setTimeout(waFail, 20000);
+          withTurnstile(function () {
+            if (waWidget === null) {
+              waWidget = window.turnstile.render(waBox, {
+                sitekey: TURNSTILE_SITE_KEY,
+                theme: 'dark',
+                language: widgetLang(),
+                callback: waGotToken,
+                'error-callback': waFail
+              });
+            } else {
+              window.turnstile.reset(waWidget); // tokens work once; get a fresh one
+            }
+          });
+        };
+
+        Array.prototype.forEach.call(document.querySelectorAll('[data-cta="book"]'), function (a) {
+          a.addEventListener('click', openWhatsApp);
+        });
+        document.getElementById('wa-close').addEventListener('click', function () { waDialog.close(); });
+        document.getElementById('wa-form').addEventListener('click', function () { waDialog.close(); });
+        waOpen.addEventListener('click', function () { waDialog.close(); });
+        waDialog.addEventListener('click', function (e) {
+          if (e.target === waDialog) waDialog.close(); // click on the backdrop
+        });
+        waDialog.addEventListener('close', function () { clearTimeout(waTimer); });
+        document.addEventListener('turnstileerror', waFail);
+
+        var waField = document.getElementById('wa-field');
+        if (waField) waField.hidden = false;
+      }
+
+      // ---- Contact form ----
       var form = document.getElementById('contact-form');
       var status = document.getElementById('form-status');
       if (!form || !status) return;
@@ -986,43 +1114,38 @@
         status.classList.toggle('error', !!isError);
       }
 
-      // Load Cloudflare Turnstile only when a visitor gets near the contact form (or starts
-      // typing in it), so people who just read the page never contact Cloudflare.
       var tsBox = document.getElementById('turnstile-box');
       var tsWidget = null;
-      var tsRequested = false;
+      var formWidgetRequested = false;
 
-      function loadTurnstile() {
-        if (tsRequested) return;
-        tsRequested = true;
-        var ts = document.createElement('script');
-        ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
-        ts.async = true;
-        document.head.appendChild(ts);
-      }
-
-      if (useWorker && tsBox) {
-        window.onTurnstileLoad = function () {
+      function ensureFormWidget() {
+        if (formWidgetRequested) return;
+        formWidgetRequested = true;
+        withTurnstile(function () {
           tsBox.hidden = false;
           tsWidget = window.turnstile.render(tsBox, {
             sitekey: TURNSTILE_SITE_KEY,
             theme: 'dark',
-            language: document.documentElement.lang === 'en' ? 'en' : 'he'
+            language: widgetLang()
           });
-        };
+        });
+      }
+
+      if (useWorker && tsBox) {
         var contactSection = document.getElementById('contact');
         if ('IntersectionObserver' in window && contactSection) {
           var tsObserver = new IntersectionObserver(function (entries) {
             if (entries.some(function (en) { return en.isIntersecting; })) {
               tsObserver.disconnect();
-              loadTurnstile();
+              ensureFormWidget();
             }
           }, { rootMargin: '400px 0px' });
           tsObserver.observe(contactSection);
         } else {
-          loadTurnstile();
+          ensureFormWidget();
         }
-        form.addEventListener('focusin', loadTurnstile);
+        form.addEventListener('focusin', ensureFormWidget);
+        document.addEventListener('turnstileerror', function () { formWidgetRequested = false; });
       }
 
       function turnstileToken() {

@@ -1,10 +1,16 @@
-// Contact form backend for tiomking.com.
-// Receives the form as JSON, checks the Turnstile token, and emails the
-// details to TO_ADDRESS through Cloudflare Email Routing.
+// Contact backend for tiomking.com. Every request must carry a valid Turnstile token.
+//   POST /          the contact form: emails the details to TO_ADDRESS through Email Routing
+//   POST /whatsapp  returns the wa.me link, so WHATSAPP_NUMBER never appears in the page
 import { EmailMessage } from "cloudflare:email";
 
 // Longest accepted value per field, in characters
 const LIMITS = { name: 100, role: 150, contact: 150, type: 60, message: 4000 };
+
+// Prefilled first message of the WhatsApp chat, by page language
+const WHATSAPP_TEXT = {
+  he: "שלום גלעד, אשמח לתאם פגישה אישית לאבטחת סייבר.",
+  en: "Hi Gilad, I'd like to set up a private cybersecurity session.",
+};
 
 export default {
   async fetch(request, env) {
@@ -16,7 +22,7 @@ export default {
     const reply = (status, body) =>
       new Response(JSON.stringify(body), {
         status,
-        headers: { ...cors, "Content-Type": "application/json" },
+        headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" },
       });
 
     if (request.method === "OPTIONS") {
@@ -43,6 +49,22 @@ export default {
     }
     if (!data || typeof data !== "object") return reply(400, { ok: false, error: "json" });
 
+    const path = new URL(request.url).pathname.replace(/\/+$/, "") || "/";
+    const ip = request.headers.get("CF-Connecting-IP");
+    const token = typeof data.turnstileToken === "string" ? data.turnstileToken : "";
+
+    if (path === "/whatsapp") {
+      const number = (env.WHATSAPP_NUMBER || "").replace(/\D/g, "");
+      if (!number) return reply(503, { ok: false, error: "unavailable" });
+      if (!(await verifyTurnstile(token, env.TURNSTILE_SECRET, ip))) {
+        return reply(403, { ok: false, error: "captcha" });
+      }
+      const text = data.lang === "en" ? WHATSAPP_TEXT.en : WHATSAPP_TEXT.he;
+      return reply(200, { ok: true, url: "https://wa.me/" + number + "?text=" + encodeURIComponent(text) });
+    }
+
+    if (path !== "/") return reply(404, { ok: false, error: "path" });
+
     // Honeypot filled in: a bot. Pretend it worked so it doesn't retry.
     if (data._gotcha) return reply(200, { ok: true });
 
@@ -52,9 +74,9 @@ export default {
     }
     if (!f.name || !f.contact) return reply(400, { ok: false, error: "missing" });
 
-    const token = typeof data.turnstileToken === "string" ? data.turnstileToken : "";
-    const human = await verifyTurnstile(token, env.TURNSTILE_SECRET, request.headers.get("CF-Connecting-IP"));
-    if (!human) return reply(403, { ok: false, error: "captcha" });
+    if (!(await verifyTurnstile(token, env.TURNSTILE_SECRET, ip))) {
+      return reply(403, { ok: false, error: "captcha" });
+    }
 
     try {
       const raw = buildEmail(f, env.FROM_ADDRESS, env.TO_ADDRESS);
