@@ -1,0 +1,21 @@
+// Cloudflare Worker that receives the tiomking.com contact form.
+// Deploy from this folder with: npx wrangler deploy
+// Secrets (set once, never committed):
+//   npx wrangler secret put TURNSTILE_SECRET   <- Turnstile widget's secret key
+//   npx wrangler secret put TO_ADDRESS         <- a verified Email Routing destination (your real inbox)
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "tiomking-contact",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "send_email": [{ "name": "MAILER" }],
+  // Served on the site's own domain; no workers.dev address
+  "workers_dev": false,
+  "routes": [{ "pattern": "forms.tiomking.com", "custom_domain": true }],
+  "vars": {
+    // Sender address; must be on the domain that has Email Routing enabled
+    "FROM_ADDRESS": "form@tiomking.com",
+    // Only pages on these origins may submit the form
+    "ALLOWED_ORIGINS": "https://tiomking.com,https://www.tiomking.com"
+  }
+}

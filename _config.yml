@@ -1,0 +1,3 @@
+# GitHub Pages: keep the Worker source out of the published site
+exclude:
+  - contact-worker

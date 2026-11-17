@@ -878,6 +878,10 @@ a.ask:focus-visible {
   inset-inline-start: -9999px;
 }
 
+.turnstile {
+  min-height: 65px;
+}
+
 .form-note {
   font-size: 0.85rem;
   color: var(--muted);

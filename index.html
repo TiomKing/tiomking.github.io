@@ -636,6 +636,8 @@
           </label>
           <!-- Honeypot: hidden from people, filled by bots -->
           <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <!-- Cloudflare Turnstile check, rendered by script once a site key is set -->
+          <div class="turnstile" id="turnstile" hidden></div>
           <button class="btn" type="submit" data-i18n="fmSubmit">שליחת פרטים</button>
           <p class="form-note" data-i18n="fmNote">אין צורך לפרט כאן מידע רגיש — מספיק שם ודרך ליצור קשר.</p>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
@@ -925,12 +927,18 @@
 
     (function () {
       // ---- Contact settings: fill these in ----
-      var FORMSPREE_ID = '';     // e.g. 'xyzabcde' from formspree.io; empty = form opens a prefilled email
-      var WHATSAPP_NUMBER = '+972556655737';  // international format, digits only, e.g. '972501234567'; empty = buttons scroll to the form
+      // Cloudflare Worker URL (see contact-worker/).
+      // Empty, or no Turnstile site key = the form opens a prefilled email instead.
+      var FORM_ENDPOINT = 'https://forms.tiomking.com';
+      var TURNSTILE_SITE_KEY = '0x4AAAAAAGFqky99b52fDBq1';  // public site key of the Turnstile widget
+      var WHATSAPP_NUMBER = '+972556655737';  // international format; empty = buttons scroll to the form
       var EMAIL = 'hello@tiomking.com';
+
+      var useWorker = !!(FORM_ENDPOINT && TURNSTILE_SITE_KEY);
 
       var msgs = {
         he: {
+          verify: 'נא להשלים את בדיקת האבטחה שמעל הכפתור.',
           missing: 'נא למלא שם ודרך ליצור קשר.',
           sending: 'שולח…',
           sent: 'תודה, ההודעה התקבלה. אחזור אליכם בהקדם.',
@@ -941,6 +949,7 @@
           labels: { name: 'שם', role: 'תפקיד וארגון', contact: 'פרטי קשר', type: 'פונה בתור', message: 'הודעה' }
         },
         en: {
+          verify: 'Please complete the security check above the button.',
           missing: 'Please fill in your name and a way to reach you.',
           sending: 'Sending…',
           sent: "Thank you, your message was received. I'll get back to you soon.",
@@ -964,7 +973,7 @@
 
       function updateWhatsApp() {
         if (!WHATSAPP_NUMBER) return;
-        var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(m().wa);
+        var url = 'https://wa.me/' + WHATSAPP_NUMBER.replace(/\D/g, '') + '?text=' + encodeURIComponent(m().wa);
         Array.prototype.forEach.call(bookLinks, function (a) {
           a.href = url;
           a.target = '_blank';
@@ -988,6 +997,28 @@
         status.classList.toggle('error', !!isError);
       }
 
+      // Load Cloudflare Turnstile only when the form actually submits to the Worker
+      var tsBox = document.getElementById('turnstile');
+      var tsWidget = null;
+      if (useWorker && tsBox) {
+        window.onTurnstileLoad = function () {
+          tsBox.hidden = false;
+          tsWidget = window.turnstile.render(tsBox, {
+            sitekey: TURNSTILE_SITE_KEY,
+            theme: 'dark',
+            language: document.documentElement.lang === 'en' ? 'en' : 'he'
+          });
+        };
+        var ts = document.createElement('script');
+        ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
+        ts.async = true;
+        document.head.appendChild(ts);
+      }
+
+      function turnstileToken() {
+        return tsWidget !== null && window.turnstile ? window.turnstile.getResponse(tsWidget) || '' : '';
+      }
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var t = m();
@@ -999,7 +1030,7 @@
         }
         var typeText = f.type.options[f.type.selectedIndex].textContent;
 
-        if (!FORMSPREE_ID) {
+        if (!useWorker) {
           var body = [
             t.labels.name + ': ' + f.name.value.trim(),
             t.labels.role + ': ' + f.role.value.trim(),
@@ -1015,19 +1046,25 @@
           return;
         }
 
+        var token = turnstileToken();
+        if (!token) {
+          setStatus(t.verify, true);
+          return;
+        }
+
         var button = form.querySelector('button[type="submit"]');
         button.disabled = true;
         setStatus(t.sending, false);
-        fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+        fetch(FORM_ENDPOINT, {
           method: 'POST',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: f.name.value.trim(),
             role: f.role.value.trim(),
             contact: f.contact.value.trim(),
             type: typeText,
             message: f.message.value.trim(),
-            _subject: t.subject
+            turnstileToken: token
           })
         }).then(function (res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -1037,6 +1074,8 @@
           setStatus(m().failed, true);
         }).then(function () {
           button.disabled = false;
+          // Each token works once; get a fresh one for any further submission
+          if (tsWidget !== null && window.turnstile) window.turnstile.reset(tsWidget);
         });
       });
     })();
