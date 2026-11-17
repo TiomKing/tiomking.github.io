@@ -907,7 +907,9 @@ a.ask:focus-visible {
   inset-inline-start: -9999px;
 }
 
-.turnstile {
+/* The form's check is invisible unless Cloudflare asks the visitor to interact,
+   so only the WhatsApp dialog reserves room for the widget. */
+.wa-dialog .turnstile {
   min-height: 65px;
 }
 

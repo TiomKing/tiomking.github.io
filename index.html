@@ -950,7 +950,8 @@
 
       var msgs = {
         he: {
-          verify: 'נא להשלים את בדיקת האבטחה שמעל הכפתור.',
+          checking: 'מבצעים בדיקת אבטחה קצרה…',
+          verifyFailed: 'בדיקת האבטחה לא הושלמה. אפשר לנסות שוב.',
           missing: 'נא למלא שם ודרך ליצור קשר.',
           sending: 'שולח…',
           sent: 'תודה, ההודעה התקבלה. אחזור אליכם בהקדם.',
@@ -964,7 +965,8 @@
           labels: { name: 'שם', role: 'תפקיד וארגון', contact: 'פרטי קשר', type: 'פונה בתור', message: 'הודעה' }
         },
         en: {
-          verify: 'Please complete the security check above the button.',
+          checking: 'Running a quick security check…',
+          verifyFailed: "The security check didn't complete. Please try again.",
           missing: 'Please fill in your name and a way to reach you.',
           sending: 'Sending…',
           sent: "Thank you, your message was received. I'll get back to you soon.",
@@ -1039,6 +1041,7 @@
         };
 
         var waGotToken = function (token) {
+          if (!waDialog.open) return; // only act on a check the visitor just started
           waSetStatus(m().waOpening, false);
           fetch(FORM_ENDPOINT + '/whatsapp', {
             method: 'POST',
@@ -1079,6 +1082,7 @@
                 sitekey: TURNSTILE_SITE_KEY,
                 theme: 'dark',
                 language: widgetLang(),
+                'refresh-expired': 'never',
                 callback: waGotToken,
                 'error-callback': waFail
               });
@@ -1114,43 +1118,66 @@
         status.classList.toggle('error', !!isError);
       }
 
+      // Turnstile runs only when the visitor presses send. The widget stays invisible unless
+      // Cloudflare needs the visitor to interact; then it appears above the button.
       var tsBox = document.getElementById('turnstile-box');
       var tsWidget = null;
-      var formWidgetRequested = false;
+      var pending = null; // the submission waiting for a token
+      var button = form.querySelector('button[type="submit"]');
 
-      function ensureFormWidget() {
-        if (formWidgetRequested) return;
-        formWidgetRequested = true;
+      function finish() {
+        pending = null;
+        button.disabled = false;
+      }
+
+      function verifyFailed() {
+        if (!pending) return;
+        setStatus(m().verifyFailed, true);
+        finish();
+      }
+
+      function sendForm(token) {
+        var data = pending;
+        if (!data) return; // a token arriving with nothing to send
+        data.turnstileToken = token;
+        setStatus(m().sending, false);
+        fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          form.reset();
+          setStatus(m().sent, false);
+        }).catch(function () {
+          setStatus(m().failed, true);
+        }).then(finish);
+      }
+
+      function runCheck() {
         withTurnstile(function () {
-          tsBox.hidden = false;
-          tsWidget = window.turnstile.render(tsBox, {
-            sitekey: TURNSTILE_SITE_KEY,
-            theme: 'dark',
-            language: widgetLang()
-          });
+          if (tsWidget === null) {
+            tsBox.hidden = false;
+            tsWidget = window.turnstile.render(tsBox, {
+              sitekey: TURNSTILE_SITE_KEY,
+              theme: 'dark',
+              language: widgetLang(),
+              execution: 'execute',
+              appearance: 'interaction-only',
+              'refresh-expired': 'never',
+              callback: sendForm,
+              'error-callback': verifyFailed,
+              'timeout-callback': verifyFailed,
+              'unsupported-callback': verifyFailed
+            });
+          } else {
+            window.turnstile.reset(tsWidget); // tokens work once; start a fresh check
+          }
+          window.turnstile.execute(tsWidget);
         });
       }
 
-      if (useWorker && tsBox) {
-        var contactSection = document.getElementById('contact');
-        if ('IntersectionObserver' in window && contactSection) {
-          var tsObserver = new IntersectionObserver(function (entries) {
-            if (entries.some(function (en) { return en.isIntersecting; })) {
-              tsObserver.disconnect();
-              ensureFormWidget();
-            }
-          }, { rootMargin: '400px 0px' });
-          tsObserver.observe(contactSection);
-        } else {
-          ensureFormWidget();
-        }
-        form.addEventListener('focusin', ensureFormWidget);
-        document.addEventListener('turnstileerror', function () { formWidgetRequested = false; });
-      }
-
-      function turnstileToken() {
-        return tsWidget !== null && window.turnstile ? window.turnstile.getResponse(tsWidget) || '' : '';
-      }
+      document.addEventListener('turnstileerror', verifyFailed);
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -1179,37 +1206,17 @@
           return;
         }
 
-        var token = turnstileToken();
-        if (!token) {
-          setStatus(t.verify, true);
-          return;
-        }
-
-        var button = form.querySelector('button[type="submit"]');
+        if (pending) return; // already checking or sending
+        pending = {
+          name: f.name.value.trim(),
+          role: f.role.value.trim(),
+          contact: f.contact.value.trim(),
+          type: typeText,
+          message: f.message.value.trim()
+        };
         button.disabled = true;
-        setStatus(t.sending, false);
-        fetch(FORM_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: f.name.value.trim(),
-            role: f.role.value.trim(),
-            contact: f.contact.value.trim(),
-            type: typeText,
-            message: f.message.value.trim(),
-            turnstileToken: token
-          })
-        }).then(function (res) {
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          form.reset();
-          setStatus(m().sent, false);
-        }).catch(function () {
-          setStatus(m().failed, true);
-        }).then(function () {
-          button.disabled = false;
-          // Each token works once; get a fresh one for any further submission
-          if (tsWidget !== null && window.turnstile) window.turnstile.reset(tsWidget);
-        });
+        setStatus(t.checking, false);
+        runCheck();
       });
     })();
 
