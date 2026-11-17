@@ -624,8 +624,6 @@
           </label>
           <!-- Honeypot: hidden from people, filled by bots -->
           <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <!-- Cloudflare Turnstile check, rendered by script once a site key is set -->
-          <div class="turnstile" id="turnstile-box" hidden></div>
           <button class="btn" type="submit" data-i18n="fmSubmit">שליחת פרטים</button>
           <p class="form-note" data-i18n="fmNote">אין צורך לפרט כאן מידע רגיש — מספיק שם ודרך ליצור קשר.</p>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
@@ -637,18 +635,34 @@
 
   <!-- WhatsApp: a Turnstile check runs here, then the Worker returns the chat link.
        The phone number itself is never in the page. -->
-  <dialog class="wa-dialog" id="wa-dialog" aria-labelledby="wa-title">
-    <button class="wa-close" type="button" id="wa-close" aria-label="סגירה"
+  <dialog class="check-dialog" id="wa-dialog" aria-labelledby="wa-title">
+    <button class="dialog-close" type="button" aria-label="סגירה" data-close
       data-i18n-attr="aria-label:waClose">×</button>
     <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
         <use href="#i-chat" />
       </svg></span>
     <h3 id="wa-title" data-i18n="waTitle">מעבר לוואטסאפ</h3>
-    <p class="wa-text" data-i18n="waText">בדיקת אבטחה קצרה שמגינה על המספר מפני בוטים, ומיד נפתח את השיחה.</p>
-    <div class="turnstile" id="wa-turnstile"></div>
-    <p class="wa-status" id="wa-status" role="status" aria-live="polite"></p>
+    <p class="dialog-text" data-i18n="waText">בדיקת אבטחה קצרה שמגינה על המספר מפני בוטים, ומיד נפתח את השיחה.</p>
+    <span class="spinner" aria-hidden="true"></span>
+    <!-- Cloudflare's box stays hidden unless it needs the visitor to tick it -->
+    <div class="turnstile offstage" id="wa-turnstile"></div>
+    <p class="dialog-status" role="status" aria-live="polite"></p>
     <a class="btn" id="wa-open" target="_blank" rel="noopener" hidden data-i18n="waOpen">פתיחת וואטסאפ</a>
-    <a class="ask" id="wa-form" href="#contact" data-i18n="waForm">או השאירו פרטים בטופס ←</a>
+    <a class="ask" href="#contact" data-close data-i18n="waForm">או השאירו פרטים בטופס ←</a>
+  </dialog>
+
+  <!-- Contact form: the Turnstile check and the sending happen here, after "send" is pressed -->
+  <dialog class="check-dialog" id="send-dialog" aria-labelledby="send-title">
+    <button class="dialog-close" type="button" aria-label="סגירה" data-close
+      data-i18n-attr="aria-label:waClose">×</button>
+    <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+        <use href="#i-mail" />
+      </svg></span>
+    <h3 id="send-title" data-i18n="sdTitle">שליחת הפרטים</h3>
+    <span class="spinner" aria-hidden="true"></span>
+    <div class="turnstile offstage" id="send-turnstile"></div>
+    <p class="dialog-status" role="status" aria-live="polite"></p>
+    <button class="btn" type="button" hidden data-close data-done data-i18n="sdDone">סגירה</button>
   </dialog>
 
   <footer>
@@ -868,6 +882,8 @@
         waText: 'A quick security check that keeps the number away from bots, and the chat opens right after.',
         waOpen: 'Open WhatsApp',
         waForm: 'Or leave your details in the form →',
+        sdTitle: 'Sending your details',
+        sdDone: 'Close',
         ctLinkedIn: 'LinkedIn',
         ctLocation: 'Location',
         ctLocationValue: 'Face-to-face sessions, in Israel',
@@ -951,6 +967,7 @@
       var msgs = {
         he: {
           checking: 'מבצעים בדיקת אבטחה קצרה…',
+          interact: 'נא לסמן את התיבה כדי להמשיך.',
           verifyFailed: 'בדיקת האבטחה לא הושלמה. אפשר לנסות שוב.',
           missing: 'נא למלא שם ודרך ליצור קשר.',
           sending: 'שולח…',
@@ -958,7 +975,6 @@
           failed: 'השליחה נכשלה. אפשר לכתוב לי ישירות ל-' + EMAIL,
           mail: 'נפתחת הודעת אימייל עם הפרטים — נשאר רק לשלוח.',
           subject: 'פנייה מהאתר: פגישה אישית',
-          waChecking: 'מבצעים בדיקת אבטחה…',
           waOpening: 'פותחים את וואטסאפ…',
           waReady: 'הכול מוכן — לחצו כדי לפתוח את וואטסאפ.',
           waFailed: 'לא הצלחנו לפתוח את וואטסאפ כרגע. אפשר להשאיר פרטים בטופס.',
@@ -966,6 +982,7 @@
         },
         en: {
           checking: 'Running a quick security check…',
+          interact: 'Please tick the box to continue.',
           verifyFailed: "The security check didn't complete. Please try again.",
           missing: 'Please fill in your name and a way to reach you.',
           sending: 'Sending…',
@@ -973,7 +990,6 @@
           failed: 'Sending failed. You can write to me directly at ' + EMAIL,
           mail: 'An email with your details is opening — just press send.',
           subject: 'Website inquiry: private session',
-          waChecking: 'Running a quick security check…',
           waOpening: 'Opening WhatsApp…',
           waReady: 'All set — tap to open WhatsApp.',
           waFailed: "Couldn't open WhatsApp right now. You can leave your details in the form.",
@@ -986,8 +1002,8 @@
       }
 
       // ---- Cloudflare Turnstile ----
-      // The script loads only when something needs it (the contact form comes into view, or a
-      // WhatsApp button is clicked), so people who just read the page never contact Cloudflare.
+      // The script loads only when something needs it (the form is sent, or a WhatsApp button is
+      // clicked), so people who just read the page never contact Cloudflare.
       var tsRequested = false;
       var tsReady = false;
       var tsQueue = [];
@@ -1016,33 +1032,65 @@
         return document.documentElement.lang === 'en' ? 'en' : 'he';
       }
 
+      // ---- Check dialogs ----
+      // The WhatsApp link and the contact form both run their Turnstile check inside a dialog
+      // styled like the site. Cloudflare's own box stays hidden (appearance: interaction-only)
+      // unless it needs the visitor to tick it; a spinner and a status line show progress.
+      var canDialog = typeof HTMLDialogElement === 'function';
+
+      function setupDialog(dlg) {
+        var status = dlg.querySelector('.dialog-status');
+        var spinner = dlg.querySelector('.spinner');
+        var done = dlg.querySelector('[data-done]');
+        var ui = {
+          show: function () { if (!dlg.open) dlg.showModal(); },
+          close: function () { if (dlg.open) dlg.close(); },
+          // state: 'busy' (spinner), 'idle' (waiting for the visitor), 'ok' or 'error' (finished)
+          set: function (text, state) {
+            status.textContent = text;
+            status.classList.toggle('error', state === 'error');
+            status.classList.toggle('success', state === 'ok');
+            spinner.hidden = state !== 'busy';
+            if (done) {
+              done.hidden = !(state === 'ok' || state === 'error');
+              if (!done.hidden && dlg.open) done.focus();
+            }
+          }
+        };
+        Array.prototype.forEach.call(dlg.querySelectorAll('[data-close]'), function (el) {
+          el.addEventListener('click', ui.close);
+        });
+        // Close on a click on the backdrop (outside the box), not on the dialog's own padding
+        dlg.addEventListener('click', function (e) {
+          if (e.target !== dlg) return;
+          var r = dlg.getBoundingClientRect();
+          if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) ui.close();
+        });
+        return ui;
+      }
+
       // ---- WhatsApp ----
-      // Every "book a session" button opens a dialog that runs a Turnstile check; the Worker then
-      // returns the wa.me link. Without it (no Worker, no <dialog> support, JS off) the same
-      // buttons simply scroll to the contact form.
+      // Every "book a session" button opens the WhatsApp dialog; after the check the Worker returns
+      // the wa.me link. Without it (no Worker, no <dialog> support, JS off) the same buttons
+      // simply scroll to the contact form.
       var waDialog = document.getElementById('wa-dialog');
-      var useWhatsApp = useWorker && WHATSAPP_ENABLED && !!waDialog && typeof waDialog.showModal === 'function';
+      var useWhatsApp = useWorker && WHATSAPP_ENABLED && canDialog && !!waDialog;
 
       if (useWhatsApp) {
+        var wa = setupDialog(waDialog);
         var waBox = document.getElementById('wa-turnstile');
-        var waStatus = document.getElementById('wa-status');
         var waOpen = document.getElementById('wa-open');
         var waWidget = null;
         var waTimer = null;
 
-        var waSetStatus = function (text, isError) {
-          waStatus.textContent = text;
-          waStatus.classList.toggle('error', !!isError);
-        };
-
         var waFail = function () {
           clearTimeout(waTimer);
-          if (waDialog.open && waOpen.hidden) waSetStatus(m().waFailed, true);
+          if (waDialog.open && waOpen.hidden) wa.set(m().waFailed, 'error');
         };
 
         var waGotToken = function (token) {
           if (!waDialog.open) return; // only act on a check the visitor just started
-          waSetStatus(m().waOpening, false);
+          wa.set(m().waOpening, 'busy');
           fetch(FORM_ENDPOINT + '/whatsapp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1056,14 +1104,15 @@
             }
             clearTimeout(waTimer);
             waOpen.href = d.url;
-            waOpen.hidden = false;
-            // Browsers may block a new tab opened this long after the click; the button stays as backup.
+            // Browsers may block a new tab opened this long after the click; then offer a button.
             var w = window.open(d.url, '_blank');
             if (w) {
               try { w.opener = null; } catch (err) { }
-              waDialog.close();
+              wa.close();
             } else {
-              waSetStatus(m().waReady, false);
+              waOpen.hidden = false;
+              wa.set(m().waReady, 'ok');
+              waOpen.focus();
             }
           }).catch(waFail);
         };
@@ -1072,19 +1121,31 @@
           e.preventDefault();
           waOpen.hidden = true;
           waOpen.removeAttribute('href');
-          waSetStatus(m().waChecking, false);
-          if (!waDialog.open) waDialog.showModal();
+          wa.set(m().checking, 'busy');
+          wa.show();
           clearTimeout(waTimer);
-          waTimer = setTimeout(waFail, 20000);
+          waTimer = setTimeout(waFail, 30000);
           withTurnstile(function () {
             if (waWidget === null) {
               waWidget = window.turnstile.render(waBox, {
                 sitekey: TURNSTILE_SITE_KEY,
                 theme: 'dark',
                 language: widgetLang(),
+                appearance: 'interaction-only',
                 'refresh-expired': 'never',
                 callback: waGotToken,
-                'error-callback': waFail
+                'error-callback': waFail,
+                'timeout-callback': waFail,
+                'unsupported-callback': waFail,
+                'before-interactive-callback': function () {
+                  clearTimeout(waTimer); // the visitor may take a moment to tick the box
+                  waBox.classList.remove('offstage');
+                  wa.set(m().interact, 'idle');
+                },
+                'after-interactive-callback': function () {
+                  waBox.classList.add('offstage');
+                  wa.set(m().checking, 'busy');
+                }
               });
             } else {
               window.turnstile.reset(waWidget); // tokens work once; get a fresh one
@@ -1095,12 +1156,7 @@
         Array.prototype.forEach.call(document.querySelectorAll('[data-cta="book"]'), function (a) {
           a.addEventListener('click', openWhatsApp);
         });
-        document.getElementById('wa-close').addEventListener('click', function () { waDialog.close(); });
-        document.getElementById('wa-form').addEventListener('click', function () { waDialog.close(); });
-        waOpen.addEventListener('click', function () { waDialog.close(); });
-        waDialog.addEventListener('click', function (e) {
-          if (e.target === waDialog) waDialog.close(); // click on the backdrop
-        });
+        waOpen.addEventListener('click', wa.close);
         waDialog.addEventListener('close', function () { clearTimeout(waTimer); });
         document.addEventListener('turnstileerror', waFail);
 
@@ -1118,29 +1174,36 @@
         status.classList.toggle('error', !!isError);
       }
 
-      // Turnstile runs only when the visitor presses send. The widget stays invisible unless
-      // Cloudflare needs the visitor to interact; then it appears above the button.
-      var tsBox = document.getElementById('turnstile-box');
-      var tsWidget = null;
-      var pending = null; // the submission waiting for a token
+      // Pressing send opens the sending dialog, which runs the Turnstile check and then sends.
+      var sendDialog = document.getElementById('send-dialog');
+      var useSendDialog = useWorker && canDialog && !!sendDialog;
+      var sd = useSendDialog ? setupDialog(sendDialog) : null;
+      var sendBox = document.getElementById('send-turnstile');
+      var sendWidget = null;
+      var pending = null;  // the submission waiting for its check
+      var sending = false; // the request to the Worker is under way
       var button = form.querySelector('button[type="submit"]');
 
-      function finish() {
+      // The outcome shows in the dialog and also stays under the form.
+      function finish(text, state) {
         pending = null;
+        sending = false;
         button.disabled = false;
+        setStatus(text, state === 'error');
+        if (sendDialog.open) sd.set(text, state);
       }
 
       function verifyFailed() {
-        if (!pending) return;
-        setStatus(m().verifyFailed, true);
-        finish();
+        if (!pending || sending) return;
+        finish(m().verifyFailed, 'error');
       }
 
       function sendForm(token) {
         var data = pending;
-        if (!data) return; // a token arriving with nothing to send
+        if (!data || sending) return; // a token arriving with nothing to send
+        sending = true;
         data.turnstileToken = token;
-        setStatus(m().sending, false);
+        sd.set(m().sending, 'busy');
         fetch(FORM_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1148,17 +1211,16 @@
         }).then(function (res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           form.reset();
-          setStatus(m().sent, false);
+          finish(m().sent, 'ok');
         }).catch(function () {
-          setStatus(m().failed, true);
-        }).then(finish);
+          finish(m().failed, 'error');
+        });
       }
 
       function runCheck() {
         withTurnstile(function () {
-          if (tsWidget === null) {
-            tsBox.hidden = false;
-            tsWidget = window.turnstile.render(tsBox, {
+          if (sendWidget === null) {
+            sendWidget = window.turnstile.render(sendBox, {
               sitekey: TURNSTILE_SITE_KEY,
               theme: 'dark',
               language: widgetLang(),
@@ -1168,16 +1230,34 @@
               callback: sendForm,
               'error-callback': verifyFailed,
               'timeout-callback': verifyFailed,
-              'unsupported-callback': verifyFailed
+              'unsupported-callback': verifyFailed,
+              'before-interactive-callback': function () {
+                sendBox.classList.remove('offstage');
+                sd.set(m().interact, 'idle');
+              },
+              'after-interactive-callback': function () {
+                sendBox.classList.add('offstage');
+                sd.set(m().checking, 'busy');
+              }
             });
           } else {
-            window.turnstile.reset(tsWidget); // tokens work once; start a fresh check
+            window.turnstile.reset(sendWidget); // tokens work once; start a fresh check
           }
-          window.turnstile.execute(tsWidget);
+          window.turnstile.execute(sendWidget);
         });
       }
 
-      document.addEventListener('turnstileerror', verifyFailed);
+      if (useSendDialog) {
+        // Closing the dialog before the check finishes cancels the submission; once the
+        // request is under way it completes and the result shows under the form.
+        sendDialog.addEventListener('close', function () {
+          if (pending && !sending) {
+            pending = null;
+            button.disabled = false;
+          }
+        });
+        document.addEventListener('turnstileerror', verifyFailed);
+      }
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -1190,7 +1270,7 @@
         }
         var typeText = f.type.options[f.type.selectedIndex].textContent;
 
-        if (!useWorker) {
+        if (!useSendDialog) {
           var body = [
             t.labels.name + ': ' + f.name.value.trim(),
             t.labels.role + ': ' + f.role.value.trim(),
@@ -1215,7 +1295,9 @@
           message: f.message.value.trim()
         };
         button.disabled = true;
-        setStatus(t.checking, false);
+        setStatus('', false);
+        sd.set(t.checking, 'busy');
+        sd.show();
         runCheck();
       });
     })();
