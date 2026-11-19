@@ -52,6 +52,8 @@
 
 <body>
 
+  <a class="skip-link" href="#main" data-i18n="skip">דילוג לתוכן הראשי</a>
+
   <svg class="icons" aria-hidden="true" focusable="false">
     <defs>
       <g id="i-shield" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -129,7 +131,7 @@
     </div>
   </nav>
 
-  <main>
+  <main id="main" tabindex="-1">
 
     <section class="hero" id="top">
       <div class="wrap">
@@ -437,7 +439,8 @@
               <li data-i18n="or1b">הנהלה ודירקטוריון</li>
               <li data-i18n="or1c">מייסדים</li>
             </ul>
-            <a class="ask" href="#contact" data-cta="book" data-i18n="or1Cta">לתיאום פגישה ←</a>
+            <a class="ask" href="#contact" data-cta="book"><span data-i18n="or1Cta">לתיאום פגישה</span> <span
+                class="arr" aria-hidden="true">←</span></a>
           </div>
           <div class="card">
             <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
@@ -452,7 +455,8 @@
               <li data-i18n="or2b">הנהלות</li>
               <li data-i18n="or2c">משאבי אנוש</li>
             </ul>
-            <a class="ask" href="#contact" data-i18n="or2Cta">לדבר על תוכנית לארגון ←</a>
+            <a class="ask" href="#contact"><span data-i18n="or2Cta">לדבר על תוכנית לארגון</span> <span class="arr"
+                aria-hidden="true">←</span></a>
           </div>
         </div>
       </div>
@@ -477,18 +481,21 @@
               <p data-i18n="cr1Text">הסמכת Trusted AI Safety Expert מטעם Cloud Security Alliance ואוניברסיטת
                 נורת'איסטרן, העוסקת בסיכוני AI, אבטחה וממשל.</p>
               <a class="ask" href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile"
-                target="_blank" rel="noopener" data-i18n="cr1Cta">לצפייה בהסמכה ←</a>
+                target="_blank" rel="noopener"><span data-i18n="cr1Cta">לצפייה בהסמכה</span> <span class="sr-only"
+                  data-i18n="newTab"> (נפתח בלשונית חדשה)</span> <span class="arr" aria-hidden="true">←</span></a>
             </div>
             <div class="card">
               <h3 data-i18n="cr2Title">מרצה מן החוץ</h3>
               <p data-i18n="cr2Text">מלמד אבטחת סייבר, פיתוח AI וארכיטקטורת ענן במרכז ההכשרות אנאליזה.</p>
-              <a class="ask" href="https://analiza.org.il/" target="_blank" rel="noopener" data-i18n="cr2Cta">לאתר
-                אנאליזה ←</a>
+              <a class="ask" href="https://analiza.org.il/" target="_blank" rel="noopener"><span
+                  data-i18n="cr2Cta">לאתר אנאליזה</span> <span class="sr-only" data-i18n="newTab"> (נפתח בלשונית
+                  חדשה)</span> <span class="arr" aria-hidden="true">←</span></a>
             </div>
           </div>
           <p class="also">
             <span data-i18n="alsoText">בנוסף, אני מייעץ לחברות בתחומי בטיחות AI וארכיטקטורת מערכות מאובטחת.</span>
-            <a class="ask" href="#contact" data-i18n="alsoCta">לפרטים ←</a>
+            <a class="ask" href="#contact"><span data-i18n="alsoCta">לפרטים</span> <span class="arr"
+                aria-hidden="true">←</span></a>
           </p>
         </div>
       </div>
@@ -582,7 +589,8 @@
               <div>
                 <span class="label" data-i18n="ctLinkedIn">לינקדאין</span>
                 <a class="value" href="https://www.linkedin.com/in/gilad-tiomkin" target="_blank"
-                  rel="noopener"><bdi>linkedin.com/in/gilad-tiomkin</bdi></a>
+                  rel="noopener"><bdi>linkedin.com/in/gilad-tiomkin</bdi> <span class="sr-only" data-i18n="newTab">
+                    (נפתח בלשונית חדשה)</span></a>
               </div>
             </div>
             <div class="field">
@@ -599,17 +607,22 @@
 
         <form class="contact-form" id="contact-form" novalidate>
           <h3 data-i18n="fmTitle">השאירו פרטים</h3>
+          <p class="form-note" id="req-note"><span class="req" aria-hidden="true">*</span> <span
+              data-i18n="fmReqNote">שדה חובה</span></p>
           <label class="form-row">
-            <span class="label" data-i18n="fmName">שם מלא</span>
-            <input type="text" name="name" autocomplete="name" required>
+            <span class="label"><span data-i18n="fmName">שם מלא</span> <span class="req"
+                aria-hidden="true">*</span></span>
+            <input type="text" name="name" autocomplete="name" required aria-required="true"
+              aria-describedby="form-status">
           </label>
           <label class="form-row">
             <span class="label" data-i18n="fmRole">תפקיד וארגון</span>
             <input type="text" name="role" autocomplete="organization-title">
           </label>
           <label class="form-row">
-            <span class="label" data-i18n="fmContact">אימייל או טלפון</span>
-            <input type="text" name="contact" required>
+            <span class="label"><span data-i18n="fmContact">אימייל או טלפון</span> <span class="req"
+                aria-hidden="true">*</span></span>
+            <input type="text" name="contact" required aria-required="true" aria-describedby="form-status">
           </label>
           <label class="form-row">
             <span class="label" data-i18n="fmType">אני פונה בתור</span>
@@ -647,8 +660,10 @@
     <!-- Cloudflare's box stays hidden unless it needs the visitor to tick it -->
     <div class="turnstile offstage" id="wa-turnstile"></div>
     <p class="dialog-status" role="status" aria-live="polite"></p>
-    <a class="btn" id="wa-open" target="_blank" rel="noopener" hidden data-i18n="waOpen">פתיחת וואטסאפ</a>
-    <a class="ask" href="#contact" data-close data-i18n="waForm">או השאירו פרטים בטופס ←</a>
+    <a class="btn" id="wa-open" target="_blank" rel="noopener" hidden><span data-i18n="waOpen">פתיחת
+        וואטסאפ</span> <span class="sr-only" data-i18n="newTab"> (נפתח בלשונית חדשה)</span></a>
+    <a class="ask" href="#contact" data-close><span data-i18n="waForm">או השאירו פרטים בטופס</span> <span
+        class="arr" aria-hidden="true">←</span></a>
   </dialog>
 
   <!-- Contact form: the Turnstile check and the sending happen here, after "send" is pressed -->
@@ -693,6 +708,7 @@
             <li><a href="#about" data-i18n="navAbout">אודות</a></li>
             <li><a href="#faq" data-i18n="navFaq">שאלות נפוצות</a></li>
             <li><a href="#contact" data-i18n="navContact">צור קשר</a></li>
+            <li><a href="accessibility.html" data-i18n="navA11y">הצהרת נגישות</a></li>
           </ul>
         </div>
       </div>
@@ -718,6 +734,9 @@
         navAbout: 'About',
         navFaq: 'FAQ',
         navContact: 'Contact',
+        navA11y: 'Accessibility statement',
+        skip: 'Skip to main content',
+        newTab: '(opens in a new tab)',
         navCta: 'Talk to me',
         navToggle: 'Toggle menu',
         heroKicker: 'Personal cybersecurity for executives',
@@ -831,13 +850,13 @@
         or1a: 'CEOs',
         or1b: 'Executive team and board',
         or1c: 'Founders',
-        or1Cta: 'Book a session →',
+        or1Cta: 'Book a session',
         or2Title: 'For organizations',
         or2Text: "CISOs, leadership teams and HR who want to close the gap beyond the organization's perimeter. A private session for each executive, with ongoing support as needed. Whatever comes up about an executive's private life stays between them and me.",
         or2a: 'CISOs',
         or2b: 'Leadership teams',
         or2c: 'HR',
-        or2Cta: 'Talk about a program →',
+        or2Cta: 'Talk about a program',
         abKicker: 'About',
         name: 'Gilad Tiomkin',
         role: 'Cyber Architect, AI Security & Safety Expert, Consultant and Instructor',
@@ -845,12 +864,12 @@
         bio2: 'Today I bring that experience to the place where corporate protection ends: the private digital lives of the people who lead the organization.',
         cr1Title: 'TAISE certified',
         cr1Text: 'Trusted AI Safety Expert certification from the Cloud Security Alliance and Northeastern University, covering AI risk, security, and governance.',
-        cr1Cta: 'View credential →',
+        cr1Cta: 'View credential',
         cr2Title: 'Adjunct Lecturer',
         cr2Text: 'Teaching cyber security, AI development, and cloud architecture at Analiza Education Center.',
-        cr2Cta: 'View Analiza →',
+        cr2Cta: 'View Analiza',
         alsoText: 'I also consult for companies on AI safety and secure system architecture.',
-        alsoCta: 'Ask about this →',
+        alsoCta: 'Ask about this',
         fqKicker: 'FAQ',
         fqTitle: 'Common questions about the session',
         fq1Q: 'Where does the session take place?',
@@ -881,7 +900,7 @@
         waTitle: 'Opening WhatsApp',
         waText: 'A quick security check that keeps the number away from bots, and the chat opens right after.',
         waOpen: 'Open WhatsApp',
-        waForm: 'Or leave your details in the form →',
+        waForm: 'Or leave your details in the form',
         sdTitle: 'Sending your details',
         sdDone: 'Close',
         ctLinkedIn: 'LinkedIn',
@@ -895,6 +914,7 @@
         fmTypeExec: 'A senior executive',
         fmTypeOrg: 'An organization representative',
         fmMessage: 'Message',
+        fmReqNote: 'Required field',
         fmSubmit: 'Send details',
         fmNote: 'No need to share anything sensitive here — a name and a way to reach you is enough.',
         ftAbout: 'Personal cybersecurity for senior executives: private devices, personal accounts and the home network.',
@@ -1146,8 +1166,15 @@
           });
         };
 
+        // These links now open a dialog instead of navigating, so tell assistive tech they act as
+        // buttons, and let Space activate them like a real button.
         Array.prototype.forEach.call(document.querySelectorAll('[data-cta="book"]'), function (a) {
+          a.setAttribute('role', 'button');
+          a.setAttribute('aria-haspopup', 'dialog');
           a.addEventListener('click', openWhatsApp);
+          a.addEventListener('keydown', function (e) {
+            if (e.key === ' ' || e.key === 'Spacebar') openWhatsApp(e);
+          });
         });
         waOpen.addEventListener('click', wa.close);
         waDialog.addEventListener('close', function () { clearTimeout(waTimer); });
@@ -1166,6 +1193,13 @@
         status.textContent = text;
         status.classList.toggle('error', !!isError);
       }
+
+      // Clear a field's error mark once the visitor fills it in
+      form.addEventListener('input', function (e) {
+        if (e.target.getAttribute('aria-invalid') === 'true' && e.target.value.trim()) {
+          e.target.removeAttribute('aria-invalid');
+        }
+      });
 
       // Pressing send opens the sending dialog, which runs the Turnstile check and then sends.
       var sendDialog = document.getElementById('send-dialog');
@@ -1257,8 +1291,15 @@
         var t = m();
         var f = form.elements;
         if (f._gotcha.value) return; // bot
-        if (!f.name.value.trim() || !f.contact.value.trim()) {
+        // Mark each empty required field and move focus to the first one
+        var invalid = [f.name, f.contact].filter(function (el) {
+          var bad = !el.value.trim();
+          if (bad) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+          return bad;
+        });
+        if (invalid.length) {
           setStatus(t.missing, true);
+          invalid[0].focus();
           return;
         }
         if (!useSendDialog) {
