@@ -952,15 +952,12 @@
     (function () {
       // ---- Contact settings: fill these in ----
       // Cloudflare Worker URL (see contact-worker/).
-      // Empty, or no Turnstile site key = the form opens a prefilled email instead.
+      // Empty, or no Turnstile site key = the form can't be sent (no email address is exposed).
       var FORM_ENDPOINT = 'https://forms.tiomking.com';
       var TURNSTILE_SITE_KEY = '0x4AAAAAAGFqky99b52fDBq1';  // public site key of the Turnstile widget
       // WhatsApp buttons get the chat link from the Worker after a Turnstile check; the number
       // is the Worker secret WHATSAPP_NUMBER. false = the buttons just scroll to the form.
       var WHATSAPP_ENABLED = true;
-      // Assembled at runtime so scrapers reading the page source don't pick up the address;
-      // it only appears if sending fails.
-      var EMAIL = ['hello', 'tiomking.com'].join('@');
 
       var useWorker = !!(FORM_ENDPOINT && TURNSTILE_SITE_KEY);
 
@@ -972,13 +969,11 @@
           missing: 'נא למלא שם ודרך ליצור קשר.',
           sending: 'שולח…',
           sent: 'תודה, ההודעה התקבלה. אחזור אליכם בהקדם.',
-          failed: 'השליחה נכשלה. אפשר לכתוב לי ישירות ל-' + EMAIL,
-          mail: 'נפתחת הודעת אימייל עם הפרטים — נשאר רק לשלוח.',
-          subject: 'פנייה מהאתר: פגישה אישית',
+          failed: 'השליחה נכשלה. אפשר לנסות שוב בעוד כמה דקות.',
+          unavailable: 'לא ניתן לשלוח את הטופס מהדפדפן הזה. נא לנסות מדפדפן מעודכן.',
           waOpening: 'פותחים את וואטסאפ…',
           waReady: 'הכול מוכן — לחצו כדי לפתוח את וואטסאפ.',
-          waFailed: 'לא הצלחנו לפתוח את וואטסאפ כרגע. אפשר להשאיר פרטים בטופס.',
-          labels: { name: 'שם', role: 'תפקיד וארגון', contact: 'פרטי קשר', type: 'פונה בתור', message: 'הודעה' }
+          waFailed: 'לא הצלחנו לפתוח את וואטסאפ כרגע. אפשר להשאיר פרטים בטופס.'
         },
         en: {
           checking: 'Running a quick security check…',
@@ -987,13 +982,11 @@
           missing: 'Please fill in your name and a way to reach you.',
           sending: 'Sending…',
           sent: "Thank you, your message was received. I'll get back to you soon.",
-          failed: 'Sending failed. You can write to me directly at ' + EMAIL,
-          mail: 'An email with your details is opening — just press send.',
-          subject: 'Website inquiry: private session',
+          failed: 'Sending failed. Please try again in a few minutes.',
+          unavailable: "The form can't be sent from this browser. Please try an up-to-date browser.",
           waOpening: 'Opening WhatsApp…',
           waReady: 'All set — tap to open WhatsApp.',
-          waFailed: "Couldn't open WhatsApp right now. You can leave your details in the form.",
-          labels: { name: 'Name', role: 'Role and organization', contact: 'Contact', type: 'Reaching out as', message: 'Message' }
+          waFailed: "Couldn't open WhatsApp right now. You can leave your details in the form."
         }
       };
 
@@ -1268,23 +1261,11 @@
           setStatus(t.missing, true);
           return;
         }
-        var typeText = f.type.options[f.type.selectedIndex].textContent;
-
         if (!useSendDialog) {
-          var body = [
-            t.labels.name + ': ' + f.name.value.trim(),
-            t.labels.role + ': ' + f.role.value.trim(),
-            t.labels.contact + ': ' + f.contact.value.trim(),
-            t.labels.type + ': ' + typeText,
-            '',
-            f.message.value.trim()
-          ].join('\n');
-          window.location.href = 'mailto:' + EMAIL +
-            '?subject=' + encodeURIComponent(t.subject) +
-            '&body=' + encodeURIComponent(body);
-          setStatus(t.mail, false);
+          setStatus(t.unavailable, true);
           return;
         }
+        var typeText = f.type.options[f.type.selectedIndex].textContent;
 
         if (pending) return; // already checking or sending
         pending = {
