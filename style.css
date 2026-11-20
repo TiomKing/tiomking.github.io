@@ -456,12 +456,6 @@ h1 span {
   gap: 14px;
 }
 
-.byline {
-  margin-top: 26px;
-  font-size: 0.86rem;
-  color: var(--muted);
-}
-
 /* ---------- Sections ---------- */
 
 .sec {
