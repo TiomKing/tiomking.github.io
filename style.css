@@ -625,27 +625,25 @@ a.ask:focus-visible {
   margin-top: 10px;
 }
 
-/* Topics covered in the session (step 02) */
+/* Topics covered in the session */
 
 .topics {
-  margin-top: 28px;
-  padding: 32px 32px 36px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  margin-top: 64px;
 }
 
 .topics h3 {
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   font-size: 1.2rem;
   font-weight: 700;
   text-align: center;
 }
 
+/* Desktop: all five in one row; narrower widths wrap with the last row centered */
 .topic-list {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 24px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 32px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -653,27 +651,29 @@ a.ask:focus-visible {
 
 .topic-list li {
   display: flex;
-  grid-column: span 2;
-  align-items: flex-start;
+  flex: 0 0 20%;
+  flex-direction: column;
+  align-items: center;
   gap: 14px;
+  padding: 0 20px;
+  text-align: center;
 }
 
-/* Five topics: center the two in the second row */
-.topic-list li:nth-child(4) {
-  grid-column: 2 / span 2;
+.topic-list li + li {
+  border-inline-start: 1px solid var(--line);
 }
 
 .topic-list .icon-box {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   margin-bottom: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
 }
 
 .topic-list .icon-box svg {
-  width: 21px;
-  height: 21px;
+  width: 19px;
+  height: 19px;
 }
 
 .topic-list p {
@@ -683,7 +683,7 @@ a.ask:focus-visible {
 
 .topic-list strong {
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
   color: var(--text);
   font-size: 1rem;
 }
@@ -1274,17 +1274,16 @@ footer {
 }
 
 @media (max-width: 900px) {
+  .topic-list li {
+    flex-basis: 33.333%;
+  }
+
+  .topic-list li + li {
+    border-inline-start: 0;
+  }
+
   .grid.cols-3 {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .topic-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .topic-list li,
-  .topic-list li:nth-child(4) {
-    grid-column: auto;
   }
 
   .about-grid {
@@ -1333,13 +1332,24 @@ footer {
 
   .grid.cols-2,
   .grid.cols-3,
-  .grid.cols-4,
-  .topic-list {
+  .grid.cols-4 {
     grid-template-columns: 1fr;
   }
 
   .topics {
-    padding: 24px 18px 28px;
+    margin-top: 48px;
+  }
+
+  .topic-list {
+    row-gap: 24px;
+  }
+
+  .topic-list li {
+    flex-basis: 100%;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0;
+    text-align: start;
   }
 
   .cta-row .btn {
