@@ -636,24 +636,10 @@ a.ask:focus-visible {
 }
 
 .topics h3 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
   margin-bottom: 28px;
   font-size: 1.2rem;
   font-weight: 700;
-}
-
-.topics-step {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--fill-from), var(--fill-to));
-  color: #fff;
-  font-size: 0.82rem;
+  text-align: center;
 }
 
 .topic-list {
