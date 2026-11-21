@@ -644,7 +644,7 @@ a.ask:focus-visible {
 
 .topic-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 24px 32px;
   list-style: none;
   margin: 0;
@@ -653,8 +653,14 @@ a.ask:focus-visible {
 
 .topic-list li {
   display: flex;
+  grid-column: span 2;
   align-items: flex-start;
   gap: 14px;
+}
+
+/* Five topics: center the two in the second row */
+.topic-list li:nth-child(4) {
+  grid-column: 2 / span 2;
 }
 
 .topic-list .icon-box {
@@ -1274,6 +1280,11 @@ footer {
 
   .topic-list {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .topic-list li,
+  .topic-list li:nth-child(4) {
+    grid-column: auto;
   }
 
   .about-grid {
