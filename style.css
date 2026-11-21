@@ -41,9 +41,6 @@
   --accent-strong: #5bd8f8;
   --accent-ink: #04202b;
   --blue: #2f7df6;
-  --critical: #f87171;
-  --high: #fb923c;
-  --medium: #facc15;
   --danger: #fca5a5;
   /* Fill behind white text (buttons, step numbers): both ends keep white text above 4.5:1 */
   --fill-from: #0a7aa0;
@@ -624,73 +621,86 @@ a.ask:focus-visible {
   font-size: 0.95rem;
 }
 
-.step .optional {
-  align-self: flex-start;
-  margin-top: 16px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: rgba(34, 199, 242, 0.12);
-  color: var(--accent-strong);
-  font-size: 0.76rem;
-  font-weight: 600;
+.step p+p {
+  margin-top: 10px;
 }
 
-/* ---------- Threats ---------- */
+/* Topics covered in the session (step 02) */
 
-.badge {
-  align-self: flex-start;
-  margin-bottom: 14px;
-  padding: 3px 11px;
-  border-radius: 999px;
-  font-size: 0.76rem;
+.topics {
+  margin-top: 28px;
+  padding: 32px 32px 36px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.topics h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  font-size: 1.2rem;
   font-weight: 700;
 }
 
-.threat {
-  border-top-width: 3px;
+.topics-step {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--fill-from), var(--fill-to));
+  color: #fff;
+  font-size: 0.82rem;
 }
 
-.threat.critical {
-  border-top-color: var(--critical);
+.topic-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.threat.critical .badge {
-  background: rgba(248, 113, 113, 0.14);
-  color: var(--critical);
+.topic-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
 }
 
-.threat.high {
-  border-top-color: var(--high);
+.topic-list .icon-box {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0;
+  border-radius: 10px;
 }
 
-.threat.high .badge {
-  background: rgba(251, 146, 60, 0.14);
-  color: var(--high);
+.topic-list .icon-box svg {
+  width: 21px;
+  height: 21px;
 }
 
-.threat.medium {
-  border-top-color: var(--medium);
+.topic-list p {
+  color: var(--muted);
+  font-size: 0.93rem;
 }
 
-.threat.medium .badge {
-  background: rgba(250, 204, 21, 0.14);
-  color: var(--medium);
+.topic-list strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text);
+  font-size: 1rem;
 }
 
-.threat:hover {
-  border-top-color: inherit;
-}
-
-.threat.critical:hover {
-  border-color: var(--critical);
-}
-
-.threat.high:hover {
-  border-color: var(--high);
-}
-
-.threat.medium:hover {
-  border-color: var(--medium);
+.sec-note {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
 /* ---------- About ---------- */
@@ -1276,6 +1286,10 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .topic-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .about-grid {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -1322,8 +1336,13 @@ footer {
 
   .grid.cols-2,
   .grid.cols-3,
-  .grid.cols-4 {
+  .grid.cols-4,
+  .topic-list {
     grid-template-columns: 1fr;
+  }
+
+  .topics {
+    padding: 24px 18px 28px;
   }
 
   .cta-row .btn {
