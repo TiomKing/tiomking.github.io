@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070d1a">
+  <script>
+    // Same language choice as the home page: ?lang= → saved choice → browser (English) → Hebrew
+    (function () {
+      var l;
+      try {
+        var q = new URLSearchParams(location.search).get('lang');
+        if (q === 'en' || q === 'he') l = q;
+      } catch (e) {
+        // URLSearchParams unsupported: fall through to the saved choice
+      }
+      if (!l) {
+        try { l = localStorage.getItem('lang'); } catch (e) {
+          // Storage blocked (private mode, cookies off): fall through to the browser language
+        }
+      }
+      if (l !== 'en' && l !== 'he') {
+        var n = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        l = /^en\b/i.test(n) ? 'en' : 'he';
+      }
+      document.documentElement.lang = l;
+      document.documentElement.dir = l === 'he' ? 'rtl' : 'ltr';
+    })();
+  </script>
+  <title>הצהרת נגישות — גלעד טיומקין</title>
+  <meta name="description" content="הצהרת הנגישות של האתר tiomking.com: מה הונגש, מגבלות ידועות ודרכים לפנות בנושא נגישות.">
+  <meta name="robots" content="index, follow">
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main"><span data-lang="he">דילוג לתוכן הראשי</span><span data-lang="en"
+      lang="en">Skip to main content</span></a>
+
+  <nav class="topnav" aria-label="ראשי">
+    <div class="topnav-inner">
+      <a href="./" class="brand">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.700-8-6-8-11V5z" />
+          <path d="M8.500 12l2.500 2.500 4.500-5" />
+        </svg>
+        <span data-lang="he">גלעד טיומקין</span><span data-lang="en" lang="en">Gilad Tiomkin</span>
+      </a>
+      <div class="topnav-actions">
+        <a class="btn btn-ghost btn-sm" href="./"><span data-lang="he">לדף הבית</span><span data-lang="en"
+            lang="en">Back to home</span></a>
+        <button class="lang-toggle" id="lang-toggle" type="button" lang="en" aria-label="Switch to English">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1" class="sec statement">
+    <div class="wrap">
+
+      <!-- ===================== Hebrew ===================== -->
+      <article data-lang="he" lang="he" dir="rtl">
+        <p class="kicker">נגישות</p>
+        <h1>הצהרת נגישות</h1>
+        <p class="updated">עודכנה לאחרונה: 24 בנובמבר 2026</p>
+
+        <p>אני רואה חשיבות רבה בכך שכל אדם, כולל אנשים עם מוגבלות, יוכל להשתמש באתר בקלות ובעצמאות. האתר
+          הונגש בהתאם לחוק שוויון זכויות לאנשים עם מוגבלות, התשנ"ח-1998, ולתקנות שוויון זכויות לאנשים עם מוגבלות
+          (התאמות נגישות לשירות), התשע"ג-2013.</p>
+
+        <h2>רמת הנגישות</h2>
+        <p>האתר הותאם לדרישות תקן ישראלי 5568 ("קווים מנחים לנגישות תכנים באינטרנט"), המבוסס על הנחיות
+          WCAG 2.0 של ארגון W3C, ברמה AA. בנוסף, נעשה מאמץ לעמוד ככל הניתן גם בהנחיות WCAG 2.1 ברמה AA.</p>
+
+        <h2>מה הונגש באתר</h2>
+        <ul>
+          <li>מבנה כותרות היררכי ותקין, ואזורי ניווט ותוכן מסומנים, כך שקוראי מסך יכולים לנווט בדף לפי מבנה.</li>
+          <li>קישור "דילוג לתוכן הראשי" בתחילת כל עמוד.</li>
+          <li>ניווט מלא באמצעות המקלדת, עם סימון פוקוס בולט לכל קישור, כפתור ושדה.</li>
+          <li>טקסט חלופי לתמונות, והסתרה מקוראי מסך של אייקונים ורכיבים עיצוביים בלבד.</li>
+          <li>ניגודיות צבעים של 4.5:1 לפחות בין טקסט רגיל לרקע, 3:1 לפחות לטקסט גדול (כמו כותרות), ו-3:1 לפחות
+            לגבולות שדות הטופס.</li>
+          <li>שפה וכיוון כתיבה מוגדרים בקוד, בעברית (מימין לשמאל) ובאנגלית (משמאל לימין).</li>
+          <li>טופס יצירת קשר עם תוויות לכל שדה, סימון שדות חובה, והודעות שגיאה והצלחה שמוקראות בקוראי מסך.
+            בשגיאה הפוקוס עובר לשדה שצריך למלא.</li>
+          <li>חלונות קופצים שאפשר לסגור במקש Esc, ושבזמן שהם פתוחים הפוקוס נשאר בתוכם.</li>
+          <li>קישורים שנפתחים בלשונית חדשה מסומנים לקוראי מסך.</li>
+          <li>הגדלת טקסט עד 200% בלי אובדן תוכן, ותצוגה מותאמת למסכי טלפון וטאבלט.</li>
+          <li>כיבוד הגדרת "הפחתת תנועה" של מערכת ההפעלה.</li>
+        </ul>
+
+        <h2>התאמת התצוגה</h2>
+        <p>האתר הונגש בקוד עצמו ואינו משתמש בתפריט נגישות חיצוני. אפשר להתאים את התצוגה בכלים המובנים בדפדפן
+          ובמערכת ההפעלה:</p>
+        <ul>
+          <li><strong>הגדלה והקטנה:</strong> Ctrl ו-+ או Ctrl ו-− (במק: Cmd), ו-Ctrl ו-0 לחזרה לגודל הרגיל.
+            בטלפון: צביטה בשתי אצבעות.</li>
+          <li><strong>ניגודיות וצבעים:</strong> מצב ניגודיות גבוהה או מסנני צבע בהגדרות הנגישות של Windows,
+            macOS, iOS או Android.</li>
+          <li><strong>אנימציות:</strong> הפעלת "הפחתת תנועה" בהגדרות הנגישות של המכשיר מצמצמת את האנימציות
+            באתר.</li>
+        </ul>
+
+        <h2>דפדפנים וטכנולוגיות מסייעות</h2>
+        <p>האתר בנוי לפי תקני הרשת ומיועד לגרסאות העדכניות של הדפדפנים Chrome, Edge, Firefox ו-Safari, במחשב
+          ובטלפון.</p>
+        <p>האתר נבדק בסריקה אוטומטית של axe-core ובניווט מקלדת. בנוסף הוא נבדק עם קורא המסך NVDA בדפדפן Chrome
+          ב-Windows, בגרסה האנגלית של האתר: דילוג לתוכן, מבנה הכותרות, טופס יצירת הקשר והודעות השגיאה שלו,
+          והחלונות הקופצים.</p>
+
+        <h2>מגבלות ידועות</h2>
+        <ul>
+          <li><strong>בדיקת אבטחה מול בוטים:</strong> שליחת הטופס ומעבר לוואטסאפ עוברים בדיקה אוטומטית של
+            Cloudflare Turnstile. ברוב המקרים הבדיקה שקופה ואינה דורשת דבר, אבל לעיתים היא מבקשת לסמן תיבה.
+            הרכיב שייך ל-Cloudflare ואין לי שליטה מלאה על הנגישות שלו. אם הבדיקה מקשה עליכם, אפשר לפנות אליי
+            במייל הנגישות שבהמשך העמוד, בלי שום בדיקה.</li>
+          <li><strong>אתרים חיצוניים:</strong> קישורים לאתרים אחרים (לינקדאין, Credly, אנאליזה, וואטסאפ) מובילים
+            לתוכן שאינו בשליטתי, וייתכן שאינו נגיש במלואו.</li>
+        </ul>
+        <p>אם נתקלתם בחלק באתר שאינו נגיש, אשמח לשמוע ולתקן.</p>
+
+        <h2>הסדרי נגישות פיזיים</h2>
+        <p>אין לי משרד שמקבל קהל. הפגישה מתקיימת בבית הלקוח, ואפשר לתאם מראש כל התאמה שתידרש לכם בפגישה.</p>
+
+        <h2>פניות בנושא נגישות</h2>
+        <p>נתקלתם בבעיית נגישות, או צריכים את המידע שבאתר בדרך אחרת? אשמח לעזור. האחראי על הנגישות באתר:</p>
+        <dl class="contact-dl">
+          <dt>שם</dt>
+          <dd>גלעד טיומקין</dd>
+          <dt>מייל לפניות נגישות</dt>
+          <!-- Address written as HTML entities: readers and screen readers see it normally, simple scrapers don't -->
+          <dd><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#99;&#99;&#101;&#115;&#115;&#105;&#98;&#105;&#108;&#105;&#116;&#121;&#64;&#116;&#105;&#111;&#109;&#107;&#105;&#110;&#103;&#46;&#99;&#111;&#109;"><bdi>&#97;&#99;&#99;&#101;&#115;&#115;&#105;&#98;&#105;&#108;&#105;&#116;&#121;&#64;&#116;&#105;&#111;&#109;&#107;&#105;&#110;&#103;&#46;&#99;&#111;&#109;</bdi></a></dd>
+        </dl>
+        <p>כדי שאוכל לטפל בפנייה, נא לציין את הבעיה, את העמוד שבו נתקלתם בה, ואת הדפדפן והטכנולוגיה המסייעת שבהם
+          השתמשתם. אחזור אליכם בהקדם.</p>
+      </article>
+
+      <!-- ===================== English ===================== -->
+      <article data-lang="en" lang="en" dir="ltr">
+        <p class="kicker">Accessibility</p>
+        <h1>Accessibility statement</h1>
+        <p class="updated">Last updated: November 24, 2026</p>
+
+        <p>I want everyone, including people with disabilities, to be able to use this site easily and
+          independently. The site was made accessible under Israel's Equal Rights for Persons with Disabilities Law,
+          1998, and the Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations,
+          2013.</p>
+
+        <h2>Conformance level</h2>
+        <p>The site is designed to meet Israeli Standard 5568 ("Web content accessibility guidelines"), which is based
+          on the W3C's WCAG 2.0 guidelines, at level AA. Where possible it also aims to meet WCAG 2.1 level AA.</p>
+
+        <h2>What has been made accessible</h2>
+        <ul>
+          <li>A correct heading hierarchy and marked navigation and content regions, so screen readers can move
+            through the page by structure.</li>
+          <li>A "Skip to main content" link at the top of every page.</li>
+          <li>Full keyboard navigation, with a clear focus indicator on every link, button and field.</li>
+          <li>Text alternatives for images; purely decorative icons are hidden from screen readers.</li>
+          <li>Colour contrast of at least 4.5:1 between regular text and background, at least 3:1 for large text
+            (such as headings), and at least 3:1 for form field borders.</li>
+          <li>Language and text direction set in the code, for Hebrew (right to left) and English (left to
+            right).</li>
+          <li>A contact form with a label for every field, marked required fields, and error and success messages
+            that screen readers announce. On an error, focus moves to the field that needs filling in.</li>
+          <li>Pop-up dialogs that close with the Esc key and keep focus inside while open.</li>
+          <li>Links that open in a new tab are announced as such to screen readers.</li>
+          <li>Text can be enlarged to 200% without loss of content, and the layout adapts to phones and tablets.</li>
+          <li>The operating system's "reduce motion" setting is respected.</li>
+        </ul>
+
+        <h2>Adjusting the display</h2>
+        <p>The site is accessible in its own code and does not use an external accessibility menu. You can adjust
+          the display with the tools built into your browser and operating system:</p>
+        <ul>
+          <li><strong>Zoom:</strong> Ctrl and + or Ctrl and − (Cmd on a Mac), and Ctrl and 0 to reset. On a phone,
+            pinch with two fingers.</li>
+          <li><strong>Contrast and colours:</strong> high-contrast mode or colour filters in the accessibility
+            settings of Windows, macOS, iOS or Android.</li>
+          <li><strong>Animations:</strong> turning on "reduce motion" in your device's accessibility settings reduces
+            the animations on the site.</li>
+        </ul>
+
+        <h2>Browsers and assistive technology</h2>
+        <p>The site is built to web standards and is designed for current versions of Chrome, Edge, Firefox and
+          Safari, on desktop and mobile.</p>
+        <p>It was tested with the axe-core automated scanner and by keyboard navigation. The English version of the
+          site was also tested with the NVDA screen reader in Chrome on Windows: the skip link, the heading structure,
+          the contact form and its error messages, and the pop-up dialogs.</p>
+
+        <h2>Known limitations</h2>
+        <ul>
+          <li><strong>Bot check:</strong> sending the form and opening WhatsApp go through an automatic Cloudflare
+            Turnstile check. Usually it is invisible and needs nothing from you, but sometimes it asks you to tick a
+            box. This component belongs to Cloudflare and I do not have full control over its accessibility. If it
+            gets in your way, you can reach me by the accessibility email further down this page, without any
+            check.</li>
+          <li><strong>External sites:</strong> links to other sites (LinkedIn, Credly, Analiza, WhatsApp) lead to
+            content I do not control, which may not be fully accessible.</li>
+        </ul>
+        <p>If you find part of the site that is not accessible, I would like to hear about it and fix it.</p>
+
+        <h2>Physical accessibility</h2>
+        <p>I do not have an office that receives visitors. The session takes place at the client's home, and any
+          adjustment you need for it can be arranged in advance.</p>
+
+        <h2>Accessibility contact</h2>
+        <p>Found an accessibility problem, or need the information on this site in another format? I'm happy to help.
+          The person responsible for accessibility on this site:</p>
+        <dl class="contact-dl">
+          <dt>Name</dt>
+          <dd>Gilad Tiomkin</dd>
+          <dt>Accessibility email</dt>
+          <dd><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#99;&#99;&#101;&#115;&#115;&#105;&#98;&#105;&#108;&#105;&#116;&#121;&#64;&#116;&#105;&#111;&#109;&#107;&#105;&#110;&#103;&#46;&#99;&#111;&#109;">&#97;&#99;&#99;&#101;&#115;&#115;&#105;&#98;&#105;&#108;&#105;&#116;&#121;&#64;&#116;&#105;&#111;&#109;&#107;&#105;&#110;&#103;&#46;&#99;&#111;&#109;</a></dd>
+        </dl>
+        <p>To help me deal with your request, please describe the problem, the page where you found it, and the
+          browser and assistive technology you were using. I'll get back to you soon.</p>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-bottom">
+        <span><span data-lang="he">© 2026 גלעד טיומקין</span><span data-lang="en" lang="en">© 2026 Gilad
+            Tiomkin</span></span>
+        <a href="./"><span data-lang="he">לדף הבית</span><span data-lang="en" lang="en">Back to home</span></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var toggle = document.getElementById('lang-toggle');
+      var nav = document.querySelector('nav.topnav');
+      var titles = { he: 'הצהרת נגישות — גלעד טיומקין', en: 'Accessibility statement — Gilad Tiomkin' };
+
+      function applyLang(lang) {
+        var isEn = lang === 'en';
+        root.lang = lang;
+        root.dir = isEn ? 'ltr' : 'rtl';
+        document.title = titles[lang];
+        nav.setAttribute('aria-label', isEn ? 'Main' : 'ראשי');
+        toggle.textContent = isEn ? 'עב' : 'EN';
+        toggle.setAttribute('lang', isEn ? 'he' : 'en');
+        toggle.setAttribute('aria-label', isEn ? 'מעבר לעברית' : 'Switch to English');
+      }
+
+      applyLang(root.lang === 'en' ? 'en' : 'he');
+
+      toggle.addEventListener('click', function () {
+        var next = root.lang === 'en' ? 'he' : 'en';
+        applyLang(next);
+        try { localStorage.setItem('lang', next); } catch (e) { }
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Cloudflare Worker: dependencies, local state, local secrets
+node_modules/
+.wrangler/
+.dev.vars
+
+# Temp / backup files
+*.tmp
+*.bak
+*~

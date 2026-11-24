@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070d1a">
+  <script>
+    // Decide language before first paint: ?lang= → saved choice → browser (English) → Hebrew
+    (function () {
+      var l;
+      try {
+        var q = new URLSearchParams(location.search).get('lang');
+        if (q === 'en' || q === 'he') l = q;
+      } catch (e) {
+        // URLSearchParams unsupported: fall through to the saved choice
+      }
+      if (!l) {
+        try { l = localStorage.getItem('lang'); } catch (e) {
+          // Storage blocked (private mode, cookies off): fall through to the browser language
+        }
+      }
+      if (l !== 'en' && l !== 'he') {
+        var n = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        l = /^en\b/i.test(n) ? 'en' : 'he';
+      }
+      document.documentElement.lang = l;
+      document.documentElement.dir = l === 'he' ? 'rtl' : 'ltr';
+    })();
+  </script>
+  <title data-i18n="title">גלעד טיומקין — אבטחת סייבר אישית למנהלים בכירים</title>
+  <meta name="description" data-i18n-attr="content:metaDesc"
+    content="תוקפים מגיעים לתוך הארגון דרך המכשירים, החשבונות והרשת הביתית של בכירים. פגישה אישית לזיהוי וצמצום הסיכונים, גם מחוץ לגבולות הארגון.">
+
+  <!-- Open Graph / social link previews -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tiomking.com/">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="גלעד טיומקין — אבטחת סייבר אישית למנהלים בכירים">
+  <meta property="og:description"
+    content="תוקפים מגיעים לתוך הארגון דרך המכשירים, החשבונות והרשת הביתית של בכירים. פגישה אישית לזיהוי וצמצום הסיכונים.">
+  <meta property="og:image" content="https://tiomking.com/photo.jpg">
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="גלעד טיומקין — אבטחת סייבר אישית למנהלים בכירים">
+  <meta name="twitter:description"
+    content="תוקפים מגיעים לתוך הארגון דרך המכשירים, החשבונות והרשת הביתית של בכירים. פגישה אישית לזיהוי וצמצום הסיכונים.">
+  <meta name="twitter:image" content="https://tiomking.com/photo.jpg">
+
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main" data-i18n="skip">דילוג לתוכן הראשי</a>
+
+  <svg class="icons" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="i-shield" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.700-8-6-8-11V5z" />
+        <path d="M8.500 12l2.500 2.500 4.500-5" />
+      </g>
+      <g id="i-phone" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="7" y="2" width="10" height="20" rx="2" />
+        <path d="M11 18h2" />
+      </g>
+      <g id="i-user" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c0-4 3.600-6 8-6s8 2 8 6" />
+      </g>
+      <g id="i-key" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="15" r="4" />
+        <path d="M11 12l9-9M17 6l3 3M14 9l2 2" />
+      </g>
+      <g id="i-wifi" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 9a15 15 0 0 1 20 0M5.500 12.500a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0" />
+        <circle cx="12" cy="19.500" r="0.800" />
+      </g>
+      <g id="i-mail" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 7l9 6 9-6" />
+      </g>
+      <g id="i-users" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.500" />
+        <path d="M2 20c0-3.500 3-5.500 7-5.500s7 2 7 5.500" />
+        <circle cx="17.500" cy="9" r="2.500" />
+        <path d="M17.500 14.600c2.800 0.300 4.500 2 4.500 4.900" />
+      </g>
+      <g id="i-chat" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12a8.500 8.500 0 0 1-12.600 7.400L3 21l1.600-5.400A8.500 8.500 0 1 1 21 12z" />
+      </g>
+      <g id="i-link" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1" />
+        <path d="M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1" />
+      </g>
+      <g id="i-check" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5" />
+      </g>
+      <!-- Chat bubble with a handset, the familiar WhatsApp shape -->
+      <g id="i-whatsapp">
+        <path fill="none" stroke="currentColor" stroke-width="1.900" stroke-linecap="round" stroke-linejoin="round"
+          d="M12 3a9 9 0 0 0-7.800 13.500L3 21l4.600-1.200A9 9 0 1 0 12 3z" />
+        <path fill="currentColor"
+          d="M9.100 7.600c.2-.4.500-.5.800-.5h.5c.2 0 .4.1.5.4l.8 1.800c.1.3 0 .5-.1.700l-.6.700c-.1.1-.1.300 0 .500.700 1.200 1.700 2.200 2.900 2.900.2.1.4.1.5 0l.7-.6c.2-.2.4-.2.700-.1l1.800.8c.3.1.4.300.4.500v.5c0 .3-.2.600-.5.800-.700.400-1.500.500-2.300.300-2.700-.800-4.800-2.900-5.600-5.600-.2-.8-.1-1.600.3-2.300z" />
+      </g>
+    </defs>
+  </svg>
+
+  <nav class="topnav">
+    <div class="topnav-inner">
+      <a href="#top" class="brand">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <use href="#i-shield" />
+        </svg>
+        <span data-i18n="brand">גלעד טיומקין</span>
+      </a>
+      <div class="topnav-actions">
+        <ul class="topnav-links" id="nav-links">
+          <li><a href="#risk" data-i18n="navRisk">הסיכון</a></li>
+          <li><a href="#service" data-i18n="navService">השירות</a></li>
+          <li><a href="#support" data-i18n="navSupport">תמיכה וליווי</a></li>
+          <li><a href="#audience" data-i18n="navOrgs">קהל יעד</a></li>
+          <li><a href="#about" data-i18n="navAbout">אודות</a></li>
+          <li><a href="#faq" data-i18n="navFaq">שאלות נפוצות</a></li>
+          <!-- Shown in the menu only on very narrow screens, where the button below is hidden -->
+          <li class="nav-contact-item"><a href="#contact" data-i18n="navContact">צרו קשר</a></li>
+        </ul>
+        <a class="btn btn-sm" href="#contact" data-i18n="navContact">צרו קשר</a>
+        <button class="lang-toggle" id="lang-toggle" type="button" lang="en" aria-label="Switch to English">EN</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="תפריט" aria-expanded="false" aria-controls="nav-links"
+          data-i18n-attr="aria-label:navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1">
+
+    <section class="hero" id="top">
+      <div class="wrap">
+        <p class="eyebrow" data-i18n="heroKicker">סייבר אישי לבכירים</p>
+        <h1>
+          <span data-i18n="heroTitle1">נקודת הכניסה לארגון</span>
+          <span class="grad" data-i18n="heroTitle2">עלולה להימצא דווקא מחוץ לו.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="heroSub">מכשירים פרטיים · חשבונות אישיים · רשת ביתית</p>
+        <p class="lede" data-i18n="heroLede">תוקפים מנצלים חולשות במכשירים, בחשבונות וברשתות הביתיות של
+          בכירים כדי להגיע באמצעותם לתוך הארגון. יחד נזהה ונצמצם את הסיכונים הללו, ונחזק את ההגנה גם
+          מחוץ לגבולות הארגון.</p>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="num" data-i18n="pr2Num">בבית הלקוח</span>
+            <span class="label" data-i18n="pr2">מפגש פנים אל פנים</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num" data-i18n="pr1Num">יחס אישי</span>
+            <span class="label" data-i18n="pr1">תהליך המותאם לכל לקוח</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num" data-i18n="pr3Num">דיסקרטי</span>
+            <span class="label" data-i18n="pr3">שמירה על פרטיות מלאה</span>
+          </div>
+          <div class="hero-stat">
+            <span class="num" dir="ltr">20+</span>
+            <span class="label" data-i18n="pr4">שנות ניסיון</span>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn" href="#contact" data-i18n="ctaBook">לתיאום שיחת היכרות</a>
+          <a class="btn btn-ghost" href="#service" data-i18n="ctaService">על השירות</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="risk">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="pbKicker">הסיכון</p>
+          <h2 data-i18n="pbTitle">ההגנה הארגונית לא מגיעה עד הבית</h2>
+          <p class="lead" data-i18n="pbLead">ארגונים משקיעים משאבים רבים בהגנה על המחשבים, הרשתות והמערכות שלהם.
+            אבל מחוץ לארגון, הטלפון הפרטי של המנכ"ל, תיבת המייל האישית, קבוצת הוואטסאפ המשפחתית והרשת הביתית נותרים
+            חשופים. דווקא שם עלולים להימצא פרצות וסיכונים שתוקפים יכולים לנצל כדי להגיע אל הארגון.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card fact">
+            <p class="figure" data-i18n="pb1Fig">מחוץ לניהול הארגוני</p>
+            <h3 data-i18n="pb1Title">מכשירים פרטיים</h3>
+            <p data-i18n="pb1Text">טלפונים, טאבלטים ומחשבים אישיים לא תמיד נמצאים תחת מערך הניהול וההגנה של הארגון.
+              לעיתים הם אינם מעודכנים, אינם מגובים או אינם מוגנים כראוי, ובכל זאת משמשים לגישה למיילים, למסמכים ולמערכות
+              עבודה.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb2Fig">גישה לחשבונות</p>
+            <h3 data-i18n="pb2Title">חשבונות אישיים ורשתות חברתיות</h3>
+            <p data-i18n="pb2Text">תיבות מייל פרטיות, חשבונות Apple ו-Google, וואטסאפ ורשתות חברתיות כמו LinkedIn
+              ופייסבוק מכילים מידע אישי ורגיש. סיסמאות חוזרות, אימות חלש או מנגנוני שחזור חשבון חלשים עלולים לאפשר
+              השתלטות על החשבונות והתחזות לבעליהם.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb3Fig">הגדרות לא מאובטחות</p>
+            <h3 data-i18n="pb3Title">הרשת הביתית</h3>
+            <p data-i18n="pb3Text">ראוטר שלא הוגדר כראוי, סיסמת Wi-Fi חלשה, מצלמות אבטחה ומכשירים חכמים שאינם מוגנים
+              מספיק — כל אלה עלולים לחשוף את הרשת הביתית. זו גם הרשת שממנה מתבצעת לעיתים הגישה למערכות הארגון.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb4Fig">יעד אטרקטיבי</p>
+            <h3 data-i18n="pb4Title">בעלי תפקידי מפתח</h3>
+            <p data-i18n="pb4Text">בכירים בארגון מחזיקים בגישה למידע רגיש ומשפיעים על החלטות עסקיות. עבור תוקפים, פגיעה
+              בחשבונות או במכשירים הפרטיים שלהם יכולה לחשוף מידע בעל ערך ולספק דרך להגיע
+              אל הארגון.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb5Fig">הדרך פנימה</p>
+            <h3 data-i18n="pb5Title">מהסביבה הפרטית אל הארגון</h3>
+            <p data-i18n="pb5Text">חשבון אישי שנפרץ עלול לשמש נקודת כניסה לתוך הארגון: התחזות למנהל מול עובדים
+              ושותפים, ניצול קשרים עסקיים, גישה למידע רגיש או שימוש בפרטים שנחשפו כדי לחדור למערכות הארגון.</p>
+          </div>
+          <div class="card fact">
+            <p class="figure" data-i18n="pb6Fig">פער באחריות</p>
+            <h3 data-i18n="pb6Title">מי אחראי על האבטחה הזו?</h3>
+            <p data-i18n="pb6Text">האחריות על אבטחת המכשירים והחשבונות הפרטיים אינה תמיד מוגדרת או מטופלת במלואה. כך
+              נוצר פער
+              בין מערך ההגנה הארגוני לבין הסביבה הדיגיטלית הפרטית של העובדים — פער שעלול לסכן את הארגון כולו.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec alt" id="service">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="svcKicker">השירות</p>
+          <h2 data-i18n="svcTitle">מחזקים את האבטחה, צעד אחר צעד</h2>
+          <p class="lead" data-i18n="svcLead">שירות אישי המותאם לצרכים ולסביבה הדיגיטלית של כל לקוח ומשלב חיזוק האבטחה
+            בסביבה הפרטית עם הקניית ידע וכלים להתנהלות בטוחה ועצמאית.</p>
+        </div>
+        <ol class="steps grid cols-3">
+          <li class="card step">
+            <span class="step-num" dir="ltr">01</span>
+            <h3 data-i18n="st1Title">שיחת היכרות</h3>
+            <p data-i18n="st1Text">שיחה ראשונית להבנת הצרכים, המכשירים והחשבונות שבהם נעשה שימוש, והנושאים שחשוב לכם
+              להתמקד בהם. כך נוכל להתאים את המפגש ולהגיע מוכנים לעבודה.</p>
+          </li>
+          <li class="card step">
+            <span class="step-num" dir="ltr">02</span>
+            <h3 data-i18n="st2Title">מפגש מעשי בבית</h3>
+            <p data-i18n="st2Text">נבחן את הסביבה הדיגיטלית הפרטית, נגדיר ונחזק את האבטחה במכשירים, בחשבונות וברשת
+              הביתית. נעבוד יחד על המכשירים עצמם, נטפל בנקודות התורפה ונקנה לכם כלים מעשיים להתנהלות בטוחה ועצמאית.</p>
+          </li>
+          <li class="card step">
+            <span class="step-num" dir="ltr">03</span>
+            <h3 data-i18n="st3Title">תמיכה וליווי בהמשך</h3>
+            <p data-i18n="st3Text">גם לאחר המפגש, השירות ממשיך עם תמיכה טכנית וליווי אישי. תוכלו לקבל מענה לשאלות,
+              סיוע בהגדרת מכשירים וחשבונות חדשים ועזרה בהתמודדות עם אירועי אבטחה ואתגרים שעולים לאורך הדרך.</p>
+          </li>
+        </ol>
+        <div class="topics">
+          <h3 data-i18n="tpTitle">במה נטפל במפגש?</h3>
+          <ul class="topic-list">
+            <li>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-phone" />
+                </svg></span>
+              <p><strong data-i18n="tp1Title">מכשירים פרטיים</strong> <span data-i18n="tp1Text">אבטחת הטלפונים, הטאבלטים
+                  והמחשבים של בני הבית.</span></p>
+            </li>
+            <li>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-user" />
+                </svg></span>
+              <p><strong data-i18n="tp2Title">חשבונות אישיים</strong> <span data-i18n="tp2Text">דואר אלקטרוני, חשבונות
+                  Apple ו-Google ורשתות חברתיות.</span></p>
+            </li>
+            <li>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-key" />
+                </svg></span>
+              <p><strong data-i18n="tp3Title">סיסמאות ואימות</strong> <span data-i18n="tp3Text">ניהול סיסמאות, הגדרת
+                  אימות דו-שלבי וחיזוק אפשרויות שחזור החשבונות.</span></p>
+            </li>
+            <li>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-wifi" />
+                </svg></span>
+              <p><strong data-i18n="tp4Title">רשת ביתית</strong> <span data-i18n="tp4Text">ראוטר, רשת Wi-Fi, מצלמות
+                  אבטחה ומכשירים חכמים.</span></p>
+            </li>
+            <li>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-mail" />
+                </svg></span>
+              <p><strong data-i18n="tp5Title">פישינג והתחזות</strong> <span data-i18n="tp5Text">הדרכה לזיהוי הודעות
+                  חשודות וניסיונות התחזות ממוקדים.</span></p>
+            </li>
+          </ul>
+        </div>
+        <div class="sec-cta">
+          <a class="btn" href="#contact" data-i18n="ctaBook">לתיאום שיחת היכרות</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="support">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="spKicker">תמיכה וליווי</p>
+          <h2 data-i18n="spTitle">תמיכה מקצועית, לאורך כל הדרך</h2>
+        </div>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3 data-i18n="sp1Title">יישום והגדרות אבטחה</h3>
+            <p data-i18n="sp1Text">הדרכה בביצוע פעולות אבטחה, ביישום ההמלצות ובשינוי הגדרות במכשירים ובחשבונות,
+              במטרה לאפשר התנהלות עצמאית ובטוחה.</p>
+          </div>
+          <div class="card">
+            <h3 data-i18n="sp2Title">שאלות והתייעצות בנושאי אבטחה</h3>
+            <p data-i18n="sp2Text">מענה לשאלות, בחינת הודעות והתראות חשודות וסיוע בזיהוי ניסיונות פישינג והתחזות.</p>
+          </div>
+          <div class="card">
+            <h3 data-i18n="sp3Title">התמודדות עם אירועי אבטחה</h3>
+            <p data-i18n="sp3Text">סיוע בצעדים הנדרשים במקרה של חשבון שנפרץ, מכשיר שאבד או זוהתה בו פעילות חשודה.</p>
+          </div>
+        </div>
+        <p class="sec-note" data-i18n="spNote">הליווי כלול בשירות במהלך חצי השנה הראשונה, ולאחר מכן ניתן להמשיך ולקבלו
+          במסגרת מסלול בתשלום.</p>
+        <div class="sec-cta">
+          <a class="btn btn-ghost" href="#contact" data-i18n="ctaSupport">לפרטים נוספים וליצירת קשר</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec alt" id="audience">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="orKicker">קהל יעד</p>
+          <h2 data-i18n="orTitle">שירות למנהלים ולבכירים באופן פרטי או במסגרת ארגונית</h2>
+        </div>
+        <div class="grid cols-2">
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-user" />
+              </svg></span>
+            <h3 data-i18n="or1Title">מנהלים ובכירים</h3>
+            <p data-i18n="or1Text">בעלי תפקידי מפתח בארגון המעוניינים לחזק את
+              האבטחה בסביבה הדיגיטלית הפרטית שלהם. השירות מותאם לצרכים האישיים של כל לקוח וניתן באופן דיסקרטי.</p>
+            <ul class="chips">
+              <li data-i18n="or1a">מנכ"לים</li>
+              <li data-i18n="or1b">חברי הנהלה ודירקטוריון</li>
+              <li data-i18n="or1c">מייסדים ובעלי תפקידים רגישים</li>
+            </ul>
+            <a class="ask" href="#contact" data-cta="book"><span data-i18n="or1Cta">לתיאום שיחת היכרות</span> <span
+                class="arr" aria-hidden="true">←</span></a>
+          </div>
+          <div class="card">
+            <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-users" />
+              </svg></span>
+            <h3 data-i18n="or2Title">ארגונים</h3>
+            <p data-i18n="or2Text">ארגונים המעוניינים להרחיב את ההגנה לסביבה הדיגיטלית הפרטית של
+              המנהלים והבכירים שלהם. השירות מאפשר להעניק לכל בכיר מפגש אישי לחיזוק האבטחה, לצד אפשרות לליווי בהמשך בהתאם
+              לצורך. המפגשים מתקיימים בדיסקרטיות, והתוכן והמידע האישי שעולים בהם אינם מועברים לארגון.</p>
+            <ul class="chips">
+              <li data-i18n="or2a">מנהלי אבטחת מידע</li>
+              <li data-i18n="or2b">הנהלות</li>
+              <li data-i18n="or2c">משאבי אנוש</li>
+            </ul>
+            <a class="ask" href="#contact"><span data-i18n="or2Cta">לשיחה על תוכנית לארגון</span> <span class="arr"
+                aria-hidden="true">←</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="about">
+      <div class="wrap about-grid">
+        <div class="portrait">
+          <img src="photo.jpg" alt="דיוקן של גלעד טיומקין" data-i18n-attr="alt:photoAlt">
+        </div>
+        <div class="about-text">
+          <p class="kicker" data-i18n="abKicker">אודות</p>
+          <h2 data-i18n="name">גלעד טיומקין</h2>
+          <p class="role" data-i18n="role">ארכיטקט סייבר עם ניסיון באבטחת סביבות ארגוניות ופרטיות</p>
+          <p class="lead" data-i18n="bio1">במהלך 20 השנים האחרונות עסקתי בתכנון, פיתוח ואבטחה של מערכות ואפליקציות,
+            וצברתי ניסיון רב באבטחת רשתות, תשתיות וסביבות AI.</p>
+          <p class="lead" data-i18n="bio2">כיום אני מיישם את הידע והניסיון האלה גם מחוץ לגבולות הארגון, בהגנה על הסביבה
+            הדיגיטלית הפרטית של המנהלים והבכירים שמובילים אותו.</p>
+          <p class="about-links">
+            <a class="btn btn-ghost btn-sm" href="https://www.linkedin.com/in/gilad-tiomkin" target="_blank"
+              rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-link" />
+              </svg><span data-i18n="abLinkedIn">לפרופיל ב-LinkedIn</span> <span class="sr-only" data-i18n="newTab">
+                (נפתח בלשונית חדשה)</span></a>
+          </p>
+          <div class="creds">
+            <h3 class="creds-title" id="creds-title" data-i18n="credsTitle">הסמכות והוראה</h3>
+            <ul class="grid cols-2 creds-list" aria-labelledby="creds-title">
+              <li class="card">
+                <h4 data-i18n="cr1Title">הסמכת Trusted AI Safety Expert (TAISE)</h4>
+                <p data-i18n="cr1Text">הסמכה מטעם Cloud Security Alliance ואוניברסיטת Northeastern, בתחום אבטחת מערכות
+                  בינה מלאכותית, ניהול סיכונים וממשל AI.</p>
+                <a class="ask"
+                  href="https://www.credly.com/badges/f6e6c11d-4e43-4aaa-b8dc-e0aac279c7ff/linked_in_profile"
+                  target="_blank" rel="noopener"><span data-i18n="cr1Cta">לצפייה בהסמכה</span> <span class="sr-only"
+                    data-i18n="newTab"> (נפתח בלשונית חדשה)</span> <span class="arr" aria-hidden="true">←</span></a>
+              </li>
+              <li class="card">
+                <h4 data-i18n="cr2Title">מרצה בתחום הסייבר והטכנולוגיה</h4>
+                <p data-i18n="cr2Text">מרצה במרכז ההכשרות אנאליזה בתחומי אבטחת סייבר, פיתוח מערכות AI וארכיטקטורת ענן.
+                </p>
+                <a class="ask" href="https://analiza.org.il/" target="_blank" rel="noopener"><span
+                    data-i18n="cr2Cta">לאתר
+                    אנאליזה</span> <span class="sr-only" data-i18n="newTab"> (נפתח בלשונית
+                    חדשה)</span> <span class="arr" aria-hidden="true">←</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec alt" id="faq">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="fqKicker">שאלות נפוצות</p>
+          <h2 data-i18n="fqTitle">שאלות נפוצות על הפגישה</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary><span data-i18n="fq1Q">איפה מתקיימת הפגישה?</span></summary>
+            <p data-i18n="fq1A">הפגישה מתקיימת פנים אל פנים, בבית הלקוח, בישראל. במקום מצגות והסברים תיאורטיים, עובדים
+              יחד על המכשירים והחשבונות עצמם.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq2Q">על מה עוברים בפגישה?</span></summary>
+            <p data-i18n="fq2A">עוברים על הטלפונים, הטאבלטים והמחשבים הפרטיים, חשבונות הדואר האלקטרוני, Apple ו-Google,
+              הרשתות החברתיות, הסיסמאות והאימות הדו-שלבי, וכן על הראוטר, רשת ה-Wi-Fi והמכשירים החכמים בבית. בהתאם
+              לממצאים, מטפלים בנקודות התורפה ומגדירים את הגדרות האבטחה הנדרשות.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq3Q">האם מה שעולה בפגישה נשאר חסוי?</span></summary>
+            <p data-i18n="fq3A">כן. המידע האישי והתכנים שעולים במהלך הפגישה נשארים חסויים ואינם מועברים לארגון, גם כאשר
+              הארגון הוא שמזמין את השירות עבור המנהל.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq4Q">הארגון שלנו כבר משקיע באבטחת מידע. למה צריך גם את זה?</span></summary>
+            <p data-i18n="fq4A">מערך האבטחה הארגוני מתמקד בדרך כלל במחשבים, ברשתות ובמערכות שבאחריות הארגון. לעומת זאת,
+              המכשירים, החשבונות והרשת הביתית של המנהלים נמצאים לרוב מחוץ לתחום ההגנה הארגוני. השירות מרחיב את ההגנה גם
+              לסביבה הזו ומצמצם את הפער שבין הבית לארגון.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq5Q">אפשר לכלול גם את בני המשפחה?</span></summary>
+            <p data-i18n="fq5A">בהחלט. ניתן לכלול בפגישה גם את המכשירים שבהם משתמשים בני המשפחה, כחלק מבחינת הסביבה
+              הדיגיטלית הביתית.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq6Q">מה קורה אחרי הפגישה?</span></summary>
+            <p data-i18n="fq6A">במהלך ששת החודשים הראשונים לאחר הפגישה, התמיכה והליווי כלולים בשירות. הם כוללים הדרכה
+              ביישום ההמלצות ובהגדרות אבטחה, מענה לשאלות והתייעצות מקצועית, וסיוע בהתמודדות עם אירועי אבטחה. לאחר מכן
+              ניתן להמשיך לקבל תמיכה במסגרת מסלול בתשלום.</p>
+          </details>
+          <details>
+            <summary><span data-i18n="fq7Q">איך מתחילים?</span></summary>
+            <p data-i18n="fq7A">אפשר לפנות אליי ישירות בוואטסאפ, או להשאיר פרטים בטופס. אחזור אליכם לשיחת היכרות קצרה,
+              שבה נבין את הצרכים והנושאים שחשוב לכם להתמקד בהם, ומשם נתקדם לתיאום הפגישה.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec contact" id="contact">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker" data-i18n="ctKicker">צרו קשר</p>
+          <h2 data-i18n="ctTitle">סגרו את הפער שבין המשרד לבית</h2>
+          <p class="lead" data-i18n="ctSub">נתחיל בשיחת היכרות קצרה, שבה נבין את הצרכים שלכם. השיחה והמידע שתשתפו יישארו
+            חסויים. אפשר לפנות אליי בוואטסאפ או להשאיר פרטים בטופס, ואחזור אליכם בהקדם.
+          </p>
+        </div>
+
+        <div class="contact-inner">
+          <!-- Shown once the WhatsApp check is available (see the script) -->
+          <div class="contact-card contact-wa" id="wa-field" hidden>
+            <div class="contact-card-head">
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-whatsapp" />
+                </svg></span>
+              <h3 data-i18n="ctWhatsApp">וואטסאפ</h3>
+            </div>
+            <p data-i18n="ctWhatsAppText">שלחו לי הודעה ונוכל לתאם שיחת היכרות קצרה.</p>
+            <a class="btn" id="wa-link" href="#contact-form" data-cta="book" data-i18n="ctWhatsAppValue">שליחת הודעה
+              בוואטסאפ</a>
+          </div>
+
+          <div class="contact-next">
+            <h3 id="next-title" data-i18n="nxTitle">מה קורה אחרי שפונים?</h3>
+            <ol class="next-steps" aria-labelledby="next-title">
+              <li><span><strong data-i18n="nx1Title">שיחת היכרות והכנה</strong> – <span data-i18n="nx1">נסקור את
+                    המכשירים והחשבונות שבהם אתם משתמשים ונזהה את צורכי האבטחה.</span></span></li>
+              <li><span><strong data-i18n="nx2Title">תיאום הפגישה</strong> – <span data-i18n="nx2">נקבע מועד שנוח
+                    לכם.</span></span></li>
+              <li><span><strong data-i18n="nx3Title">מתחילים לעבוד</strong> – <span data-i18n="nx3">נפגשים ומחזקים את
+                    האבטחה בסביבה הדיגיטלית הפרטית.</span></span></li>
+            </ol>
+          </div>
+
+          <form class="contact-card contact-form" id="contact-form" novalidate>
+            <div class="contact-card-head">
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-mail" />
+                </svg></span>
+              <h3 data-i18n="fmTitle">השאירו פרטים</h3>
+            </div>
+            <p class="form-intro" data-i18n="fmIntro">מלאו את הפרטים ואחזור אליכם לתיאום שיחת ההיכרות.</p>
+            <p class="form-note"><span class="req" aria-hidden="true">*</span> <span data-i18n="fmReqNote">שדה
+                חובה</span></p>
+            <div class="form-grid">
+              <div class="form-row">
+                <label class="label" for="f-name"><span data-i18n="fmName">שם מלא</span> <span class="req"
+                    aria-hidden="true">*</span></label>
+                <input type="text" id="f-name" name="name" autocomplete="name" required aria-required="true"
+                  aria-describedby="err-name">
+                <span class="field-error" id="err-name"></span>
+              </div>
+              <div class="form-row">
+                <label class="label" for="f-contact"><span data-i18n="fmContact">אימייל או טלפון</span> <span
+                    class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="f-contact" name="contact" autocomplete="email" dir="auto" required
+                  aria-required="true" aria-describedby="err-contact">
+                <span class="field-error" id="err-contact"></span>
+              </div>
+              <div class="form-row full">
+                <label class="label" for="f-message" data-i18n="fmMessage">הודעה</label>
+                <textarea id="f-message" name="message" rows="4"></textarea>
+              </div>
+            </div>
+            <!-- Honeypot: hidden from people, filled by bots -->
+            <div class="hp" aria-hidden="true">
+              <label for="f-gotcha">Leave this field empty</label>
+              <input type="text" id="f-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+            </div>
+            <button class="btn" type="submit" data-i18n="fmSubmit">שליחת פרטים</button>
+            <p class="form-note" data-i18n="fmNote">אין צורך לפרט כאן מידע רגיש — מספיק שם ודרך ליצור קשר.</p>
+            <output class="form-status" id="form-status" aria-live="polite"></output>
+
+            <!-- Replaces the fields once the details were sent -->
+            <div class="form-success" id="form-success" tabindex="-1" hidden>
+              <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-check" />
+                </svg></span>
+              <h3 data-i18n="okTitle">תודה, הפרטים התקבלו</h3>
+              <p data-i18n="okText">אחזור אליכם בהקדם לתיאום שיחת ההיכרות.</p>
+              <button class="btn btn-ghost btn-sm" type="button" id="form-again" data-i18n="okAgain">שליחת פנייה
+                נוספת</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Floating WhatsApp shortcut: opens the same WhatsApp dialog. Shown by the script when
+       WhatsApp is available, and tucked away while the contact section or footer is on screen. -->
+  <a class="wa-float" id="wa-float" href="#contact" data-cta="book" aria-label="שליחת הודעה בוואטסאפ"
+    data-i18n-attr="aria-label:waFloat" hidden><svg viewBox="0 0 24 24" aria-hidden="true">
+      <use href="#i-whatsapp" />
+    </svg></a>
+
+  <!-- WhatsApp: a Turnstile check runs here, then the Worker returns the chat link.
+       The phone number itself is never in the page. -->
+  <dialog class="check-dialog" id="wa-dialog" aria-labelledby="wa-title">
+    <button class="dialog-close" type="button" aria-label="סגירה" data-close
+      data-i18n-attr="aria-label:waClose">×</button>
+    <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+        <use href="#i-chat" />
+      </svg></span>
+    <h3 id="wa-title" data-i18n="waTitle">מעבר לוואטסאפ</h3>
+    <p class="dialog-text" data-i18n="waText">בדיקת אבטחה קצרה ומיד נפתח את השיחה.</p>
+    <span class="spinner" aria-hidden="true"></span>
+    <!-- Cloudflare's box stays hidden unless it needs the visitor to tick it -->
+    <div class="turnstile offstage" id="wa-turnstile"></div>
+    <output class="dialog-status" aria-live="polite"></output>
+    <a class="btn" id="wa-open" target="_blank" rel="noopener" hidden><span data-i18n="waOpen">פתיחת
+        וואטסאפ</span> <span class="sr-only" data-i18n="newTab"> (נפתח בלשונית חדשה)</span></a>
+    <a class="ask" href="#contact" data-close><span data-i18n="waForm">השאירו פרטים בטופס</span> <span class="arr"
+        aria-hidden="true">←</span></a>
+  </dialog>
+
+  <!-- Contact form: the Turnstile check and the sending happen here, after "send" is pressed -->
+  <dialog class="check-dialog" id="send-dialog" aria-labelledby="send-title">
+    <button class="dialog-close" type="button" aria-label="סגירה" data-close
+      data-i18n-attr="aria-label:waClose">×</button>
+    <span class="icon-box"><svg viewBox="0 0 24 24" aria-hidden="true">
+        <use href="#i-mail" />
+      </svg></span>
+    <h3 id="send-title" data-i18n="sdTitle">שליחת הפרטים</h3>
+    <span class="spinner" aria-hidden="true"></span>
+    <div class="turnstile offstage" id="send-turnstile"></div>
+    <output class="dialog-status" aria-live="polite"></output>
+    <button class="btn" type="button" hidden data-close data-done data-i18n="sdDone">סגירה</button>
+  </dialog>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a href="#top" class="brand">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <use href="#i-shield" />
+            </svg>
+            <span data-i18n="brand">גלעד טיומקין</span>
+          </a>
+          <p data-i18n="ftAbout">אבטחת הסביבה הדיגיטלית הפרטית של מנהלים בכירים – מכשירים, חשבונות ורשת ביתית.</p>
+        </div>
+        <div>
+          <h3 data-i18n="ftService">השירות</h3>
+          <ul>
+            <li><a href="#risk" data-i18n="navRisk">הסיכון</a></li>
+            <li><a href="#service" data-i18n="navService">השירות</a></li>
+            <li><a href="#support" data-i18n="navSupport">תמיכה וליווי</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 data-i18n="ftInfo">מידע</h3>
+          <ul>
+            <li><a href="#audience" data-i18n="navOrgs">קהל יעד</a></li>
+            <li><a href="#about" data-i18n="navAbout">אודות</a></li>
+            <li><a href="#faq" data-i18n="navFaq">שאלות נפוצות</a></li>
+            <li><a href="#contact" data-i18n="navContact">צרו קשר</a></li>
+            <li><a href="accessibility.html" data-i18n="navA11y">הצהרת נגישות</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="copyright">© 2026 גלעד טיומקין</span>
+        <span data-i18n="tagline">מכשירים / חשבונות / רשת ביתית</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // English copy; the Hebrew lives in the markup and is cached from the DOM.
+      var en = {
+        title: 'Gilad Tiomkin — Personal Cybersecurity for Senior Executives',
+        metaDesc: "Attackers get inside organizations through executives' devices, accounts and home networks. A private session to identify and reduce those risks, beyond the organization's boundaries.",
+        brand: 'Gilad Tiomkin',
+        navRisk: 'The risk',
+        navService: 'The service',
+        navSupport: 'Support & guidance',
+        navOrgs: "Who it's for",
+        navAbout: 'About',
+        navFaq: 'FAQ',
+        navContact: 'Contact',
+        navA11y: 'Accessibility statement',
+        skip: 'Skip to main content',
+        newTab: '(opens in a new tab)',
+        navToggle: 'Toggle menu',
+        heroKicker: 'Personal cybersecurity for executives',
+        heroTitle1: 'The way into your organization',
+        heroTitle2: 'may lie outside it.',
+        heroSub: 'Personal devices · Personal accounts · Home network',
+        heroLede: "Attackers exploit weaknesses in executives' devices, accounts and home networks to get inside the organization through them. Together, we'll identify and reduce these risks, and strengthen protection beyond the organization's boundaries.",
+        ctaBook: 'Book an intro call',
+        ctaService: 'About the service',
+        ctaSupport: 'Get in touch for more details',
+        photoAlt: 'Portrait of Gilad Tiomkin',
+        pr2Num: 'At your home',
+        pr2: 'Face-to-face meeting',
+        pr1Num: 'Personal attention',
+        pr1: 'A process tailored to each client',
+        pr3Num: 'Discreet',
+        pr3: 'Complete privacy',
+        pr4: 'Years of experience',
+        pbKicker: 'The risk',
+        pbTitle: "Corporate protection doesn't reach the home",
+        pbLead: "Organizations invest significant resources in protecting their computers, networks and systems. But outside the organization, the CEO's private phone, personal inbox, family WhatsApp group and home network remain exposed. That is exactly where weaknesses and risks can be found that attackers may exploit to reach the organization.",
+        pb1Fig: 'Outside corporate management',
+        pb1Title: 'Private devices',
+        pb1Text: "Personal phones, tablets and computers are not always covered by the organization's management and protection. Sometimes they are not updated, backed up or properly protected, yet they are used to access email, documents and work systems.",
+        pb2Fig: 'Account access',
+        pb2Title: 'Personal accounts and social networks',
+        pb2Text: 'Private inboxes, Apple and Google accounts, WhatsApp and social networks like LinkedIn and Facebook hold personal and sensitive information. Reused passwords, weak authentication or weak account recovery mechanisms can let someone take over the accounts and impersonate their owners.',
+        pb3Fig: 'Insecure settings',
+        pb3Title: 'The home network',
+        pb3Text: "A poorly configured router, a weak Wi-Fi password, security cameras and smart devices that are not well protected — all of these can expose the home network. It is also the network from which the organization's systems are sometimes accessed.",
+        pb4Fig: 'An attractive target',
+        pb4Title: 'People in key roles',
+        pb4Text: 'Senior executives have access to sensitive information and influence business decisions. For attackers, compromising their private accounts or devices can expose valuable information and provide a way to reach the organization.',
+        pb5Fig: 'The way in',
+        pb5Title: 'From the private sphere into the organization',
+        pb5Text: "A compromised personal account can become an entry point into the organization: impersonating a manager to employees and partners, exploiting business relationships, reaching sensitive information, or using exposed details to break into the organization's systems.",
+        pb6Fig: 'A responsibility gap',
+        pb6Title: 'Who is responsible for this security?',
+        pb6Text: "Responsibility for securing private devices and accounts is not always defined or fully handled. This creates a gap between the organization's security and employees' private digital environment — a gap that can put the whole organization at risk.",
+        svcKicker: 'The service',
+        svcTitle: 'Strengthening your security, step by step',
+        svcLead: "A personal service tailored to each client's needs and digital environment, combining stronger security in your private environment with the knowledge and tools to stay safe on your own.",
+        st1Title: 'Intro call',
+        st1Text: 'An initial call to understand your needs, the devices and accounts you use, and the topics you want to focus on, so we can tailor the session and come prepared to work.',
+        st2Title: 'Hands-on session at your home',
+        st2Text: 'We review your private digital environment and set up and strengthen security across your devices, accounts and home network. Working together on the devices themselves, we fix weak spots and give you practical tools to stay safe on your own.',
+        st3Title: 'Ongoing support and guidance',
+        st3Text: 'The service continues after the session with technical support and personal guidance. You can get answers to your questions, help setting up new devices and accounts, and support in handling security incidents and challenges that come up along the way.',
+        tpTitle: 'What we cover in the session',
+        tp1Title: 'Private devices',
+        tp1Text: 'Securing the phones, tablets and computers used by everyone in the household.',
+        tp2Title: 'Personal accounts',
+        tp2Text: 'Email, Apple and Google accounts, and social networks.',
+        tp3Title: 'Passwords and sign-in',
+        tp3Text: 'Managing passwords, setting up two-factor authentication and strengthening account recovery options.',
+        tp4Title: 'Home network',
+        tp4Text: 'Router, Wi-Fi network, security cameras and smart devices.',
+        tp5Title: 'Phishing and impersonation',
+        tp5Text: 'Training to spot suspicious messages and targeted impersonation attempts.',
+        spKicker: 'Support and guidance',
+        spTitle: 'Professional support, every step of the way',
+        sp1Title: 'Applying security settings',
+        sp1Text: 'Guidance in carrying out security tasks, applying the recommendations and changing settings on your devices and accounts, so you can manage on your own, safely.',
+        sp2Title: 'Security questions and advice',
+        sp2Text: 'Answers to your questions, review of suspicious messages and alerts, and help spotting phishing and impersonation attempts.',
+        sp3Title: 'Handling security incidents',
+        sp3Text: 'Help with the steps to take when an account is compromised, a device is lost or suspicious activity is detected on it.',
+        spNote: 'Support is included in the service for the first six months. After that, you can continue with a paid plan.',
+        orKicker: "Who it's for",
+        orTitle: 'A service for executives and senior leaders, privately or through their organization',
+        or1Title: 'Executives and senior leaders',
+        or1Text: "People in key roles who want to strengthen the security of their private digital environment. The service is tailored to each client's personal needs and delivered discreetly.",
+        or1a: 'CEOs',
+        or1b: 'Executive team and board members',
+        or1c: 'Founders and people in sensitive roles',
+        or1Cta: 'Book an intro call',
+        or2Title: 'Organizations',
+        or2Text: 'Organizations that want to extend protection to the private digital environment of their executives and senior leaders. Each executive gets a personal session to strengthen their security, with the option of ongoing support as needed. Sessions are held discreetly, and the content and personal information that come up are not shared with the organization.',
+        or2a: 'CISOs',
+        or2b: 'Leadership teams',
+        or2c: 'HR',
+        or2Cta: 'Talk about a program for your organization',
+        abKicker: 'About',
+        name: 'Gilad Tiomkin',
+        role: 'Cyber Architect with experience securing corporate and private environments',
+        bio1: "Over the past 20 years, I've designed, developed, and secured systems and applications, gaining extensive experience securing networks, infrastructure, and AI environments.",
+        bio2: "Today I apply that knowledge and experience beyond the organization's perimeter as well, protecting the private digital environments of the executives and senior leaders who run it.",
+        credsTitle: 'Certifications & Teaching',
+        abLinkedIn: 'View LinkedIn profile',
+        cr1Title: 'Trusted AI Safety Expert (TAISE) certification',
+        cr1Text: 'Certification from the Cloud Security Alliance and Northeastern University in AI system security, risk management, and AI governance.',
+        cr1Cta: 'View credential',
+        cr2Title: 'Cyber and technology lecturer',
+        cr2Text: 'Lecturer at Analiza Education Center in cyber security, AI system development, and cloud architecture.',
+        cr2Cta: 'Visit Analiza',
+        fqKicker: 'FAQ',
+        fqTitle: 'Common questions about the session',
+        fq1Q: 'Where does the session take place?',
+        fq1A: "The session takes place face to face, at the client's home, in Israel. Instead of slides and theoretical explanations, we work together on the devices and accounts themselves.",
+        fq2Q: 'What do we go through in the session?',
+        fq2A: 'We go through your personal phones, tablets and computers, your email, Apple and Google accounts, social media, passwords and two-factor authentication, as well as the router, the Wi-Fi network and the smart devices at home. Based on the findings, we address the weak spots and configure the security settings that are needed.',
+        fq3Q: 'Does what comes up in the session stay confidential?',
+        fq3A: 'Yes. The personal information and anything that comes up during the session stay confidential and are not passed on to the organization, even when the organization books the service for the executive.',
+        fq4Q: 'Our organization already invests in security. Why do we need this too?',
+        fq4A: "Corporate security usually focuses on the computers, networks and systems the organization is responsible for. The executives' devices, accounts and home network, however, usually sit outside the organization's protection. The service extends protection to that environment too and narrows the gap between home and the organization.",
+        fq5Q: 'Can family members be included?',
+        fq5A: 'Absolutely. The session can also cover the devices your family members use, as part of reviewing the digital environment at home.',
+        fq6Q: 'What happens after the session?',
+        fq6A: 'For the first six months after the session, support and guidance are included in the service. They include help applying the recommendations and security settings, answers to questions and professional advice, and assistance in dealing with security incidents. After that, you can continue receiving support with a paid plan.',
+        fq7Q: 'How do we get started?',
+        fq7A: 'You can reach me directly on WhatsApp, or leave your details in the form. I will get back to you for a short intro call, where we will understand your needs and the topics you want to focus on, and from there we will move on to scheduling the session.',
+        ctKicker: 'Contact',
+        ctTitle: 'Close the gap between the office and home',
+        ctSub: "We'll start with a short intro call to understand your needs. The call and anything you share will stay confidential. You can reach me on WhatsApp or leave your details in the form, and I'll get back to you soon.",
+        ctWhatsApp: 'WhatsApp',
+        ctWhatsAppText: 'Send me a message and we can set up a short intro call.',
+        ctWhatsAppValue: 'Message on WhatsApp',
+        waFloat: 'Message on WhatsApp',
+        nxTitle: 'What happens next?',
+        nx1Title: 'Intro call and preparation',
+        nx1: "we'll review the devices and accounts you use and identify your security needs.",
+        nx2Title: 'Scheduling the session',
+        nx2: "we'll set a time that suits you.",
+        nx3Title: 'Getting to work',
+        nx3: 'we meet and strengthen the security of your private digital environment.',
+        waClose: 'Close',
+        waTitle: 'Opening WhatsApp',
+        waText: 'A quick security check, and the chat opens right after.',
+        waOpen: 'Open WhatsApp',
+        waForm: 'Leave your details in the form',
+        sdTitle: 'Sending your details',
+        sdDone: 'Close',
+        fmTitle: 'Leave your details',
+        fmIntro: "Fill in your details and I'll get back to you to set up the intro call.",
+        fmName: 'Full name',
+        fmContact: 'Email or phone',
+        fmMessage: 'Message',
+        fmReqNote: 'Required field',
+        fmSubmit: 'Send details',
+        fmNote: 'No need to share anything sensitive here — a name and a way to reach you is enough.',
+        okTitle: 'Thank you, your details were received',
+        okText: "I'll get back to you soon to set up the intro call.",
+        okAgain: 'Send another message',
+        ftAbout: 'Securing the private digital lives of senior executives — devices, accounts and the home network.',
+        ftService: 'The service',
+        ftInfo: 'Information',
+        copyright: '© 2026 Gilad Tiomkin',
+        tagline: 'Devices / Accounts / Home network'
+      };
+
+      var root = document.documentElement;
+      var toggle = document.getElementById('lang-toggle');
+
+      // Cache the Hebrew originals from the DOM
+      var textEls = Array.prototype.map.call(document.querySelectorAll('[data-i18n]'), function (el) {
+        return { el: el, key: el.dataset.i18n, he: el.textContent.replace(/\s+/g, ' ').trim() };
+      });
+      var attrEls = [];
+      Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-attr]'), function (el) {
+        el.dataset.i18nAttr.split(';').forEach(function (pair) {
+          var parts = pair.split(':');
+          var attr = parts[0].trim();
+          attrEls.push({ el: el, attr: attr, key: parts[1].trim(), he: el.getAttribute(attr) });
+        });
+      });
+
+      function applyLang(lang) {
+        var isEn = lang === 'en';
+        root.lang = lang;
+        root.dir = isEn ? 'ltr' : 'rtl';
+        textEls.forEach(function (t) {
+          t.el.textContent = isEn ? en[t.key] : t.he;
+        });
+        attrEls.forEach(function (a) {
+          a.el.setAttribute(a.attr, isEn ? en[a.key] : a.he);
+        });
+        if (toggle) {
+          toggle.textContent = isEn ? 'עב' : 'EN';
+          toggle.setAttribute('lang', isEn ? 'he' : 'en');
+          toggle.setAttribute('aria-label', isEn ? 'מעבר לעברית' : 'Switch to English');
+        }
+        document.dispatchEvent(new Event('langchange'));
+      }
+
+      applyLang(root.lang === 'en' ? 'en' : 'he');
+
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          var next = root.lang === 'en' ? 'he' : 'en';
+          applyLang(next);
+          try { localStorage.setItem('lang', next); } catch (e) { }
+        });
+      }
+    })();
+
+    (function () {
+      // ---- Contact settings: fill these in ----
+      // Cloudflare Worker URL (see contact-worker/).
+      // Empty, or no Turnstile site key = the form can't be sent (no email address is exposed).
+      var FORM_ENDPOINT = 'https://forms.tiomking.com';
+      var TURNSTILE_SITE_KEY = '0x4AAAAAAGFqky99b52fDBq1';  // public site key of the Turnstile widget
+      // WhatsApp buttons get the chat link from the Worker after a Turnstile check; the number
+      // is the Worker secret WHATSAPP_NUMBER. false = the buttons just scroll to the form.
+      var WHATSAPP_ENABLED = true;
+
+      var useWorker = !!(FORM_ENDPOINT && TURNSTILE_SITE_KEY);
+
+      var msgs = {
+        he: {
+          checking: 'מבצעים בדיקת אבטחה קצרה…',
+          interact: 'נא לסמן את התיבה כדי להמשיך.',
+          verifyFailed: 'השליחה נכשלה. אפשר לנסות שוב בעוד כמה דקות.',
+          missing: 'נא לתקן את השדות המסומנים.',
+          needName: 'נא למלא שם.',
+          needContact: 'נא למלא אימייל או טלפון.',
+          badContact: 'נא להזין כתובת אימייל או מספר טלפון תקינים.',
+          sending: 'שולח…',
+          sent: 'תודה, ההודעה התקבלה. אחזור אליכם בהקדם.',
+          failed: 'השליחה נכשלה. אפשר לנסות שוב בעוד כמה דקות.',
+          unavailable: 'לא ניתן לשלוח את הטופס מהדפדפן הזה. נא לנסות מדפדפן מעודכן.',
+          waOpening: 'פותחים את וואטסאפ…',
+          waReady: 'הכול מוכן — לחצו כדי לפתוח את וואטסאפ.',
+          waFailed: 'שליחת ההודעה נכשלה.'
+        },
+        en: {
+          checking: 'Running a quick security check…',
+          interact: 'Please tick the box to continue.',
+          verifyFailed: "Sending failed. Please try again in a few minutes.",
+          missing: 'Please correct the highlighted fields.',
+          needName: 'Please enter your name.',
+          needContact: 'Please enter an email or phone number.',
+          badContact: 'Please enter a valid email address or phone number.',
+          sending: 'Sending…',
+          sent: "Thank you, your message was received. I'll get back to you soon.",
+          failed: 'Sending failed. Please try again in a few minutes.',
+          unavailable: "The form can't be sent from this browser. Please try an up-to-date browser.",
+          waOpening: 'Opening WhatsApp…',
+          waReady: 'All set — tap to open WhatsApp.',
+          waFailed: "Sending the message failed."
+        }
+      };
+
+      function m() {
+        return document.documentElement.lang === 'en' ? msgs.en : msgs.he;
+      }
+
+      // ---- Cloudflare Turnstile ----
+      // The script loads only when something needs it (the form is sent, or a WhatsApp button is
+      // clicked), so people who just read the page never contact Cloudflare.
+      var tsRequested = false;
+      var tsReady = false;
+      var tsQueue = [];
+
+      function withTurnstile(fn) {
+        if (tsReady) { fn(); return; }
+        tsQueue.push(fn);
+        if (tsRequested) return;
+        tsRequested = true;
+        window.onTurnstileLoad = function () {
+          tsReady = true;
+          tsQueue.splice(0).forEach(function (f) { f(); });
+        };
+        var ts = document.createElement('script');
+        ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
+        ts.async = true;
+        ts.onerror = function () {
+          tsRequested = false; // allow a later retry
+          tsQueue = [];
+          document.dispatchEvent(new Event('turnstileerror'));
+        };
+        document.head.appendChild(ts);
+      }
+
+      function widgetLang() {
+        return document.documentElement.lang === 'en' ? 'en' : 'he';
+      }
+
+      // ---- Check dialogs ----
+      // The WhatsApp link and the contact form both run their Turnstile check inside a dialog
+      // styled like the site. Cloudflare's own box stays hidden (appearance: interaction-only)
+      // unless it needs the visitor to tick it; a spinner and a status line show progress.
+      var canDialog = typeof HTMLDialogElement === 'function';
+
+      function setupDialog(dlg) {
+        var status = dlg.querySelector('.dialog-status');
+        var spinner = dlg.querySelector('.spinner');
+        var intro = dlg.querySelector('.dialog-text');
+        var done = dlg.querySelector('[data-done]');
+        var ui = {
+          show: function () { if (!dlg.open) dlg.showModal(); },
+          close: function () { if (dlg.open) dlg.close(); },
+          // state: 'busy' (spinner), 'idle' (waiting for the visitor), 'ok' or 'error' (finished)
+          set: function (text, state) {
+            status.textContent = text;
+            status.classList.toggle('error', state === 'error');
+            status.classList.toggle('success', state === 'ok');
+            spinner.hidden = state !== 'busy';
+            // The intro promises the chat is about to open, which no longer holds after a failure
+            if (intro) intro.hidden = state === 'error';
+            if (done) {
+              done.hidden = !(state === 'ok' || state === 'error');
+              if (!done.hidden && dlg.open) done.focus();
+            }
+          }
+        };
+        Array.prototype.forEach.call(dlg.querySelectorAll('[data-close]'), function (el) {
+          el.addEventListener('click', ui.close);
+        });
+        // Close on a click on the backdrop (outside the box), not on the dialog's own padding
+        dlg.addEventListener('click', function (e) {
+          if (e.target !== dlg) return;
+          var r = dlg.getBoundingClientRect();
+          if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) ui.close();
+        });
+        return ui;
+      }
+
+      // ---- WhatsApp ----
+      // Every link marked data-cta="book" opens the WhatsApp dialog; after the check the Worker
+      // returns the wa.me link. Without it (no Worker, no <dialog> support, JS off) the same links
+      // simply scroll to the contact form. The main "book a session" buttons are not marked, so
+      // they always scroll to the contact section.
+      var waDialog = document.getElementById('wa-dialog');
+      var useWhatsApp = useWorker && WHATSAPP_ENABLED && canDialog && !!waDialog;
+
+      if (useWhatsApp) {
+        var wa = setupDialog(waDialog);
+        var waBox = document.getElementById('wa-turnstile');
+        var waOpen = document.getElementById('wa-open');
+        var waWidget = null;
+        var waTimer = null;
+
+        var waFail = function () {
+          clearTimeout(waTimer);
+          if (waDialog.open && waOpen.hidden) wa.set(m().waFailed, 'error');
+        };
+
+        var waGotToken = function (token) {
+          if (!waDialog.open) return; // only act on a check the visitor just started
+          wa.set(m().waOpening, 'busy');
+          fetch(FORM_ENDPOINT + '/whatsapp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ turnstileToken: token, lang: document.documentElement.lang })
+          }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          }).then(function (d) {
+            if (!d || !d.ok || typeof d.url !== 'string' || d.url.indexOf('https://wa.me/') !== 0) {
+              throw new Error('bad response');
+            }
+            clearTimeout(waTimer);
+            waOpen.href = d.url;
+            // Browsers may block a new tab opened this long after the click; then offer a button.
+            var w = window.open(d.url, '_blank');
+            if (w) {
+              try { w.opener = null; } catch (err) { }
+              wa.close();
+            } else {
+              waOpen.hidden = false;
+              wa.set(m().waReady, 'ok');
+              waOpen.focus();
+            }
+          }).catch(waFail);
+        };
+
+        var openWhatsApp = function (e) {
+          e.preventDefault();
+          waOpen.hidden = true;
+          waOpen.removeAttribute('href');
+          wa.set(m().checking, 'busy');
+          wa.show();
+          clearTimeout(waTimer);
+          waTimer = setTimeout(waFail, 30000);
+          withTurnstile(function () {
+            if (waWidget === null) {
+              waWidget = window.turnstile.render(waBox, {
+                sitekey: TURNSTILE_SITE_KEY,
+                theme: 'dark',
+                language: widgetLang(),
+                appearance: 'interaction-only',
+                'refresh-expired': 'never',
+                callback: waGotToken,
+                'error-callback': waFail,
+                'timeout-callback': waFail,
+                'unsupported-callback': waFail,
+                'before-interactive-callback': function () {
+                  clearTimeout(waTimer); // the visitor may take a moment to tick the box
+                  waBox.classList.remove('offstage');
+                  wa.set(m().interact, 'idle');
+                },
+                'after-interactive-callback': function () {
+                  waBox.classList.add('offstage');
+                  wa.set(m().checking, 'busy');
+                }
+              });
+            } else {
+              window.turnstile.reset(waWidget); // tokens work once; get a fresh one
+            }
+          });
+        };
+
+        // These links now open a dialog instead of navigating, so tell assistive tech they act as
+        // buttons, and let Space activate them like a real button.
+        Array.prototype.forEach.call(document.querySelectorAll('[data-cta="book"]'), function (a) {
+          a.setAttribute('role', 'button');
+          a.setAttribute('aria-haspopup', 'dialog');
+          a.addEventListener('click', openWhatsApp);
+          a.addEventListener('keydown', function (e) {
+            if (e.key === ' ' || e.key === 'Spacebar') openWhatsApp(e);
+          });
+        });
+        waOpen.addEventListener('click', wa.close);
+        waDialog.addEventListener('close', function () { clearTimeout(waTimer); });
+        document.addEventListener('turnstileerror', waFail);
+
+        var waField = document.getElementById('wa-field');
+        if (waField) waField.hidden = false;
+
+        // Floating shortcut: steps aside while the contact section (which has its own WhatsApp
+        // button) or the footer is on screen, so it never covers the form or the footer links.
+        var waFloat = document.getElementById('wa-float');
+        if (waFloat) {
+          waFloat.hidden = false;
+          if ('IntersectionObserver' in window) {
+            var onScreen = [];
+            var io = new IntersectionObserver(function (entries) {
+              entries.forEach(function (en) {
+                var i = onScreen.indexOf(en.target);
+                if (en.isIntersecting && i < 0) onScreen.push(en.target);
+                if (!en.isIntersecting && i >= 0) onScreen.splice(i, 1);
+              });
+              var away = onScreen.length > 0;
+              if (away && document.activeElement === waFloat) waFloat.blur();
+              waFloat.classList.toggle('is-away', away);
+            });
+            Array.prototype.forEach.call(document.querySelectorAll('#contact, footer'), function (el) {
+              io.observe(el);
+            });
+          }
+        }
+      }
+
+      // ---- Contact form ----
+      var form = document.getElementById('contact-form');
+      var status = document.getElementById('form-status');
+      if (!form || !status) return;
+
+      // key: a message name in msgs (kept so the line can follow a language switch), or '' to clear
+      function setStatus(key, isError) {
+        if (key) status.dataset.msg = key;
+        else delete status.dataset.msg;
+        status.textContent = key ? m()[key] : '';
+        status.classList.toggle('error', !!isError);
+      }
+
+      // Each required field has its own error line (linked with aria-describedby)
+      function setFieldError(el, key) {
+        var err = document.getElementById(el.getAttribute('aria-describedby'));
+        if (key) {
+          el.setAttribute('aria-invalid', 'true');
+          err.dataset.err = key;
+          err.textContent = m()[key];
+        } else {
+          el.removeAttribute('aria-invalid');
+          delete err.dataset.err;
+          err.textContent = '';
+        }
+      }
+
+      // An email address, or a phone number with at least 7 digits
+      function contactOk(v) {
+        if (v.indexOf('@') >= 0) return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(v);
+        return /^[+\d\s().-]+$/.test(v) && v.replace(/\D/g, '').length >= 7;
+      }
+
+      // Clear a field's error once the visitor edits it
+      form.addEventListener('input', function (e) {
+        if (e.target.getAttribute('aria-invalid') === 'true' && e.target.value.trim()) {
+          setFieldError(e.target, null);
+        }
+      });
+
+      // Keep visible error lines in the current language
+      document.addEventListener('langchange', function () {
+        Array.prototype.forEach.call(form.querySelectorAll('[data-err]'), function (err) {
+          err.textContent = m()[err.dataset.err];
+        });
+        if (status.dataset.msg) status.textContent = m()[status.dataset.msg];
+      });
+
+      // Success: the fields make way for a thank-you panel
+      var success = document.getElementById('form-success');
+      var again = document.getElementById('form-again');
+
+      function showSuccess() {
+        setStatus('', false);
+        form.classList.add('sent');
+        success.hidden = false;
+        success.focus();
+      }
+
+      again.addEventListener('click', function () {
+        success.hidden = true;
+        form.classList.remove('sent');
+        form.elements.name.focus();
+      });
+
+      // Pressing send opens the sending dialog, which runs the Turnstile check and then sends.
+      var sendDialog = document.getElementById('send-dialog');
+      var useSendDialog = useWorker && canDialog && !!sendDialog;
+      var sd = useSendDialog ? setupDialog(sendDialog) : null;
+      var sendBox = document.getElementById('send-turnstile');
+      var sendWidget = null;
+      var pending = null;  // the submission waiting for its check
+      var sending = false; // the request to the Worker is under way
+      var button = form.querySelector('button[type="submit"]');
+
+      // The outcome shows in the dialog and also stays under the form.
+      function finish(key, state) {
+        pending = null;
+        sending = false;
+        button.disabled = false;
+        if (state === 'ok') {
+          sd.close();
+          showSuccess();
+          return;
+        }
+        setStatus(key, state === 'error');
+        if (sendDialog.open) sd.set(m()[key], state);
+      }
+
+      function verifyFailed() {
+        if (!pending || sending) return;
+        finish('verifyFailed', 'error');
+      }
+
+      function sendForm(token) {
+        var data = pending;
+        if (!data || sending) return; // a token arriving with nothing to send
+        sending = true;
+        data.turnstileToken = token;
+        sd.set(m().sending, 'busy');
+        fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          form.reset();
+          finish('sent', 'ok');
+        }).catch(function () {
+          finish('failed', 'error');
+        });
+      }
+
+      function runCheck() {
+        withTurnstile(function () {
+          if (sendWidget === null) {
+            sendWidget = window.turnstile.render(sendBox, {
+              sitekey: TURNSTILE_SITE_KEY,
+              theme: 'dark',
+              language: widgetLang(),
+              execution: 'execute',
+              appearance: 'interaction-only',
+              'refresh-expired': 'never',
+              callback: sendForm,
+              'error-callback': verifyFailed,
+              'timeout-callback': verifyFailed,
+              'unsupported-callback': verifyFailed,
+              'before-interactive-callback': function () {
+                sendBox.classList.remove('offstage');
+                sd.set(m().interact, 'idle');
+              },
+              'after-interactive-callback': function () {
+                sendBox.classList.add('offstage');
+                sd.set(m().checking, 'busy');
+              }
+            });
+          } else {
+            window.turnstile.reset(sendWidget); // tokens work once; start a fresh check
+          }
+          window.turnstile.execute(sendWidget);
+        });
+      }
+
+      if (useSendDialog) {
+        // Closing the dialog before the check finishes cancels the submission; once the
+        // request is under way it completes and the result shows under the form.
+        sendDialog.addEventListener('close', function () {
+          if (pending && !sending) {
+            pending = null;
+            button.disabled = false;
+          }
+          // The dialog hands focus back to the send button, which was still disabled then, so
+          // focus can be left on the body or on the closed dialog's own button
+          var f = document.activeElement;
+          if ((!f || f === document.body || sendDialog.contains(f)) && !button.disabled) button.focus();
+        });
+        document.addEventListener('turnstileerror', verifyFailed);
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var t = m();
+        var f = form.elements;
+        if (f._gotcha.value) return; // bot
+        // Mark each invalid required field and move focus to the first one
+        var contactVal = f.contact.value.trim();
+        setFieldError(f.name, f.name.value.trim() ? null : 'needName');
+        var contactErr = null;
+        if (!contactVal) contactErr = 'needContact';
+        else if (!contactOk(contactVal)) contactErr = 'badContact';
+        setFieldError(f.contact, contactErr);
+        var invalid = [f.name, f.contact].filter(function (el) {
+          return el.getAttribute('aria-invalid') === 'true';
+        });
+        if (invalid.length) {
+          setStatus('missing', true);
+          invalid[0].focus();
+          return;
+        }
+        if (!useSendDialog) {
+          setStatus('unavailable', true);
+          return;
+        }
+        if (pending) return; // already checking or sending
+        pending = {
+          name: f.name.value.trim(),
+          contact: f.contact.value.trim(),
+          message: f.message.value.trim()
+        };
+        button.disabled = true;
+        setStatus('', false);
+        sd.set(t.checking, 'busy');
+        sd.show();
+        runCheck();
+      });
+    })();
+
+    (function () {
+      var nav = document.querySelector('nav.topnav');
+      var toggle = document.getElementById('nav-toggle');
+      var links = document.getElementById('nav-links');
+      if (!nav || !toggle || !links) return;
+
+      function closeMenu() {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      function toggleMenu() {
+        var isOpen = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      // Close after picking a link, so the menu doesn't stay open over the section
+      links.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Close on outside tap/click
+      document.addEventListener('click', function (e) {
+        if (!links.classList.contains('open')) return;
+        if (!links.contains(e.target) && !toggle.contains(e.target)) {
+          closeMenu();
+        }
+      });
+
+      // Esc closes the menu and returns to its button
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && links.classList.contains('open')) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+
+      // Close once keyboard focus leaves the nav, so the open menu never covers what gets focus
+      nav.addEventListener('focusout', function (e) {
+        if (links.classList.contains('open') && e.relatedTarget && !nav.contains(e.relatedTarget)) {
+          closeMenu();
+        }
+      });
+
+      // Close if the window is resized back to desktop width (same breakpoint as style.css)
+      var mobileNav = window.matchMedia('(max-width: 65em)');
+      window.addEventListener('resize', function () {
+        if (!mobileNav.matches) closeMenu();
+      });
+    })();
+  </script>
+</body>
+
+</html>
