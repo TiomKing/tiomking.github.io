@@ -593,6 +593,7 @@
     <output class="dialog-status" aria-live="polite"></output>
     <a class="btn" id="wa-open" target="_blank" rel="noopener" hidden><span data-i18n="waOpen">פתיחת
         וואטסאפ</span> <span class="sr-only" data-i18n="newTab"> (נפתח בלשונית חדשה)</span></a>
+    <button class="btn" type="button" hidden data-close data-done="error" data-i18n="sdDone">סגירה</button>
     <a class="ask" href="#contact" data-close><span data-i18n="waForm">השאירו פרטים בטופס</span> <span class="arr"
         aria-hidden="true">←</span></a>
   </dialog>
@@ -605,6 +606,7 @@
         <use href="#i-mail" />
       </svg></span>
     <h3 id="send-title" data-i18n="sdTitle">שליחת הפרטים</h3>
+    <p class="dialog-text" data-i18n="sdText">בדיקת אבטחה קצרה ומיד נשלח את הפרטים.</p>
     <span class="spinner" aria-hidden="true"></span>
     <div class="turnstile offstage" id="send-turnstile"></div>
     <output class="dialog-status" aria-live="polite"></output>
@@ -796,6 +798,7 @@
         waOpen: 'Open WhatsApp',
         waForm: 'Leave your details in the form',
         sdTitle: 'Sending your details',
+        sdText: 'A quick security check, and your details are sent right after.',
         sdDone: 'Close',
         fmTitle: 'Leave your details',
         fmIntro: "Fill in your details and I'll get back to you to set up the intro call.",
@@ -886,8 +889,7 @@
           failed: 'השליחה נכשלה. אפשר לנסות שוב בעוד כמה דקות.',
           unavailable: 'לא ניתן לשלוח את הטופס מהדפדפן הזה. נא לנסות מדפדפן מעודכן.',
           waOpening: 'פותחים את וואטסאפ…',
-          waReady: 'הכול מוכן — לחצו כדי לפתוח את וואטסאפ.',
-          waFailed: 'שליחת ההודעה נכשלה.'
+          waReady: 'הכול מוכן — לחצו כדי לפתוח את וואטסאפ.'
         },
         en: {
           checking: 'Running a quick security check…',
@@ -902,8 +904,7 @@
           failed: 'Sending failed. Please try again in a few minutes.',
           unavailable: "The form can't be sent from this browser. Please try an up-to-date browser.",
           waOpening: 'Opening WhatsApp…',
-          waReady: 'All set — tap to open WhatsApp.',
-          waFailed: "Sending the message failed."
+          waReady: 'All set — tap to open WhatsApp.'
         }
       };
 
@@ -965,7 +966,9 @@
             // The intro promises the chat is about to open, which no longer holds after a failure
             if (intro) intro.hidden = state === 'error';
             if (done) {
-              done.hidden = !(state === 'ok' || state === 'error');
+              // data-done="error": shown only after a failure (the WhatsApp dialog has its own
+              // "Open WhatsApp" button when it succeeds)
+              done.hidden = !(state === 'error' || (state === 'ok' && done.getAttribute('data-done') !== 'error'));
               if (!done.hidden && dlg.open) done.focus();
             }
           }
@@ -999,7 +1002,7 @@
 
         var waFail = function () {
           clearTimeout(waTimer);
-          if (waDialog.open && waOpen.hidden) wa.set(m().waFailed, 'error');
+          if (waDialog.open && waOpen.hidden) wa.set(m().failed, 'error');
         };
 
         var waGotToken = function (token) {
